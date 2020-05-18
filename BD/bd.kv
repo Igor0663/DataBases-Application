@@ -42,6 +42,8 @@
 	givebackbtn: givebackbtn
 	searchbtn: searchbtn
 
+	id: parent
+
 	GridLayout:
 		cols: 2
 		rows: 2 
@@ -54,6 +56,7 @@
 		Button:
 			id: settingbtn
 			text: "Ustawienia konta"
+			on_press: parent.GetToSettings()
 		Button:
 			id: givebackbtn
 			text: "Oddaj sprzet"
@@ -88,6 +91,7 @@
 			Button:
 				id: settingbtn
 				text: "Ustawienia konta"
+				on_press: parent.GetToSettings()
 			Button:
 				id: givebackbtn
 				text: "Oddaj sprzet"
@@ -105,8 +109,8 @@
 			text: "Przegladaj zamowienia"
 			size_hint: (1, 0.25)
 
-<LendTakeScreen>
-	name: "lend or take screen"
+<AccountSettingsScreen>
+	name: "account settings screen"
 
 	logcont: logcont
     pwdcont: pwdcont
@@ -123,6 +127,8 @@
     rigbtn: rigbtn
 
 	bckbtn: bckbtn
+
+	id: parent
 
 	FloatLayout:
 	
@@ -201,3 +207,4 @@
 			size_hint: 0.3, 0.2
 			pos_hint: {"x": 0.35}
 			text: "Powrot"
+			on_press: parent.GetBack()

@@ -4,7 +4,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.screenmanager import NoTransition
 
 from LoginScreen import LoginScreen
-from LendTakeScreen import LendTakeScreen
+from AccountSettingsScreen import AccountSettingsScreen
 from UserScreen import UserScreen
 from AdminScreen import AdminScreen 
 

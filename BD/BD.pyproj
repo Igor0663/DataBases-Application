@@ -33,7 +33,7 @@
     <Compile Include="DbAccessFunctions.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="LendTakeScreen.py">
+    <Compile Include="AccountSettingsScreen.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="UserScreen.py">
