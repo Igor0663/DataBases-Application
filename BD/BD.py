@@ -2,6 +2,7 @@ from kivy.app import App
 from kivy.core.window import Window
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.screenmanager import NoTransition
+from kivy.properties import StringProperty
 
 from LoginScreen import LoginScreen
 from AccountSettingsScreen import AccountSettingsScreen
@@ -10,10 +11,8 @@ from AdminScreen import AdminScreen
 
 
 class MyScreenManager(ScreenManager):
-    def __init__(self, **kwargs):
-        super(MyScreenManager, self).__init__(**kwargs)
-        self.login = None
-        self.rig = None
+    login = StringProperty('')
+    rig = StringProperty('')
 
 
 class BDApp(App):

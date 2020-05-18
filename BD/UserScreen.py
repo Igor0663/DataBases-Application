@@ -12,8 +12,6 @@ class UserScreen(Screen):
 
     def GetToSettings(self):
         app = App.get_running_app()
-        if not app.root.has_screen("account settings screen"):
-            app.root.add_widget(AccountSettingsScreen())
         Window.size = (400, 360)
-        app.root.current = "account settings screen"
+        app.root.current = "ustawienia konta"
 
