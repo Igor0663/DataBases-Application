@@ -30,9 +30,18 @@
     <Compile Include="AdminScreen.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DbAccessFunctions.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LendTakeScreen.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="UserScreen.py">
       <SubType>Code</SubType>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bd.kv" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
