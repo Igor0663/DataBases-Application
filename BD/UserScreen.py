@@ -12,6 +12,8 @@ class UserScreen(Screen):
 
     def GetToSettings(self):
         app = App.get_running_app()
+        screen = app.root.get_screen("ustawienia konta")
+        screen.UpdateData(app.root.login)
         Window.size = (400, 360)
         app.root.current = "ustawienia konta"
 

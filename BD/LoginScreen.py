@@ -16,7 +16,7 @@ class LoginScreen(Screen):
             app.root.login = self.log.text
             app.root.rig = rights
             screen = app.root.get_screen("ustawienia konta")
-            screen.UpdateData()
+            screen.UpdateData(app.root.login)
         if rights == 'czlonek_kola':
             Window.size = (400, 160)
             app.root.current = 'opcje czlonka kola'

@@ -56,3 +56,17 @@ def ChangeName(who, whom, new):
     cnx.commit()
     cur.close()
     cnx.close()
+
+def ChangeSname(who, whom, new):
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+    
+    args = [who, whom, new]
+    cur.callproc('zmien_nazwisko', args)
+    
+    cnx.commit()
+    cur.close()
+    cnx.close()
+
+
+
