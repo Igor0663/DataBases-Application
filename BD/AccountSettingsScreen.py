@@ -34,6 +34,7 @@ class AccountSettingsScreen(Screen):
         self.depcont.text = user_data[3]
         self.rigcont.text = app.root.rig
         if app.root.rig == "czlonek_kola":
+            self.logbtn.disabled = True
             self.namebtn.disabled = True
             self.snamebtn.disabled = True
             self.depbtn.disabled = True
