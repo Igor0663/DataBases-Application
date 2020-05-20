@@ -45,3 +45,14 @@ def ChangePwd(login, old, new):
     cnx.commit()
     cur.close()
     cnx.close()
+
+def ChangeName(who, whom, new):
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+    
+    args = [who, whom, new]
+    cur.callproc('zmien_imie', args)
+    
+    cnx.commit()
+    cur.close()
+    cnx.close()

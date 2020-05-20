@@ -5,6 +5,8 @@
 	AccountSettingsScreen:
 	ChangeLoginScreen:
 	ChangePwdScreen:
+	ChangeNameScreen:
+</MyScreenManager>
 
 <LoginScreen>
 	name: "ekran logowania"
@@ -26,16 +28,19 @@
 				text: "login"
 			TextInput:
 				id: log
+				multiline: False
 				text: ""
 			Label:
 				text: "haslo"
 			TextInput:
 				id: pwd
+				multiline: False
 				password: True
 				text: ""
 		Button:
 			text: "Zaloguj sie"
 			on_press: parent.LoginTry()
+</LoginScreen>
 
 <UserScreen>
 	name: "opcje czlonka kola"
@@ -66,6 +71,7 @@
 		Button:
 			id: searchbtn
 			text: "Przegladaj sprzet"
+</UserScreen>
 
 <AdminScreen>
 	name: "opcje administratora"
@@ -111,7 +117,8 @@
 		Button:
 			text: "Przegladaj zamowienia"
 			size_hint: (1, 0.25)
-
+</AdminScreen>
+	
 <AccountSettingsScreen>
 	name: "ustawienia konta"
 
@@ -174,6 +181,7 @@
 				id: namebtn
 				size_hint: 0.33, 0.125
 				text: "Zmien imie"
+				on_press: parent.ChangeName()
 			Label:
 				size_hint: 0.33, 0.125
 				text: "Nazwisko: "
@@ -213,6 +221,7 @@
 			pos_hint: {"x": 0.35}
 			text: "Powrot"
 			on_press: parent.GetBack()
+</AccountSettingsScreen>
 
 <ChangeLoginScreen>
 	name: "zmiana loginu"
@@ -247,7 +256,7 @@
 			id: accbtn
 			text: "Zatwierdz"
 			on_press: parent.SubmitNewLogin()
-
+</ChangeLoginScreen>
 
 <ChangePwdScreen>
 	name: "zmiana hasla"
@@ -291,3 +300,40 @@
 			id: accbtn
 			text: "Zatwierdz"
 			on_press: parent.SubmitNewPwd()
+</ChangePwdScreen>
+	
+<ChangeNameScreen>
+	name: "zmiana imienia"
+	newname: newname
+	newname2: newname2
+	bckbtn: bckbtn
+	accbtn: accbtn
+
+	id: parent
+	
+	GridLayout:
+		cols: 2
+		rows: 3
+		
+		Label:
+			text: "Nowe imie"
+		TextInput:
+			id: newname
+			text: ""
+			multiline: False
+		Label:
+			text: "Powtorz"
+		TextInput:
+			id: newname2
+			text: ""
+			multiline: False
+		Button:
+			id: bckbtn
+			text: "Powrot"
+			on_press: parent.GetBack()
+		Button:
+			id: accbtn
+			text: "Zatwierdz"
+			on_press: parent.SubmitNewName()
+		
+</ChangeNameScreen>

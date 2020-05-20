@@ -6,6 +6,7 @@ from DbAccessFunctions import GetUserData
 from DbAccessFunctions import ChangeLogin
 from DbAccessFunctions import ChangePwd
 from DbAccessFunctions import GetRights
+from DbAccessFunctions import ChangeName
 
 class AccountSettingsScreen(Screen):
     logcont = ObjectProperty(None)
@@ -59,6 +60,11 @@ class AccountSettingsScreen(Screen):
         Window.size = (400, 200)
         app.root.current = "zmiana hasla"
 
+    def ChangeName(self):
+        app = App.get_running_app()
+        Window.size = (400, 160)
+        app.root.current = "zmiana imienia"
+
 class ChangeLoginScreen(Screen):
     newlog = ObjectProperty(None)
     newlog2 = ObjectProperty(None)
@@ -69,6 +75,7 @@ class ChangeLoginScreen(Screen):
         app = App.get_running_app()
         Window.size = (400, 360)
         app.root.current = "ustawienia konta"
+        self.ClearInput()
 
     def SubmitNewLogin(self):
         if(self.newlog.text == self.newlog2.text and len(self.newlog.text) >= 6):
@@ -79,6 +86,12 @@ class ChangeLoginScreen(Screen):
             screen.UpdateData()
             Window.size = (400, 360)
             app.root.current = "ustawienia konta"
+            self.ClearInput()
+            
+    def ClearInput(self):
+        self.newlog.text = ""
+        self.newlog2.text = ""
+
 
 class ChangePwdScreen(Screen):
     oldpwd = ObjectProperty(None)
@@ -91,6 +104,7 @@ class ChangePwdScreen(Screen):
         app = App.get_running_app()
         Window.size = (400, 360)
         app.root.current = "ustawienia konta"
+        self.ClearInput()
 
     def SubmitNewPwd(self):
         app = App.get_running_app()
@@ -98,4 +112,34 @@ class ChangePwdScreen(Screen):
             ChangePwd(app.root.login, self.oldpwd.text, self.newpwd.text)
             Window.size = (400, 360)
             app.root.current = "ustawienia konta"
-          
+        self.ClearInput()
+
+    def ClearInput(self):
+        self.oldpwd.text = ""
+        self.newpwd.text = ""
+        self.newpwd2.text = ""  
+
+class ChangeNameScreen(Screen):
+    newname = ObjectProperty(None)
+    newname2 = ObjectProperty(None)
+    accbtn = ObjectProperty(None)
+    bckbtn = ObjectProperty(None)
+
+    def GetBack(self):
+        app = App.get_running_app()
+        Window.size = (400, 360)
+        app.root.current = "ustawienia konta"
+        self.ClearInput()
+    def SubmitNewName(self):
+        if(self.newname.text == self.newname2.text and len(self.newname.text) >= 3):
+            app = App.get_running_app()
+            ChangeName(app.root.login, app.root.login, self.newname.text)
+            screen = app.root.get_screen("ustawienia konta")
+            screen.UpdateData()
+            Window.size = (400, 360)
+            app.root.current = "ustawienia konta"
+            self.ClearInput()
+
+    def ClearInput(self):
+        self.newname.text = ""
+        self.newname2.text = "" 
