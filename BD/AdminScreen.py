@@ -1,16 +1,17 @@
 from kivy.app import App
 from kivy.core.window import Window
 from kivy.properties import ObjectProperty
+from kivy.uix.button import Button
 from kivy.uix.screenmanager import Screen
 from AccountSettingsScreen import AccountSettingsScreen
 
 class AdminScreen(Screen):
-    lendtakebtn = ObjectProperty(None)
-    settingbtn  = ObjectProperty(None)
-    givebackbtn = ObjectProperty(None)
-    searchbtn   = ObjectProperty(None)
-    usermgbtn   = ObjectProperty(None)
-    gearmgbtn   = ObjectProperty(None)
+    lendtakebtn = ObjectProperty(Button)
+    settingbtn  = ObjectProperty(Button)
+    givebackbtn = ObjectProperty(Button)
+    searchbtn   = ObjectProperty(Button)
+    usermgbtn   = ObjectProperty(Button)
+    gearmgbtn   = ObjectProperty(Button)
 
     def GetToSettings(self):
         app = App.get_running_app()

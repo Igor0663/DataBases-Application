@@ -36,6 +36,9 @@
     <Compile Include="AccountSettingsScreen.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="module1.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="UserScreen.py">
       <SubType>Code</SubType>
     </Compile>

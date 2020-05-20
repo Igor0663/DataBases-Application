@@ -1,6 +1,6 @@
 import mysql.connector
 
-def GetRights(login, password):
+def Login(login, password):
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
     cur = cnx.cursor(buffered=True)
     args = [login, password, '']
@@ -18,7 +18,7 @@ def GetUserData(login):
     
     cur.execute(query, (login,))
     user_data = cur.fetchone()
-    print(user_data)
+    #print(user_data)
     
     cur.close()
     cnx.close()
@@ -68,5 +68,57 @@ def ChangeSname(who, whom, new):
     cur.close()
     cnx.close()
 
+def ChangeDep(who, whom, new):
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+    
+    args = [who, whom, new]
+    cur.callproc('zmien_dzial', args)
+    
+    cnx.commit()
+    cur.close()
+    cnx.close()
+
+def GetDepartments():
+    query = """SELECT nazwa_dzialu FROM dzial """
+    
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+    
+    cur.execute(query)
+    dep_data = cur.fetchall()
+    departments = []
+    for dep in dep_data:
+        departments.append(dep[0])
+    
+    cur.close()
+    cnx.close()
+    return departments
 
 
+def GetRights():
+    query = """SELECT nazwa_uprawnienia FROM uprawnienia """
+    
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+    
+    cur.execute(query)
+    rig_data = cur.fetchall()
+    rights = []
+    for rig in rig_data:
+        rights.append(rig[0])
+    
+    cur.close()
+    cnx.close()
+    return rights
+
+def ChangeRig(who, whom, new):
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+    
+    args = [who, whom, new]
+    cur.callproc('zmien_uprawnienia', args)
+    
+    cnx.commit()
+    cur.close()
+    cnx.close()

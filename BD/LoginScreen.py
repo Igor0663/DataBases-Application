@@ -1,17 +1,18 @@
 from kivy.app import App
 from kivy.core.window import Window
 from kivy.uix.screenmanager import Screen
+from kivy.uix.textinput import TextInput
 from kivy.properties import ObjectProperty
-from DbAccessFunctions import GetRights
+from DbAccessFunctions import Login
 
 
 class LoginScreen(Screen):
-    log = ObjectProperty(None)
-    pwd = ObjectProperty(None)
+    log = ObjectProperty(TextInput)
+    pwd = ObjectProperty(TextInput)
 
     def LoginTry(self):
         app= App.get_running_app()
-        rights = GetRights(self.log.text, self.pwd.text)
+        rights = Login(self.log.text, self.pwd.text)
         if rights != None:
             app.root.login = self.log.text
             app.root.rig = rights

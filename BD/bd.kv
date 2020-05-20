@@ -7,6 +7,8 @@
 	ChangePwdScreen:
 	ChangeNameScreen:
 	ChangeSnameScreen:
+	ChangeDepScreen:
+	ChangeRigScreen:
 </MyScreenManager>
 
 <LoginScreen>
@@ -206,6 +208,7 @@
 				id: depbtn
 				size_hint: 0.33, 0.125
 				text: "Zmien dzial"
+				on_press: parent.ChangeDep()
 			Label:
 				size_hint: 0.33, 0.125
 				text: "Uprawnienia: "
@@ -217,6 +220,7 @@
 				id: rigbtn
 				size_hint: 0.33, 0.125
 				text: "Zmien uprawnienia"
+				on_press: parent.ChangeRig()
 		Button:
 			id: bckbtn
 			size_hint: 0.3, 0.2
@@ -374,3 +378,53 @@
 			text: "Zatwierdz"
 			on_press: parent.SubmitNewSname()
 </ChangeSnameScreen>
+
+<ChangeDepScreen>
+	name: "zmiana dzialu"
+	bckbtn: bckbtn
+	depsel: depsel
+	id: parent
+
+	
+	GridLayout:
+		cols: 2
+		rows: 2
+		Label:
+			text: "Nowy dzial: "
+		Spinner:
+			id: depsel
+			text: "Wybierz dzial"
+		Button:
+			id: bckbtn
+			text: "Powrot"
+			on_press: parent.GetBack()
+		Button:
+			id: accbtn
+			text: "Zatwierdz"
+			on_press: parent.SubmitNewDep()
+</ChangeDepScreen>
+
+<ChangeRigScreen>
+	name: "zmiana uprawnien"
+	bckbtn: bckbtn
+	rigsel: rigsel
+	id: parent
+
+	
+	GridLayout:
+		cols: 2
+		rows: 2
+		Label:
+			text: "Nowe uprawnienia: "
+		Spinner:
+			id: rigsel
+			text: "Wybierz uprawnienia"
+		Button:
+			id: bckbtn
+			text: "Powrot"
+			on_press: parent.GetBack()
+		Button:
+			id: accbtn
+			text: "Zatwierdz"
+			on_press: parent.SubmitNewRig()
+</ChangeRigScreen>

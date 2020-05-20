@@ -2,6 +2,7 @@ from kivy.app import App
 from kivy.core.window import Window
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.screenmanager import NoTransition
+from kivy.uix.dropdown import DropDown
 from kivy.properties import StringProperty
 
 from LoginScreen import LoginScreen
@@ -20,7 +21,6 @@ class BDApp(App):
         return MyScreenManager(transition = NoTransition())
 
 
-
 if __name__ == "__main__":
-   Window.size = (300, 160)
-   BDApp().run()
+    Window.size = (300, 160)
+    BDApp().run()
