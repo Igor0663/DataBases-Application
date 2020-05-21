@@ -434,7 +434,6 @@
 <ChooseUserScreen>
 	name: "wybierz uzytkownika"
 	bckbtn: bckbtn
-	usrsel: usrsel
 	delbtn: delbtn
 	modbtn: modbtn
 	id: parent
@@ -442,9 +441,8 @@
 	BoxLayout:
 		orientation: 'vertical'
 		
-		Spinner:
-			id: usrsel
-			text: "Wybierz uzytkownika"
+		UserList:
+		
 		GridLayout:
 			cols: 2
 			rows: 1
@@ -464,3 +462,12 @@
 	
 
 </ChooseUserScreen>
+
+
+<UserList>
+	viewclass:'Button'
+	RecycleBoxLayout:
+		size_hint_y: None
+		height: self.minimum_height
+		orientation: 'vertical'
+</UserList>		

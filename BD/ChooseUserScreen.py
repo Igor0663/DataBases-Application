@@ -7,6 +7,7 @@ from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.spinner import Spinner
 from kivy.uix.textinput import TextInput
+from kivy.uix.recycleview import RecycleView
 from DbAccessFunctions import GetUserData
 from DbAccessFunctions import Login
 from DbAccessFunctions import GetUsers
@@ -16,12 +17,12 @@ from DbAccessFunctions import GetUsers
 
 class ChooseUserScreen(Screen):
     bckbtn = ObjectProperty(Button)
-    usrsel = ObjectProperty(Spinner)
+#    usrsel = ObjectProperty(Spinner)
     login  = StringProperty('')
 
     def __init__(self,**kwargs):
         super(ChooseUserScreen, self).__init__(**kwargs)
-        self.usrsel.values = GetUsers()
+#        self.usrsel.values = GetUsers()
 
     def UpdateData(self, login):
         self.login = login
@@ -42,6 +43,10 @@ class ChooseUserScreen(Screen):
   #      self.ClearInput()
 
     def ClearInput(self):
-        self.usrsel.text = "Wybierz uzytkownika"
+        pass
+#        self.usrsel.text = "Wybierz uzytkownika"
 
-
+class UserList(RecycleView):
+    def __init__(self, **kwargs):
+        super(UserList, self).__init__(**kwargs)
+        self.data=[{'text':str(x)}for x in range(20)]
