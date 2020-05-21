@@ -435,17 +435,31 @@
 	name: "wybierz uzytkownika"
 	bckbtn: bckbtn
 	usrsel: usrsel
+	delbtn: delbtn
+	modbtn: modbtn
 	id: parent
 
-	GridLayout:
-		cols: 1
-		rows: 2
+	BoxLayout:
+		orientation: 'vertical'
+		
 		Spinner:
 			id: usrsel
 			text: "Wybierz uzytkownika"
+		GridLayout:
+			cols: 2
+			rows: 1
+			row_force_default: True
+			row_default_height: 20
+			Button:
+				id: delbtn
+				text: "Usun uzytkownika"
+			Button:
+				id: modbtn
+				text: "Modyfikuj dane"
 		Button:
 			id: bckbtn
 			text: "Powrot"
+			size_hint: (1, 0.25)
 			on_press: parent.GetBack()
 	
 
