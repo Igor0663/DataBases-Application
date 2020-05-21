@@ -9,6 +9,7 @@
 	ChangeSnameScreen:
 	ChangeDepScreen:
 	ChangeRigScreen:
+	ChooseUserScreen:
 </MyScreenManager>
 
 <LoginScreen>
@@ -116,6 +117,7 @@
 			Button:
 				id: gearmgbtn
 				text: "Zarzadzaj uzytkownikami"
+				on_press: parent.GetToMgUsers()
 		
 		Button:
 			text: "Przegladaj zamowienia"
@@ -428,3 +430,23 @@
 			text: "Zatwierdz"
 			on_press: parent.SubmitNewRig()
 </ChangeRigScreen>
+
+<ChooseUserScreen>
+	name: "wybierz uzytkownika"
+	bckbtn: bckbtn
+	usrsel: usrsel
+	id: parent
+
+	GridLayout:
+		cols: 1
+		rows: 2
+		Spinner:
+			id: usrsel
+			text: "Wybierz uzytkownika"
+		Button:
+			id: bckbtn
+			text: "Powrot"
+			on_press: parent.GetBack()
+	
+
+</ChooseUserScreen>

@@ -95,7 +95,6 @@ def GetDepartments():
     cnx.close()
     return departments
 
-
 def GetRights():
     query = """SELECT nazwa_uprawnienia FROM uprawnienia """
     
@@ -122,3 +121,19 @@ def ChangeRig(who, whom, new):
     cnx.commit()
     cur.close()
     cnx.close()
+
+def GetUsers():
+    query = """SELECT login FROM uzytkownik """
+    
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+    
+    cur.execute(query)
+    usr_data = cur.fetchall()
+    users = []
+    for usr in usr_data:
+        users.append(usr[0])
+    
+    cur.close()
+    cnx.close()
+    return users
