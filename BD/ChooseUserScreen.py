@@ -10,19 +10,24 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.recycleview import RecycleView
 from DbAccessFunctions import GetUserData
 from DbAccessFunctions import Login
-from DbAccessFunctions import GetUsers
+from DbAccessFunctions import GetUsersNamesLogins
+
+from kivy.uix.recycleview.views import RecycleDataViewBehavior
+from kivy.properties import BooleanProperty
+from kivy.uix.recycleboxlayout import RecycleBoxLayout
+from kivy.uix.behaviors import FocusBehavior
+from kivy.uix.recycleview.layout import LayoutSelectionBehavior
 
 
 
 
 class ChooseUserScreen(Screen):
     bckbtn = ObjectProperty(Button)
-#    usrsel = ObjectProperty(Spinner)
     login  = StringProperty('')
 
     def __init__(self,**kwargs):
         super(ChooseUserScreen, self).__init__(**kwargs)
-#        self.usrsel.values = GetUsers()
+#        self.usrlst.values = GetUsers()
 
     def UpdateData(self, login):
         self.login = login
@@ -47,6 +52,34 @@ class ChooseUserScreen(Screen):
 #        self.usrsel.text = "Wybierz uzytkownika"
 
 class UserList(RecycleView):
+    usrlst = ObjectProperty(RecycleView)
     def __init__(self, **kwargs):
         super(UserList, self).__init__(**kwargs)
-        self.data=[{'text':str(x)}for x in range(20)]
+        usrdata = GetUsersNamesLogins()
+        self.data=[{'text':x} for x in usrdata]
+
+
+class SelectableRecycleBoxLayout(FocusBehavior, LayoutSelectionBehavior, RecycleBoxLayout):
+    pass
+
+class SelectableLabel(RecycleDataViewBehavior, Label):
+    index = None
+    selected = BooleanProperty(False)
+    selectable = BooleanProperty(True)
+
+    def refresh_view_attrs(self, rv, index, data):
+        self.index = index
+        return super(SelectableLabel, self).refresh_view_attrs(rv, index, data)
+
+    def on_touch_down(self, touch):
+        if super(SelectableLabel, self).on_touch_down(touch):
+            return True
+        if self.collide_point(*touch.pos) and self.selectable:
+            return self.parent.select_with_touch(self.index, touch)
+
+    def apply_selection(self, rv, index, is_selected):
+        self.selected = is_selected
+        if is_selected:
+            print("selection changed to {0}".format(rv.data[index]))
+        else:
+            print("selection removed for {0}".format(rv.data[index]))

@@ -433,41 +433,59 @@
 
 <ChooseUserScreen>
 	name: "wybierz uzytkownika"
+	usrlst: usrlst
 	bckbtn: bckbtn
 	delbtn: delbtn
 	modbtn: modbtn
+	addbtn: addbtn
 	id: parent
 
 	BoxLayout:
 		orientation: 'vertical'
+		spacing:0
 		
 		UserList:
+			id: usrlst
 		
 		GridLayout:
 			cols: 2
-			rows: 1
-			row_force_default: True
-			row_default_height: 20
+			rows: 2
 			Button:
 				id: delbtn
 				text: "Usun uzytkownika"
 			Button:
 				id: modbtn
 				text: "Modyfikuj dane"
-		Button:
-			id: bckbtn
-			text: "Powrot"
-			size_hint: (1, 0.25)
-			on_press: parent.GetBack()
+			Button:
+				id: addbtn
+				text: "Dodaj uzytkownika"
+			Button:
+				id: bckbtn
+				text: "Powrot"
+				on_press: parent.GetBack()
 	
 
 </ChooseUserScreen>
 
 
+<SelectableLabel>
+	canvas.before:
+		Color:
+			rgba: (.0, 0.9, .1, .3) if self.selected else (0, 0, 0, 1)
+		Rectangle:
+			pos: self.pos
+			size: self.size
+</SelectableLabel>
+
 <UserList>
-	viewclass:'Button'
-	RecycleBoxLayout:
-		size_hint_y: None
-		height: self.minimum_height
-		orientation: 'vertical'
-</UserList>		
+	viewclass:'SelectableLabel'
+	SelectableRecycleBoxLayout:
+        default_size: None, dp(56)
+        default_size_hint: 1, None
+        size_hint_y: None
+        height: self.minimum_height
+        orientation: 'vertical'
+        multiselect: False
+        touch_multiselect: False
+</UserList>
+
