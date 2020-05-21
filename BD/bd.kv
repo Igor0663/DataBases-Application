@@ -456,6 +456,7 @@
 			Button:
 				id: modbtn
 				text: "Modyfikuj dane"
+				on_press: parent.GetToMod()
 			Button:
 				id: addbtn
 				text: "Dodaj uzytkownika"
@@ -488,4 +489,24 @@
         multiselect: False
         touch_multiselect: False
 </UserList>
+
+<AddUserScreen>
+	name: "dodaj uzytkownika"
+	confbtn: confbtn
+	bckbtn: bckbtn
+	id: parent
+
+	GridLayout:
+		cols: 1
+		rows: 2
+		Button:
+			id: confbtn
+			text: "Zatwierdz"
+	
+		Button:
+			id: bckbtn
+			text: "Powrot"
+
+
+</AddUserScreen>
 

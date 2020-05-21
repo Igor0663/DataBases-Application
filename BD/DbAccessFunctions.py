@@ -140,7 +140,7 @@ def GetUsers():
 
 
 def GetUsersNamesLogins():
-    query = """SELECT * FROM uzytkownicy_i_dzial """
+    query = """SELECT * FROM wszyscy_uzytkownicy_dane """
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
     cur = cnx.cursor(buffered=True)
     
@@ -149,7 +149,7 @@ def GetUsersNamesLogins():
     usr_data = cur.fetchall()
     users = []
     for usr in usr_data:
-        users.append(f"{usr[1]} {usr[2]} ({usr[0]})")
+        users.append([f"{usr[0]} {usr[1]} ({usr[3]})", usr[2]])
 
     cur.close()
     cnx.close()
