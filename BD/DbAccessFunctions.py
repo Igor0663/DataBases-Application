@@ -177,3 +177,16 @@ def DeleteUser(who, user):
     cnx.commit()
     cur.close()
     cnx.close()
+
+def UserBasicData(login):
+    query = """SELECT * FROM wszyscy_uzytkownicy_dane WHERE login = %s """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+    
+    cur.execute(query, (login,))
+    usr = cur.fetchone()
+    user = f"{usr[0]} {usr[1]} ({usr[3]})"
+
+    cur.close()
+    cnx.close()
+    return user

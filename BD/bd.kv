@@ -582,26 +582,27 @@
 	name: "usun uzytkownika"
 	nobtn: nobtn
 	yesbtn: yesbtn
+	usrcont: usrcont
 	id: parent
 
-	BoxLayout:
-		orientation: 'vertical'
-		spacing:0
-		
+	GridLayout:
+		cols: 2
+		rows: 2
 		Label:
-			text: "Usunac uzytkownika?"
-			
-		GridLayout:
-			cols: 2
-			rows: 1
-			Button:
-				id: yesbtn
-				text: "Tak"
-				on_press: parent.SubmitDeletion()
-			Button:
-				id: nobtn
-				text: "Nie"
-				on_press: parent.GetBack()
+			text: "Usuwasz uzytkownika:"
+		Label:
+			id: usrcont	
+			text: "None"
+		Button:
+			id: yesbtn
+			text: "Zatwierdz"
+			size_hint: (1, 0.5)
+			on_press: parent.SubmitDeletion()
+		Button:
+			id: nobtn
+			text: "Anuluj"
+			size_hint: (1, 0.5)
+			on_press: parent.GetBack()
 	
 </DeleteUserScreen>
 

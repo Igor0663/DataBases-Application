@@ -12,6 +12,9 @@ from DbAccessFunctions import GetUserData
 from DbAccessFunctions import Login
 from DbAccessFunctions import GetUsersNamesLogins
 from DbAccessFunctions import DeleteUser
+from DbAccessFunctions import UserBasicData
+from DbAccessFunctions import GetDepartments
+from DbAccessFunctions import GetRights
 
 from kivy.uix.recycleview.views import RecycleDataViewBehavior
 from kivy.properties import BooleanProperty
@@ -92,7 +95,7 @@ class ChooseUserScreen(Screen):
         login = self.usrlst.data[self.usrlst.ChosenElement.index]['UserLogin']
         screen = app.root.get_screen("usun uzytkownika")
         screen.UpdateData(login)
-        Window.size = (400, 360)
+        Window.size = (600, 120)
         app.root.current = "usun uzytkownika"
         self.ClearInput()
 
@@ -105,12 +108,14 @@ class DeleteUserScreen(Screen):
     nobtn = ObjectProperty(Button)
     yesbtn = ObjectProperty(Button)
     userlogin = StringProperty('')
+    usrcont = ObjectProperty(Label)
     
     def __init__(self,**kwargs):
         super(DeleteUserScreen, self).__init__(**kwargs)
 
     def UpdateData(self, login):
         self.userlogin = login
+        self.usrcont.text = UserBasicData(login)
   
     def SubmitDeletion(self):
         app = App.get_running_app()
@@ -128,6 +133,40 @@ class DeleteUserScreen(Screen):
 
 
 
+class AddUserScreen(Screen):
+    newname = ObjectProperty(TextInput)
+    newsname = ObjectProperty(TextInput)
+    newlogin = ObjectProperty(TextInput)
+    newpwd = ObjectProperty(TextInput)
+    newpwd2 = ObjectProperty(TextInput)
+    confbtn = ObjectProperty(Button)
+    bckbtn = ObjectProperty(Button)
+    depsel = ObjectProperty(Spinner)
+    rigsel = ObjectProperty(Spinner)
 
+    def __init__(self,**kwargs):
+        super(AddUserScreen, self).__init__(**kwargs)
+        self.depsel.values = GetDepartments()
+        self.rigsel.values = GetRights()
+    
+    def GetBack(self):
+        app = App.get_running_app()
+        screen = app.root.get_screen("wybierz uzytkownika")
+        screen.UpdateData()
+        Window.size = (400, 360)
+        app.root.current = "wybierz uzytkownika"
+        self.ClearInput()
+    
+    def SubmitNewUsr(self):
+        app = App.get_running_app()
+        if(self.newpwd.text == self.newpwd2.text):
+            newuser = AddNewUser(app.root.login, self.newname.text, self.newsname.text, self.newlogin.text, self.newpwd.text, self.depsel.text, self.rigsel.text)
+            if newuser != None:
+                screen = app.root.get_screen("wybierz uzytkownika")
+                screen.UpdateData()
+                Window.size = (400, 360)
+                app.root.current = "wybierz uzytkownika"
+                self.ClearInput()
 
-
+    def ClearInput(self):
+        self.depsel.text = "Wybierz dzial"
