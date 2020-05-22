@@ -38,6 +38,11 @@ class AccountSettingsScreen(Screen):
     login = StringProperty('')
 
     def UpdateData(self, login):
+        self.logbtn.disabled = False
+        self.namebtn.disabled = False
+        self.snamebtn.disabled = False
+        self.depbtn.disabled = False
+        self.rigbtn.disabled = False
         self.login = login
         app = App.get_running_app()
         user_data = GetUserData(self.login)
@@ -57,12 +62,18 @@ class AccountSettingsScreen(Screen):
 
     def GetBack(self):
         app = App.get_running_app()
-        if app.root.rig == "czlonek_kola":
-            Window.size = (400, 160)
-            app.root.current = "opcje czlonka kola"
-        elif app.root.rig == "administrator":
+        if app.root.login == self.login:
+            if app.root.rig == "czlonek_kola":
+                Window.size = (400, 160)
+                app.root.current = "opcje czlonka kola"
+            elif app.root.rig == "administrator":
+                Window.size = (400, 360)
+                app.root.current = "opcje administratora"
+        else: 
+            screen = app.root.get_screen("wybierz uzytkownika")
+            screen.UpdateData()
             Window.size = (400, 360)
-            app.root.current = "opcje administratora"
+            app.root.current = "wybierz uzytkownika"
     
     def ChangeLogin(self):
         app = App.get_running_app()

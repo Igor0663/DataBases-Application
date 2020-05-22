@@ -138,7 +138,6 @@ def GetUsers():
     cnx.close()
     return users
 
-
 def GetUsersNamesLogins():
     query = """SELECT * FROM wszyscy_uzytkownicy_dane """
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
@@ -155,3 +154,26 @@ def GetUsersNamesLogins():
     cnx.close()
     return users
 
+
+def AddNewUser(who, newname, newsname, newlogin, newpwd, department, rights):
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+    
+    args = [who, newname, newsname, newlogin, newpwd, department, rights]
+    cur.callproc('dodaj_uzytkownika', args)
+    
+    cnx.commit()
+    cur.close()
+    cnx.close()
+
+
+def DeleteUser(who, user):
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+    
+    args = [who, user]
+    cur.callproc('usun_uzytkownika_login', args)
+    
+    cnx.commit()
+    cur.close()
+    cnx.close()

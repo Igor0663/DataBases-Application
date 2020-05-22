@@ -11,6 +11,7 @@ from kivy.uix.recycleview import RecycleView
 from DbAccessFunctions import GetUserData
 from DbAccessFunctions import Login
 from DbAccessFunctions import GetUsersNamesLogins
+from DbAccessFunctions import DeleteUser
 
 from kivy.uix.recycleview.views import RecycleDataViewBehavior
 from kivy.properties import BooleanProperty
@@ -54,45 +55,78 @@ class ChooseUserScreen(Screen):
     delbtn = ObjectProperty(Button)
     modbtn = ObjectProperty(Button)
     addbtn = ObjectProperty(Button)
-    login  = StringProperty('')
     usrlst = ObjectProperty(UserList)
     
 
     def __init__(self,**kwargs):
         super(ChooseUserScreen, self).__init__(**kwargs)
 
-    def UpdateData(self, login):
-        self.login = login
+    def UpdateData(self):
+        usrdata = GetUsersNamesLogins()
+        self.usrlst.data=[{'text':x[0],'UserLogin':x[1]} for x in usrdata]
     
     def GetToMod(self):
         app = App.get_running_app()
+        login = self.usrlst.data[self.usrlst.ChosenElement.index]['UserLogin']
         screen = app.root.get_screen("ustawienia konta")
-        screen.UpdateData(app.root.login)
+        screen.UpdateData(login)
         Window.size = (400, 360)
         app.root.current = "ustawienia konta"
+        self.ClearInput()
 
  #       ChosenLogin = self.usrlst.data[self.usrlst.ChosenElement.index]['UserLogin']
 
 
     def GetBack(self):
-        print(self.usrlst.data[self.usrlst.ChosenElement.index]['UserLogin'])
         app = App.get_running_app()
         Window.size = (400, 360)
         app.root.current = "opcje administratora"
+    
+    def GetToAdd(self):
+        app = App.get_running_app()
+        Window.size = (400, 360)
+        app.root.current = "dodaj uzytkownika"
+
+    def GetToDel(self):
+        app = App.get_running_app()
+        login = self.usrlst.data[self.usrlst.ChosenElement.index]['UserLogin']
+        screen = app.root.get_screen("usun uzytkownika")
+        screen.UpdateData(login)
+        Window.size = (400, 360)
+        app.root.current = "usun uzytkownika"
         self.ClearInput()
-    
-    
-  #  def SubmitNewUsr(self):
-  #      app = App.get_running_app()
-  #      ChangeDep(app.root.login, self.login, self.depsel.text)
-  #      screen = app.root.get_screen("ustawienia konta")
-  #      screen.UpdateData(self.login)
-  #      Window.size = (400, 360)
-  #      app.root.current = "ustawienia konta"
-  #      self.ClearInput()
+
 
     def ClearInput(self):
         pass
+
+
+class DeleteUserScreen(Screen):
+    nobtn = ObjectProperty(Button)
+    yesbtn = ObjectProperty(Button)
+    userlogin = StringProperty('')
+    
+    def __init__(self,**kwargs):
+        super(DeleteUserScreen, self).__init__(**kwargs)
+
+    def UpdateData(self, login):
+        self.userlogin = login
+  
+    def SubmitDeletion(self):
+        app = App.get_running_app()
+        DeleteUser(app.root.login, self.userlogin)
+        screen = app.root.get_screen("wybierz uzytkownika")
+        screen.UpdateData()
+        Window.size = (400, 360)
+        app.root.current = "wybierz uzytkownika"
+
+    def GetBack(self):
+        app = App.get_running_app()
+        Window.size = (400, 360)
+        app.root.current = "wybierz uzytkownika"
+        
+
+
 
 
 

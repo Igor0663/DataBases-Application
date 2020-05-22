@@ -10,6 +10,8 @@
 	ChangeDepScreen:
 	ChangeRigScreen:
 	ChooseUserScreen:
+	AddUserScreen:
+	DeleteUserScreen:
 </MyScreenManager>
 
 <LoginScreen>
@@ -453,6 +455,7 @@
 			Button:
 				id: delbtn
 				text: "Usun uzytkownika"
+				on_press: parent.GetToDel()
 			Button:
 				id: modbtn
 				text: "Modyfikuj dane"
@@ -460,6 +463,7 @@
 			Button:
 				id: addbtn
 				text: "Dodaj uzytkownika"
+				on_press: parent.GetToAdd()
 			Button:
 				id: bckbtn
 				text: "Powrot"
@@ -494,19 +498,110 @@
 	name: "dodaj uzytkownika"
 	confbtn: confbtn
 	bckbtn: bckbtn
+	newname: newname
+	newsname: newsname
+	newlogin: newlogin
+	newpwd: newpwd
+	newpwd2: newpwd2
+	depsel: depsel
+	rigsel: rigsel
+	
 	id: parent
 
-	GridLayout:
-		cols: 1
-		rows: 2
-		Button:
-			id: confbtn
-			text: "Zatwierdz"
-	
-		Button:
-			id: bckbtn
-			text: "Powrot"
+	BoxLayout:
+		orientation: "vertical"
+		spacing: 10
+
+		GridLayout:
+			cols: 2
+			rows: 8
+
+			Label:
+				text: "Imie"
+			TextInput:
+				id: newname
+				multiline: False
+				text: ""
+				
+			Label:
+				text: "Nazwisko"
+			TextInput:
+				id: newsname
+				multiline: False
+				text: ""
+				
+			Label:
+				text: "Login"
+			TextInput:
+				id: newlogin
+				multiline: False
+				text: ""	
+				
+			Label:
+				text: "Haslo"
+			TextInput:
+				id: newpwd
+				multiline: False
+				password: True
+				text: ""
+				
+			Label:
+				text: "Powtorz haslo"
+			TextInput:
+				id: newpwd2
+				multiline: False
+				password: True
+				text: ""	
+			
+			Label:
+				text: "Dzial"
+			Spinner:
+				id: depsel
+				text: "wybierz dzial"
+				
+			Label:
+				text: "Uprawnienia"
+			Spinner:
+				id: rigsel
+				text: "wybierz uprawnienia"	
+				
+			Button:
+				text: "Zatwierdz"
+				id: confbtn
+			
+			Button:
+				text: "Powrot"
+				id: bckbtn
+				on_press: parent.GetBack()
 
 
 </AddUserScreen>
+
+
+<DeleteUserScreen>
+	name: "usun uzytkownika"
+	nobtn: nobtn
+	yesbtn: yesbtn
+	id: parent
+
+	BoxLayout:
+		orientation: 'vertical'
+		spacing:0
+		
+		Label:
+			text: "Usunac uzytkownika?"
+			
+		GridLayout:
+			cols: 2
+			rows: 1
+			Button:
+				id: yesbtn
+				text: "Tak"
+				on_press: parent.SubmitDeletion()
+			Button:
+				id: nobtn
+				text: "Nie"
+				on_press: parent.GetBack()
+	
+</DeleteUserScreen>
 
