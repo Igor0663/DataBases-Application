@@ -26,3 +26,10 @@ class AdminScreen(Screen):
         screen.UpdateData()
         Window.size = (400, 360)
         app.root.current = "wybierz uzytkownika"
+
+    def GetToMgEqp(self):
+        app = App.get_running_app()
+        screen = app.root.get_screen("zarzadzaj sprzetem")
+#        screen.UpdateData()
+        Window.size = (900, 600)
+        app.root.current = "zarzadzaj sprzetem"

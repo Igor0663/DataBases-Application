@@ -12,6 +12,8 @@
 	ChooseUserScreen:
 	AddUserScreen:
 	DeleteUserScreen:
+	ManageEquipScreen:
+	AddUsableEqpScreen:
 </MyScreenManager>
 
 <LoginScreen>
@@ -116,6 +118,7 @@
 			Button:
 				id: usermgbtn
 				text: "Zarzadzaj sprzetem"
+				on_press: parent.GetToMgEqp()
 			Button:
 				id: gearmgbtn
 				text: "Zarzadzaj uzytkownikami"
@@ -574,9 +577,7 @@
 				id: bckbtn
 				on_press: parent.GetBack()
 
-
 </AddUserScreen>
-
 
 <DeleteUserScreen>
 	name: "usun uzytkownika"
@@ -606,3 +607,143 @@
 	
 </DeleteUserScreen>
 
+<ManageEquipScreen>
+	name: "zarzadzaj sprzetem"
+	typesel: typesel
+	kindsel: kindsel
+	srch: srch
+	srchbtn: srchbtn
+	eqplst: eqplst
+	addusbtn: addusbtn
+	addunusbtn: addunusbtn
+	adduskdbtn: adduskdbtn
+	addunuskdbtn: addunuskdbtn
+	delbtn: delbtn
+	modbtn: modbtn
+	bckbtn: bckbtn
+	
+	id: parent
+
+	BoxLayout:
+		orientation: "vertical"
+		spacing: 0
+		
+		BoxLayout:
+			orientation: "horizontal"
+			spacing: 0
+			
+			BoxLayout:
+				orientation: "vertical"
+				spacing: 0
+				GridLayout:
+					cols: 2
+					rows: 1
+					
+					Spinner:
+						id: typesel
+						text: "Wybierz typ"
+					Spinner:
+						id: kindsel
+						text: "Wybierz rodzaj"	
+						
+				GridLayout:
+					cols: 2
+					rows: 1
+					
+					TextInput:
+						id: srch
+						multiline: False
+						text: ""
+					Button:
+						id: srchbtn
+						text: "Szukaj"
+						
+				EqpList:
+					id: eqplst
+			
+			GridLayout:
+				cols: 1
+				rows: 7
+				Button:
+					id: addusbtn
+					text: "Dodaj sprzet z"
+				Button:
+					id: addunusbtn
+					text: "Dodaj sprzet nz"
+				Button:
+					id: adduskdbtn
+					text: "Dodaj rodzaj sprzetu z"
+				Button:
+					id: addunuskdbtn
+					text: "Dodaj rodzaj sprzetu nz"
+				Button:
+					id: delbtn
+					text: "Usun sprzet"
+				Button:
+					id: modbtn
+					text: "Modyfikuj sprzet"
+				Button:
+					id: bckbtn
+					text: "Powrot"	
+					on_press: parent.GetBack()
+		
+
+</ManageEquipScreen>
+
+<EqpList>
+	viewclass:'SelectableLabel'
+	SelectableRecycleBoxLayout:
+        default_size: None, dp(56)
+        default_size_hint: 1, None
+        size_hint_y: None
+        height: self.minimum_height
+        orientation: 'vertical'
+        multiselect: False
+        touch_multiselect: False
+</EqpList>
+
+<AddUsableEqpScreen>
+	name: "dodaj sprzet zuzywalny"
+	eqpname: eqpname
+	amount: amount
+	kindsel: kindsel
+	bckbtn: bckbtn
+	confbtn: confbtn
+	
+	id: parent
+	
+	GridLayout:
+		cols: 2
+		rows: 4
+		
+		Label:
+			text: "Nazwa"
+		TextInput:
+			id: eqpname
+			multiline: False
+			text: ""
+			
+		Label:
+			text: "Ilosc"
+		TextInput:
+			id: amount
+			multiline: False
+			text: ""
+			
+		Label: 
+			text: "Rodzaj"
+		Spinner:
+			id: kindsel
+			text: "Wybierz rodzaj"
+			
+		Button:
+			id: bckbtn
+			text: "Powrot"
+			on_press: parent.GetBack()
+		
+		Button:
+			id: confbtn
+			text: "Zatwierdz"
+			on_press: parent.SubmitAdding()
+			
+</AddUsableEqpScreen>	

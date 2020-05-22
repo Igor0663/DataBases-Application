@@ -103,7 +103,6 @@ class ChooseUserScreen(Screen):
     def ClearInput(self):
         pass
 
-
 class DeleteUserScreen(Screen):
     nobtn = ObjectProperty(Button)
     yesbtn = ObjectProperty(Button)
@@ -129,9 +128,6 @@ class DeleteUserScreen(Screen):
         app = App.get_running_app()
         Window.size = (400, 360)
         app.root.current = "wybierz uzytkownika"
-        
-
-
 
 class AddUserScreen(Screen):
     newname = ObjectProperty(TextInput)
@@ -170,3 +166,4 @@ class AddUserScreen(Screen):
 
     def ClearInput(self):
         self.depsel.text = "Wybierz dzial"
+        self.rigsel.text = "Wybierz uprawnienia"

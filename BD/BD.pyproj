@@ -39,7 +39,7 @@
     <Compile Include="ChooseUserScreen.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="AddUserScreen.py">
+    <Compile Include="ManageEquipScreen.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="UserScreen.py">

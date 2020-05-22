@@ -190,3 +190,45 @@ def UserBasicData(login):
     cur.close()
     cnx.close()
     return user
+
+def Equipment():
+    query = """SELECT * FROM sprzet """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    cur.execute(query)
+    eqp = cur.fetchall()
+
+    cur.close()
+    cnx.close()
+    return eqp
+
+
+def UsableEquipmentKind():
+    query = """SELECT rodzaj FROM rodzaj_sprzetu_z """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    cur.execute(query)
+    eqp = cur.fetchall()
+    equip = []
+    for x in eqp:
+        equip.append(x[0])
+
+    cur.close()
+    cnx.close()
+    print(equip)
+    return equip
+
+
+
+def AddEqpUs(who, eqpname, amount, kind):
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+    
+    args = [who, eqpname, amount, kind]
+    cur.callproc('dodaj_sprzet_z', args)
+    
+    cnx.commit()
+    cur.close()
+    cnx.close()

@@ -12,8 +12,7 @@ from AccountSettingsScreen import AccountSettingsScreen
 from UserScreen import UserScreen
 from AdminScreen import AdminScreen 
 from ChooseUserScreen import ChooseUserScreen
-#from ChooseUserScreen import AddUserScreen
-#from ChooseUserScreen import DeleteUserScreen
+from ManageEquipScreen import ManageEquipScreen
 
 class MyScreenManager(ScreenManager):
     login = StringProperty('')
