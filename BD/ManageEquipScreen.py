@@ -20,8 +20,27 @@ from DbAccessFunctions import AddEqpUnUsKind
 from DbAccessFunctions import DeleteUsKind
 from DbAccessFunctions import DeleteUnUsKind
 from DbAccessFunctions import GetDebtUsers
+from DbAccessFunctions import GetUnavailUsEqp
+from DbAccessFunctions import GetUnavailUnUsEqp
+from DbAccessFunctions import UnUsableEquipmentDaysKind
+from DbAccessFunctions import ChangeMaxBorrow
+from DbAccessFunctions import CurrentMaxBorrow
 from ChooseUserScreen import SelectableLabel
 from ChooseUserScreen import SelectableRecycleBoxLayout
+
+class UnavailUnUsEqpList(RecycleView):
+    ChosenElement = ObjectProperty(SelectableLabel)
+    def __init__(self, **kwargs):
+        super(UnavailUnUsEqpList, self).__init__(**kwargs)
+        eqpdata = GetUnavailUnUsEqp()
+        self.data=[{'text':x[0],'Eqpname':x[1]} for x in eqpdata]
+
+class UnavailUsEqpList(RecycleView):
+    ChosenElement = ObjectProperty(SelectableLabel)
+    def __init__(self, **kwargs):
+        super(UnavailUsEqpList, self).__init__(**kwargs)
+        eqpdata = GetUnavailUsEqp()
+        self.data=[{'text':x[0],'Eqpname':x[1]} for x in eqpdata]
 
 class DebtUsersList(RecycleView):
     ChosenElement = ObjectProperty(SelectableLabel)
@@ -108,6 +127,14 @@ class ManageEquipScreen(Screen):
 		app = App.get_running_app()
 		Window.size = (400, 300)
 		app.root.current = "usun rodzaj sprzetu niezuzywalnego"
+		self.ClearInput()
+
+	def GetToMaxBor(self):
+		app = App.get_running_app()
+		screen = app.root.get_screen("zmien maksymalne wypozyczenie")
+		screen.UpdateData()
+		Window.size = (600, 150)
+		app.root.current = "zmien maksymalne wypozyczenie"
 		self.ClearInput()
 
 	def GetToAdv(self):
@@ -386,14 +413,70 @@ class AdvancedEqpScreen(Screen):
 
 	def GetToDebtUsers(self):
 		app = App.get_running_app()
+		screen = app.root.get_screen("zadluzeni uzytkownicy")
+		screen.UpdateData()
 		Window.size = (400, 300)
 		app.root.current = "zadluzeni uzytkownicy"
+
+	def GetToUnavailUsEqp(self):
+		app = App.get_running_app()
+		screen = app.root.get_screen("niedostepny sprzet zuzywalny")
+		screen.UpdateData()
+		Window.size = (400, 300)
+		app.root.current = "niedostepny sprzet zuzywalny"
+
+	def GetToUnavailUnUsEqp(self):
+		app = App.get_running_app()
+		screen = app.root.get_screen("niedostepny sprzet niezuzywalny")
+		screen.UpdateData()
+		Window.size = (400, 300)
+		app.root.current = "niedostepny sprzet niezuzywalny"
 
 	def GetBack(self):
 		app = App.get_running_app()
 		Window.size = (900, 600)
 		app.root.current = "zarzadzaj sprzetem"
 
+class MaxBorrowScreen(Screen):
+	newmaxbor = ObjectProperty(TextInput)
+	currentmaxbor = ObjectProperty(Label)
+	kind = ListProperty([])
+	bckbtn = ObjectProperty(Button)
+	confbtn = ObjectProperty(Button)
+
+	def __init__(self,**kwargs):
+		super(MaxBorrowScreen, self).__init__(**kwargs)
+		self.UpdateData() 
+
+	def SubmitChange(self):
+		app = App.get_running_app()
+		if self.kindsel.text != "Wybierz rodzaj" and self.newmaxbor.text != "":
+			ChangeMaxBorrow(app.root.login, self.kindsel.text, int(self.newmaxbor.text))
+			screen = app.root.get_screen("zarzadzaj sprzetem")
+			screen.UpdateData()
+			Window.size = (900, 600)
+			app.root.current = "zarzadzaj sprzetem"
+			self.ClearInput()
+
+	def UpdateLabel(self):
+		if self.kindsel.text != "Wybierz rodzaj":
+			self.currentmaxbor.text = CurrentMaxBorrow(self.kindsel.text)
+
+	def GetBack(self):
+		app = App.get_running_app()
+		screen = app.root.get_screen("zarzadzaj sprzetem")
+		screen.UpdateData()
+		Window.size = (900, 600)
+		app.root.current = "zarzadzaj sprzetem"
+		self.ClearInput()
+
+	def ClearInput(self):
+		self.ids.kindsel.text = "Wybierz rodzaj"
+		self.newmaxbor.text = ""
+		self.currentmaxbor.text = ""
+	
+	def UpdateData(self):
+		self.kind = UnUsableEquipmentKind()
 
 class DebtUsersScreen(Screen):
 	debtusrlst = ObjectProperty(DebtUsersList)
@@ -405,6 +488,40 @@ class DebtUsersScreen(Screen):
 	def UpdateData(self):
 		usrdata = GetDebtUsers()
 		self.debtusrlst.data=[{'text':x} for x in usrdata]
+
+	def GetBack(self):
+		app = App.get_running_app()
+		Window.size = (400, 300)
+		app.root.current = "zaawansowane zarzadzanie sprzetem"
+
+class UnavailUsEqpScreen(Screen):
+	unavaileqplst = ObjectProperty(UnavailUsEqpList)
+	modbtn = ObjectProperty(Button)
+	bckbtn = ObjectProperty(Button)
+
+	def __init__(self,**kwargs):
+		super(UnavailUsEqpScreen, self).__init__(**kwargs)
+
+	def UpdateData(self):
+		eqpdata = GetUnavailUsEqp()
+		self.unavaileqplst.data=[{'text':x[0],'Eqpname':x[1]} for x in eqpdata]
+
+	def GetBack(self):
+		app = App.get_running_app()
+		Window.size = (400, 300)
+		app.root.current = "zaawansowane zarzadzanie sprzetem"
+
+class UnavailUnUsEqpScreen(Screen):
+	unavaileqplst = ObjectProperty(UnavailUnUsEqpList)
+	modbtn = ObjectProperty(Button)
+	bckbtn = ObjectProperty(Button)
+
+	def __init__(self,**kwargs):
+		super(UnavailUnUsEqpScreen, self).__init__(**kwargs)
+
+	def UpdateData(self):
+		eqpdata = GetUnavailUnUsEqp()
+		self.unavaileqplst.data=[{'text':x[0],'Eqpname':x[1]} for x in eqpdata]
 
 	def GetBack(self):
 		app = App.get_running_app()

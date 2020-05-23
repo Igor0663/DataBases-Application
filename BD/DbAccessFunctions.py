@@ -18,7 +18,6 @@ def GetUserData(login):
     
     cur.execute(query, (login,))
     user_data = cur.fetchone()
-    #print(user_data)
     
     cur.close()
     cnx.close()
@@ -280,7 +279,6 @@ def GetDebtUsers():
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
     cur = cnx.cursor(buffered=True)
     
-
     cur.execute(query)
     usr_data = cur.fetchall()
     users = []
@@ -312,3 +310,74 @@ def DeleteUnUsKind(who, kindname):
     cnx.commit()
     cur.close()
     cnx.close()
+
+def GetUnavailUsEqp():
+    query = """SELECT * FROM niedostepny_sprzet_z """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+    
+
+    cur.execute(query)
+    eqp_data = cur.fetchall()
+    eqp = []
+    for x in eqp_data:
+        eqp.append([f"{x[1]} ({x[0]})", x[1]])
+
+    cur.close()
+    cnx.close()
+    return eqp
+
+def GetUnavailUnUsEqp():
+    query = """SELECT * FROM zamowienia_nz_niezwrocone ORDER BY 'nazwa sprzętu'"""
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+    
+
+    cur.execute(query)
+    eqp_data = cur.fetchall()
+    eqp = []
+    for x in eqp_data:
+        eqp.append([f"{x[4]} ({x[3]})", x[4]])
+
+    cur.close()
+    cnx.close()
+    return eqp
+
+def UnUsableEquipmentDaysKind():
+    query = """SELECT * FROM rodzaj_sprzetu_nz """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    cur.execute(query)
+    eqp = cur.fetchall()
+    equip = []
+    for x in eqp:
+        equip.append([f"{x[1]} ({x[2]} dni)", x[1]])
+
+    cur.close()
+    cnx.close()
+    return equip
+
+def ChangeMaxBorrow(who, kind, days):
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+    
+    args = [who, kind, days]
+    cur.callproc('zmien_rodzaj_nz_max_wyp', args)
+    
+    cnx.commit()
+    cur.close()
+    cnx.close()
+
+def CurrentMaxBorrow(nazwa_rodzaju):
+    query = """SELECT max_wypozyczenie FROM rodzaj_sprzetu_nz WHERE rodzaj_sprzetu_nz.rodzaj = %s """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    cur.execute(query, (nazwa_rodzaju,))
+    days = cur.fetchone()
+    result = str(days[0])
+
+    cur.close()
+    cnx.close()
+    return result

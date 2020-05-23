@@ -23,6 +23,9 @@
 	DeleteUnUsKindScreen:
 	ConfirmDeleteUnUsKindScreen:
 	DebtUsersScreen:
+	UnavailUsEqpScreen:
+	UnavailUnUsEqpScreen:
+	MaxBorrowScreen:
 </MyScreenManager>
 
 <LoginScreen>
@@ -632,6 +635,7 @@
 	addunusbtn: addunusbtn
 	adduskdbtn: adduskdbtn
 	addunuskdbtn: addunuskdbtn
+	maxborbtn: maxborbtn
 	deluskdbtn: deluskdbtn
 	delunuskdbtn: delunuskdbtn
 	advbtn: advbtn
@@ -674,7 +678,7 @@
 			
 		GridLayout:
 			cols: 1
-			rows: 10
+			rows: 11
 			Button:
 				id: addusbtn
 				text: "Dodaj sprzet zuzywalny"
@@ -691,6 +695,10 @@
 				id: addunuskdbtn
 				text: "Dodaj rodzaj sprzetu niezuzywalnego"
 				on_press: parent.GetToAddUnUsKind()
+			Button:
+				id: maxborbtn
+				text: "Zmien maksymalne wypozyczenie"
+				on_press: parent.GetToMaxBor()			
 			Button:
 				id: deluskdbtn
 				text: "Usun rodzaj sprzetu zuzywalnego"
@@ -885,6 +893,54 @@
 			
 </AddUnUsableEqpKindScreen>
 
+<MaxBorrowScreen>
+	name: "zmien maksymalne wypozyczenie"
+	kindsel: kindsel
+	currentmaxbor: currentmaxbor
+	newmaxbor: newmaxbor
+	bckbtn: bckbtn
+	confbtn: confbtn
+	
+	id: parent
+	
+	GridLayout:
+		cols: 2
+		rows: 4
+		
+		Label: 
+			text: "Rodzaj"
+		Spinner:
+			id: kindsel
+			values: parent.kind
+			text: "Wybierz rodzaj"
+			on_text: parent.UpdateLabel()
+		
+		Label: 
+			text: "Obecny maksymalny czas wypozyczenia"
+		Label:
+			id: currentmaxbor
+			text: ""
+		
+		Label:
+			text: "Nowy maksymalny czas wypozyczenia"
+		TextInput:
+			id: newmaxbor
+			multiline: False
+			padding: [140, 6, 6, 6]
+			text: ""
+			
+		Button:
+			id: bckbtn
+			text: "Powrot"
+			on_press: parent.GetBack()
+		
+		Button:
+			id: confbtn
+			text: "Zatwierdz"
+			on_press: parent.SubmitChange()
+			
+</MaxBorrowScreen>	
+
 <AdvancedEqpScreen>
 	name: "zaawansowane zarzadzanie sprzetem"
 	debtusrbtn: debtusrbtn
@@ -906,10 +962,12 @@
 		Button:
 			id: unreturneqpbtn
 			text: "Niezwrocony sprzet niezuzywalny"
+			on_press: parent.GetToUnavailUnUsEqp()
 		
 		Button:
 			id: unavaileqpbtn
-			text: "Niedostepny sprzet zuzywalny"	
+			text: "Niedostepny sprzet zuzywalny"
+			on_press: parent.GetToUnavailUsEqp()
 
 		Button:
 			id: bckbtn
@@ -1093,5 +1151,83 @@
 			text: "Powrot"
 			on_press: parent.GetBack()
 
-
 </DebtUsersScreen>
+
+<UnavailUsEqpList>
+	viewclass:'SelectableLabel'
+	SelectableRecycleBoxLayout:
+		default_size: None, dp(56)
+		default_size_hint: 1, None
+		size_hint_y: None
+		height: self.minimum_height
+		orientation: 'vertical'
+		multiselect: False
+		touch_multiselect: False
+</UnavailUsEqpList>
+
+<UnavailUnUsEqpList>
+	viewclass:'SelectableLabel'
+	SelectableRecycleBoxLayout:
+		default_size: None, dp(56)
+		default_size_hint: 1, None
+		size_hint_y: None
+		height: self.minimum_height
+		orientation: 'vertical'
+		multiselect: False
+		touch_multiselect: False
+</UnavailUnUsEqpList>
+
+<UnavailUsEqpScreen>
+	name: "niedostepny sprzet zuzywalny"
+	unavaileqplst: unavaileqplst
+	modbtn: modbtn
+	bckbtn: bckbtn
+
+	id: parent
+
+	BoxLayout:
+		orientation: "vertical"
+		
+		UnavailUsEqpList:
+			id: unavaileqplst
+		
+		GridLayout:
+			cols: 2
+			rows: 1
+			Button:
+				id: modbtn
+				text: "Modyfikuj"
+			Button:
+				id: bckbtn
+				text: "Powrot"
+				on_press: parent.GetBack()
+
+</UnavailUsEqpScreen>
+
+<UnavailUnUsEqpScreen>
+	name: "niedostepny sprzet niezuzywalny"
+	unavaileqplst: unavaileqplst
+	modbtn: modbtn
+	bckbtn: bckbtn
+
+	id: parent
+
+	BoxLayout:
+		orientation: "vertical"
+		
+		UnavailUnUsEqpList:
+			id: unavaileqplst
+		
+		GridLayout:
+			cols: 2
+			rows: 1
+			Button:
+				id: modbtn
+				text: "Modyfikuj"
+				on_press: parent.SubmitChange()
+			Button:
+				id: bckbtn
+				text: "Powrot"
+				on_press: parent.GetBack()
+
+</UnavailUnUsEqpScreen>
