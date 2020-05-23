@@ -16,7 +16,10 @@
 	AddUsableEqpScreen:
 	AddUnUsableEqpScreen:
 	AddUsableEqpKindScreen:
+	AddUnUsableEqpKindScreen:
 	AdvancedEqpScreen:
+	DeleteUsKindScreen:
+	ConfirmDeleteUsKindScreen:
 </MyScreenManager>
 
 <LoginScreen>
@@ -683,10 +686,12 @@
 				on_press: parent.GetToAddUsKind()
 			Button:
 				id: addunuskdbtn
-				text: "Dodaj rodzaj sprzetu nz"
+				text: "Dodaj rodzaj sprzetu niezuzywalnego"
+				on_press: parent.GetToAddUnUsKind()
 			Button:
 				id: deluskdbtn
-				text: "Usun rodzaj sprzetu z"
+				text: "Usun rodzaj sprzetu zuzywalnego"
+				on_press: parent.GetToDelUsKind()
 			Button:
 				id: delunuskdbtn
 				text: "Usun rodzaj sprzetu nz"
@@ -837,6 +842,45 @@
 			
 </AddUsableEqpKindScreen>
 
+<AddUnUsableEqpKindScreen>
+	name: "dodaj rodzaj sprzetu niezuzywalnego"
+	kindname: kindname
+	maxbor: maxbor
+	bckbtn: bckbtn
+	confbtn: confbtn
+	
+	id: parent
+	
+	GridLayout:
+		cols: 2
+		rows: 3
+		
+		Label:
+			text: "Nazwa rodzaju"
+		TextInput:
+			id: kindname
+			multiline: False
+			text: ""
+		
+		Label:
+			text: "Maksymalne wypozyczenie (w dniach)"
+		TextInput:
+			id: maxbor
+			multiline: False
+			text: ""
+			
+		Button:
+			id: bckbtn
+			text: "Powrot"
+			on_press: parent.GetBack()
+		
+		Button:
+			id: confbtn
+			text: "Zatwierdz"
+			on_press: parent.SubmitAdding()
+			
+</AddUnUsableEqpKindScreen>
+
 <AdvancedEqpScreen>
 	name: "zaawansowane zarzadzanie sprzetem"
 	debtusrbtn: debtusrbtn
@@ -869,3 +913,75 @@
 
 
 </AdvancedEqpScreen>
+
+<DeleteUsKindScreen>
+	name: "usun rodzaj sprzetu zuzywalnego"
+	uskindlst: uskindlst
+	delbtn: delbtn 
+	bckbtn: bckbtn
+
+	id: parent
+
+	BoxLayout:
+		orientation: "vertical"
+		spacing: 0
+		
+		UsKindList:
+			id: uskindlst
+		
+		GridLayout:
+			cols: 2
+			rows: 1
+		
+			Button:
+				id: delbtn
+				text: "Usun"
+				on_press: parent.GetToDel()
+					
+			Button:
+				id: bckbtn
+				text: "Powrot"
+				on_press: parent.GetBack()
+		
+
+</DeleteUsKindScreen>
+
+<ConfirmDeleteUsKindScreen>
+	name: "potwierdz usuniecie rodzaju sprzetu zuzywalnego"
+	confbtn: confbtn 
+	bckbtn: bckbtn
+	kindcont: kindcont
+
+	id: parent
+
+	GridLayout:
+		cols: 2
+		rows: 2
+		Label:
+			text: "Usuwasz rodzaj:"
+		Label:
+			id: kindcont	
+			text: ""
+		Button:
+			id: confbtn
+			text: "Zatwierdz"
+			on_press: parent.SubmitDeletion()
+		Button:
+			id: bckbtn
+			text: "Anuluj"
+			on_press: parent.GetBack()
+		
+
+</ConfirmDeleteUsKindScreen>
+
+<UsKindList>
+	viewclass:'SelectableLabel'
+	SelectableRecycleBoxLayout:
+		default_size: None, dp(56)
+		default_size_hint: 1, None
+		size_hint_y: None
+		height: self.minimum_height
+		orientation: 'vertical'
+		multiselect: False
+		touch_multiselect: False
+</UsKindList>

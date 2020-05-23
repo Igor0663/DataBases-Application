@@ -123,7 +123,7 @@ def ChangeRig(who, whom, new):
     cnx.close()
 
 def GetUsers():
-    query = """SELECT login FROM uzytkownik ORDER BY """
+    query = """SELECT login FROM uzytkownik"""
     
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
     cur = cnx.cursor(buffered=True)
@@ -154,7 +154,6 @@ def GetUsersNamesLogins():
     cnx.close()
     return users
 
-
 def AddNewUser(who, newname, newsname, newlogin, newpwd, department, rights):
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
     cur = cnx.cursor(buffered=True)
@@ -165,7 +164,6 @@ def AddNewUser(who, newname, newsname, newlogin, newpwd, department, rights):
     cnx.commit()
     cur.close()
     cnx.close()
-
 
 def DeleteUser(who, user):
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
@@ -202,7 +200,6 @@ def Equipment():
     cur.close()
     cnx.close()
     return eqp
-
 
 def UsableEquipmentKind():
     query = """SELECT rodzaj FROM rodzaj_sprzetu_z """
@@ -267,6 +264,17 @@ def AddEqpUsKind(who, kindname):
     cur.close()
     cnx.close()
 
+def AddEqpUnUsKind(who, kindname, maxdays):
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+    
+    args = [who, kindname, maxdays]
+    cur.callproc('dodaj_rodzaj_sprzetu_nz', args)
+    
+    cnx.commit()
+    cur.close()
+    cnx.close()
+
 def GetDebtUsers():
     query = """SELECT * FROM uzytkownicy_zadluzeni """
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
@@ -282,3 +290,30 @@ def GetDebtUsers():
     cur.close()
     cnx.close()
     return users
+
+def GetUsKind():
+    query = """SELECT rodzaj FROM rodzaj_sprzetu_z"""
+    
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+    
+    cur.execute(query)
+    data = cur.fetchall()
+    kind = []
+    for x in data:
+        kind.append(x[0])
+    
+    cur.close()
+    cnx.close()
+    return kind
+
+def DeleteUsKind(who, kindname):
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+    
+    args = [who, kindname]
+    cur.callproc('usun_rodzaj_sprzetu_z', args)
+    
+    cnx.commit()
+    cur.close()
+    cnx.close()

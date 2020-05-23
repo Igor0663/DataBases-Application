@@ -16,6 +16,9 @@ from DbAccessFunctions import Equipment
 from DbAccessFunctions import AddEqpUs
 from DbAccessFunctions import AddEqpUnUs
 from DbAccessFunctions import AddEqpUsKind
+from DbAccessFunctions import AddEqpUnUsKind
+from DbAccessFunctions import GetUsKind
+from DbAccessFunctions import DeleteUsKind
 from ChooseUserScreen import SelectableLabel
 from ChooseUserScreen import SelectableRecycleBoxLayout
 
@@ -26,6 +29,13 @@ class EqpList(RecycleView):
         super(EqpList, self).__init__(**kwargs)
         eqpdata = Equipment()
         self.data=[{'text':x[0]} for x in eqpdata]
+
+class UsKindList(RecycleView):
+    ChosenElement = ObjectProperty(SelectableLabel)
+    def __init__(self, **kwargs):
+        super(UsKindList, self).__init__(**kwargs)
+        kinddata = UsableEquipmentKind()
+        self.data=[{'text':x} for x in kinddata]
 
 class ManageEquipScreen(Screen):
 
@@ -50,7 +60,7 @@ class ManageEquipScreen(Screen):
 
 	def GetToAddUs(self):
 		app = App.get_running_app()
-		Window.size = (400, 360)
+		Window.size = (400, 200)
 		screen = app.root.get_screen("dodaj sprzet zuzywalny")
 		screen.UpdateData()
 		app.root.current = "dodaj sprzet zuzywalny"
@@ -68,12 +78,23 @@ class ManageEquipScreen(Screen):
 		app.root.current = "dodaj rodzaj sprzetu zuzywalnego"
 		self.ClearInput()
 
+	def GetToAddUnUsKind(self):
+			app = App.get_running_app()
+			Window.size = (600, 150)
+			app.root.current = "dodaj rodzaj sprzetu niezuzywalnego"
+			self.ClearInput()
+
+	def GetToDelUsKind(self):
+		app = App.get_running_app()
+		Window.size = (400, 300)
+		app.root.current = "usun rodzaj sprzetu zuzywalnego"
+		self.ClearInput()
+
 	def GetToAdv(self):
 		app = App.get_running_app()
 		Window.size = (400, 300)
 		app.root.current = "zaawansowane zarzadzanie sprzetem"
 		self.ClearInput()
-
 
 	def UpdateData(self):
 		eqpdata = Equipment()
@@ -190,6 +211,35 @@ class AddUsableEqpKindScreen(Screen):
 	def ClearInput(self):
 		self.kindname.text = ""
 
+class AddUnUsableEqpKindScreen(Screen):
+	kindname = ObjectProperty(TextInput)
+	maxbor = ObjectProperty(TextInput)
+	bckbtn = ObjectProperty(Button)
+	confbtn = ObjectProperty(Button)
+
+	def __init__(self,**kwargs):
+		super(AddUnUsableEqpKindScreen, self).__init__(**kwargs)
+
+	def SubmitAdding(self):
+		app = App.get_running_app()
+		AddEqpUnUsKind(app.root.login, self.kindname.text, int(self.maxbor.text))
+		screen = app.root.get_screen("dodaj sprzet niezuzywalny")
+		screen.UpdateData()
+		Window.size = (900, 600)
+		app.root.current = "zarzadzaj sprzetem"
+		self.ClearInput()
+
+	def GetBack(self):
+		app = App.get_running_app()
+		screen = app.root.get_screen("zarzadzaj sprzetem")
+		screen.UpdateData()
+		Window.size = (900, 600)
+		app.root.current = "zarzadzaj sprzetem"
+		self.ClearInput()
+
+	def ClearInput(self):
+		self.kindname.text = ""
+		self.maxbor.text = ""
 
 class AdvancedEqpScreen(Screen):
 	debtusrbtn= ObjectProperty(Button)
@@ -206,3 +256,62 @@ class AdvancedEqpScreen(Screen):
 		screen.UpdateData()
 		Window.size = (900, 600)
 		app.root.current = "zarzadzaj sprzetem"
+
+class DeleteUsKindScreen(Screen):
+
+	uskindlst = ObjectProperty(UsKindList)
+	bckbtn = ObjectProperty(Button)
+	delbtn = ObjectProperty(Button)
+
+	def __init__(self,**kwargs):
+		super(DeleteUsKindScreen, self).__init__(**kwargs)
+
+	def UpdateData(self):
+		kinddata = UsableEquipmentKind()
+		self.uskindlst.data=[{'text':x} for x in kinddata]
+
+	def GetToDel(self):
+		app = App.get_running_app()
+		uskind = self.uskindlst.data[self.uskindlst.ChosenElement.index]['text']
+		screen = app.root.get_screen("potwierdz usuniecie rodzaju sprzetu zuzywalnego")
+		screen.UpdateData(uskind)
+		Window.size = (600, 120)
+		app.root.current = "potwierdz usuniecie rodzaju sprzetu zuzywalnego"
+
+	def GetBack(self):
+		app = App.get_running_app()
+		screen = app.root.get_screen("zarzadzaj sprzetem")
+		screen.UpdateData()
+		Window.size = (900, 600)
+		app.root.current = "zarzadzaj sprzetem"
+
+class ConfirmDeleteUsKindScreen(Screen):
+
+	kindcont = ObjectProperty(Label)
+	kind = StringProperty('')
+	bckbtn = ObjectProperty(Button)
+	confbtn = ObjectProperty(Button)
+
+	def __init__(self,**kwargs):
+		super(ConfirmDeleteUsKindScreen, self).__init__(**kwargs)
+
+	def UpdateData(self, kindtodel):
+		self.kind = kindtodel
+		self.kindcont.text = kindtodel
+
+	def SubmitDeletion(self):
+		app = App.get_running_app()
+		DeleteUsKind(app.root.login, self.kindcont.text)
+		screen = app.root.get_screen("zarzadzaj sprzetem")
+		screen.UpdateData()
+		screen = app.root.get_screen("usun rodzaj sprzetu zuzywalnego")
+		screen.UpdateData()
+		Window.size = (900, 600)
+		app.root.current = "zarzadzaj sprzetem"
+
+	def GetBack(self):
+		app = App.get_running_app()
+		Window.size = (400, 300)
+		app.root.current = "usun rodzaj sprzetu zuzywalnego"
+
+
