@@ -30,6 +30,6 @@ class AdminScreen(Screen):
     def GetToMgEqp(self):
         app = App.get_running_app()
         screen = app.root.get_screen("zarzadzaj sprzetem")
-#        screen.UpdateData()
+        screen.UpdateData()
         Window.size = (900, 600)
         app.root.current = "zarzadzaj sprzetem"

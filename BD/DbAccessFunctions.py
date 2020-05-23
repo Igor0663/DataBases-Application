@@ -123,7 +123,7 @@ def ChangeRig(who, whom, new):
     cnx.close()
 
 def GetUsers():
-    query = """SELECT login FROM uzytkownik """
+    query = """SELECT login FROM uzytkownik ORDER BY """
     
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
     cur = cnx.cursor(buffered=True)
@@ -139,7 +139,7 @@ def GetUsers():
     return users
 
 def GetUsersNamesLogins():
-    query = """SELECT * FROM wszyscy_uzytkownicy_dane """
+    query = """SELECT * FROM wszyscy_uzytkownicy_dane ORDER BY nazwisko """
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
     cur = cnx.cursor(buffered=True)
     
@@ -217,10 +217,7 @@ def UsableEquipmentKind():
 
     cur.close()
     cnx.close()
-    print(equip)
     return equip
-
-
 
 def AddEqpUs(who, eqpname, amount, kind):
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
@@ -232,3 +229,56 @@ def AddEqpUs(who, eqpname, amount, kind):
     cnx.commit()
     cur.close()
     cnx.close()
+
+def UnUsableEquipmentKind():
+    query = """SELECT rodzaj FROM rodzaj_sprzetu_nz """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    cur.execute(query)
+    eqp = cur.fetchall()
+    equip = []
+    for x in eqp:
+        equip.append(x[0])
+
+    cur.close()
+    cnx.close()
+    return equip
+
+def AddEqpUnUs(who, eqpname, kind):
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+    
+    args = [who, eqpname, kind]
+    cur.callproc('dodaj_sprzet_nz', args)
+    
+    cnx.commit()
+    cur.close()
+    cnx.close()
+
+def AddEqpUsKind(who, kindname):
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+    
+    args = [who, kindname]
+    cur.callproc('dodaj_rodzaj_sprzetu_z', args)
+    
+    cnx.commit()
+    cur.close()
+    cnx.close()
+
+def GetDebtUsers():
+    query = """SELECT * FROM uzytkownicy_zadluzeni """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+    
+
+    cur.execute(query)
+    usr_data = cur.fetchall()
+    users = []
+    for usr in usr_data:
+        users.append(f"{usr[0]} {usr[1]} ({usr[2]}) : usr[3] : usr[4]")
+
+    cur.close()
+    cnx.close()
+    return users

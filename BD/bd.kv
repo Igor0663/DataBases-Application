@@ -14,6 +14,9 @@
 	DeleteUserScreen:
 	ManageEquipScreen:
 	AddUsableEqpScreen:
+	AddUnUsableEqpScreen:
+	AddUsableEqpKindScreen:
+	AdvancedEqpScreen:
 </MyScreenManager>
 
 <LoginScreen>
@@ -401,6 +404,7 @@
 		Spinner:
 			id: depsel
 			text: "Wybierz dzial"
+			values: parent.departments 
 		Button:
 			id: bckbtn
 			text: "Powrot"
@@ -426,6 +430,7 @@
 		Spinner:
 			id: rigsel
 			text: "Wybierz uprawnienia"
+			values: parent.rights			
 		Button:
 			id: bckbtn
 			text: "Powrot"
@@ -474,7 +479,6 @@
 	
 
 </ChooseUserScreen>
-
 
 <SelectableLabel>
 	canvas.before:
@@ -561,16 +565,20 @@
 			Spinner:
 				id: depsel
 				text: "wybierz dzial"
+				values: parent.departments
 				
 			Label:
 				text: "Uprawnienia"
 			Spinner:
 				id: rigsel
-				text: "wybierz uprawnienia"	
+				text: "wybierz uprawnienia"
+				values: parent.rights
+
 				
 			Button:
 				text: "Zatwierdz"
 				id: confbtn
+				on_press: parent.SubmitNewUsr()
 			
 			Button:
 				text: "Powrot"
@@ -618,6 +626,9 @@
 	addunusbtn: addunusbtn
 	adduskdbtn: adduskdbtn
 	addunuskdbtn: addunuskdbtn
+	deluskdbtn: deluskdbtn
+	delunuskdbtn: delunuskdbtn
+	advbtn: advbtn
 	delbtn: delbtn
 	modbtn: modbtn
 	bckbtn: bckbtn
@@ -625,68 +636,75 @@
 	id: parent
 
 	BoxLayout:
-		orientation: "vertical"
+		orientation: "horizontal"
 		spacing: 0
 		
 		BoxLayout:
-			orientation: "horizontal"
+			orientation: "vertical"
 			spacing: 0
-			
-			BoxLayout:
-				orientation: "vertical"
-				spacing: 0
-				GridLayout:
-					cols: 2
-					rows: 1
 					
-					Spinner:
-						id: typesel
-						text: "Wybierz typ"
-					Spinner:
-						id: kindsel
-						text: "Wybierz rodzaj"	
-						
-				GridLayout:
-					cols: 2
-					rows: 1
-					
-					TextInput:
-						id: srch
-						multiline: False
-						text: ""
-					Button:
-						id: srchbtn
-						text: "Szukaj"
-						
-				EqpList:
-					id: eqplst
-			
 			GridLayout:
-				cols: 1
-				rows: 7
+				cols: 2
+				rows: 2
+			
+				Spinner:
+					id: typesel
+					text: "Wybierz typ"
+					values: ["Wybierz typ","sprzety zuzywalne", "sprzety niezuzywalne"]
+				Spinner:
+					id: kindsel
+					text: "Wybierz rodzaj"	
+					values: parent.kind
+				TextInput:
+					id: srch
+					multiline: False
+					text: ""
 				Button:
-					id: addusbtn
-					text: "Dodaj sprzet z"
-				Button:
-					id: addunusbtn
-					text: "Dodaj sprzet nz"
-				Button:
-					id: adduskdbtn
-					text: "Dodaj rodzaj sprzetu z"
-				Button:
-					id: addunuskdbtn
-					text: "Dodaj rodzaj sprzetu nz"
-				Button:
-					id: delbtn
-					text: "Usun sprzet"
-				Button:
-					id: modbtn
-					text: "Modyfikuj sprzet"
-				Button:
-					id: bckbtn
-					text: "Powrot"	
-					on_press: parent.GetBack()
-		
+					id: srchbtn
+					text: "Szukaj"
+						
+			EqpList:
+				id: eqplst
+			
+		GridLayout:
+			cols: 1
+			rows: 10
+			Button:
+				id: addusbtn
+				text: "Dodaj sprzet zuzywalny"
+				on_press: parent.GetToAddUs()
+			Button:
+				id: addunusbtn
+				text: "Dodaj sprzet niezuzywalny"
+				on_press: parent.GetToAddUnUs()
+			Button:
+				id: adduskdbtn
+				text: "Dodaj rodzaj sprzetu zuzywalnego"
+				on_press: parent.GetToAddUsKind()
+			Button:
+				id: addunuskdbtn
+				text: "Dodaj rodzaj sprzetu nz"
+			Button:
+				id: deluskdbtn
+				text: "Usun rodzaj sprzetu z"
+			Button:
+				id: delunuskdbtn
+				text: "Usun rodzaj sprzetu nz"
+			Button:
+				id: advbtn
+				text: "Zaawansowane"	
+				on_press: parent.GetToAdv()
+			Button:
+				id: delbtn
+				text: "Usun sprzet"
+			Button:
+				id: modbtn
+				text: "Modyfikuj sprzet"
+			Button:
+				id: bckbtn
+				text: "Powrot"	
+				on_press: parent.GetBack()
+	
 
 </ManageEquipScreen>
 
@@ -734,6 +752,7 @@
 			text: "Rodzaj"
 		Spinner:
 			id: kindsel
+			values: parent.kind
 			text: "Wybierz rodzaj"
 			
 		Button:
@@ -747,3 +766,106 @@
 			on_press: parent.SubmitAdding()
 			
 </AddUsableEqpScreen>	
+
+<AddUnUsableEqpScreen>
+	name: "dodaj sprzet niezuzywalny"
+	eqpname: eqpname
+	kindsel: kindsel
+	bckbtn: bckbtn
+	confbtn: confbtn
+	
+	id: parent
+	
+	GridLayout:
+		cols: 2
+		rows: 3
+		
+		Label:
+			text: "Nazwa"
+		TextInput:
+			id: eqpname
+			multiline: False
+			text: ""
+			
+		Label: 
+			text: "Rodzaj"
+		Spinner:
+			id: kindsel
+			values: parent.kind
+			text: "Wybierz rodzaj"
+			
+		Button:
+			id: bckbtn
+			text: "Powrot"
+			on_press: parent.GetBack()
+		
+		Button:
+			id: confbtn
+			text: "Zatwierdz"
+			on_press: parent.SubmitAdding()
+			
+</AddUnUsableEqpScreen>	
+
+<AddUsableEqpKindScreen>
+	name: "dodaj rodzaj sprzetu zuzywalnego"
+	kindname: kindname
+	bckbtn: bckbtn
+	confbtn: confbtn
+	
+	id: parent
+	
+	GridLayout:
+		cols: 2
+		rows: 2
+		
+		Label:
+			text: "Nazwa rodzaju"
+		TextInput:
+			id: kindname
+			multiline: False
+			text: ""
+			
+		Button:
+			id: bckbtn
+			text: "Powrot"
+			on_press: parent.GetBack()
+		
+		Button:
+			id: confbtn
+			text: "Zatwierdz"
+			on_press: parent.SubmitAdding()
+			
+</AddUsableEqpKindScreen>
+
+<AdvancedEqpScreen>
+	name: "zaawansowane zarzadzanie sprzetem"
+	debtusrbtn: debtusrbtn
+	unreturneqpbtn: unreturneqpbtn
+	unavaileqpbtn: unavaileqpbtn
+	bckbtn: bckbtn
+
+	id: parent
+
+	GridLayout:
+		cols: 1
+		rows: 4
+		
+		Button:
+			id: debtusrbtn
+			text: "Uzytkownicy zadluzeni"
+					
+		Button:
+			id: unreturneqpbtn
+			text: "Niezwrocony sprzet niezuzywalny"
+		
+		Button:
+			id: unavaileqpbtn
+			text: "Niedostepny sprzet zuzywalny"	
+
+		Button:
+			id: bckbtn
+			text: "Powrot"
+			on_press: parent.GetBack()
+
+
+</AdvancedEqpScreen>
