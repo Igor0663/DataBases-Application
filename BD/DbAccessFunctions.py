@@ -291,28 +291,23 @@ def GetDebtUsers():
     cnx.close()
     return users
 
-def GetUsKind():
-    query = """SELECT rodzaj FROM rodzaj_sprzetu_z"""
-    
-    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
-    cur = cnx.cursor(buffered=True)
-    
-    cur.execute(query)
-    data = cur.fetchall()
-    kind = []
-    for x in data:
-        kind.append(x[0])
-    
-    cur.close()
-    cnx.close()
-    return kind
-
 def DeleteUsKind(who, kindname):
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
     cur = cnx.cursor(buffered=True)
     
     args = [who, kindname]
     cur.callproc('usun_rodzaj_sprzetu_z', args)
+    
+    cnx.commit()
+    cur.close()
+    cnx.close()
+
+def DeleteUnUsKind(who, kindname):
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+    
+    args = [who, kindname]
+    cur.callproc('usun_rodzaj_sprzetu_nz', args)
     
     cnx.commit()
     cur.close()

@@ -20,6 +20,9 @@
 	AdvancedEqpScreen:
 	DeleteUsKindScreen:
 	ConfirmDeleteUsKindScreen:
+	DeleteUnUsKindScreen:
+	ConfirmDeleteUnUsKindScreen:
+	DebtUsersScreen:
 </MyScreenManager>
 
 <LoginScreen>
@@ -694,7 +697,8 @@
 				on_press: parent.GetToDelUsKind()
 			Button:
 				id: delunuskdbtn
-				text: "Usun rodzaj sprzetu nz"
+				text: "Usun rodzaj sprzetu niezuzywalnego"
+				on_press: parent.GetToDelUnUsKind()
 			Button:
 				id: advbtn
 				text: "Zaawansowane"	
@@ -897,6 +901,7 @@
 		Button:
 			id: debtusrbtn
 			text: "Uzytkownicy zadluzeni"
+			on_press: parent.GetToDebtUsers()
 					
 		Button:
 			id: unreturneqpbtn
@@ -946,6 +951,38 @@
 
 </DeleteUsKindScreen>
 
+<DeleteUnUsKindScreen>
+	name: "usun rodzaj sprzetu niezuzywalnego"
+	unuskindlst: unuskindlst
+	delbtn: delbtn 
+	bckbtn: bckbtn
+
+	id: parent
+
+	BoxLayout:
+		orientation: "vertical"
+		spacing: 0
+		
+		UnUsKindList:
+			id: unuskindlst
+		
+		GridLayout:
+			cols: 2
+			rows: 1
+		
+			Button:
+				id: delbtn
+				text: "Usun"
+				on_press: parent.GetToDel()
+					
+			Button:
+				id: bckbtn
+				text: "Powrot"
+				on_press: parent.GetBack()
+		
+
+</DeleteUnUsKindScreen>
+
 <ConfirmDeleteUsKindScreen>
 	name: "potwierdz usuniecie rodzaju sprzetu zuzywalnego"
 	confbtn: confbtn 
@@ -974,6 +1011,34 @@
 
 </ConfirmDeleteUsKindScreen>
 
+<ConfirmDeleteUnUsKindScreen>
+	name: "potwierdz usuniecie rodzaju sprzetu niezuzywalnego"
+	confbtn: confbtn 
+	bckbtn: bckbtn
+	kindcont: kindcont
+
+	id: parent
+
+	GridLayout:
+		cols: 2
+		rows: 2
+		Label:
+			text: "Usuwasz rodzaj:"
+		Label:
+			id: kindcont	
+			text: ""
+		Button:
+			id: confbtn
+			text: "Zatwierdz"
+			on_press: parent.SubmitDeletion()
+		Button:
+			id: bckbtn
+			text: "Anuluj"
+			on_press: parent.GetBack()
+		
+
+</ConfirmDeleteUnUsKindScreen>
+
 <UsKindList>
 	viewclass:'SelectableLabel'
 	SelectableRecycleBoxLayout:
@@ -985,3 +1050,48 @@
 		multiselect: False
 		touch_multiselect: False
 </UsKindList>
+
+<UnUsKindList>
+	viewclass:'SelectableLabel'
+	SelectableRecycleBoxLayout:
+		default_size: None, dp(56)
+		default_size_hint: 1, None
+		size_hint_y: None
+		height: self.minimum_height
+		orientation: 'vertical'
+		multiselect: False
+		touch_multiselect: False
+</UnUsKindList>
+
+<DebtUsersList>
+	viewclass:'SelectableLabel'
+	SelectableRecycleBoxLayout:
+		default_size: None, dp(56)
+		default_size_hint: 1, None
+		size_hint_y: None
+		height: self.minimum_height
+		orientation: 'vertical'
+		multiselect: False
+		touch_multiselect: False
+</DebtUsersList>
+
+<DebtUsersScreen>
+	name: "zadluzeni uzytkownicy"
+	debtusrlst: debtusrlst
+	bckbtn: bckbtn
+
+	id: parent
+
+	BoxLayout:
+		orientation: "vertical"
+		
+		DebtUsersList:
+			id: debtusrlst
+
+		Button:
+			id: bckbtn
+			text: "Powrot"
+			on_press: parent.GetBack()
+
+
+</DebtUsersScreen>
