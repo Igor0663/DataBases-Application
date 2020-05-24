@@ -26,6 +26,9 @@
 	UnavailUsEqpScreen:
 	UnavailUnUsEqpScreen:
 	MaxBorrowScreen:
+	ConfirmDeleteEqpScreen:
+	ModUsEqpScreen:
+	ModUnUsEqpScreen:
 </MyScreenManager>
 
 <LoginScreen>
@@ -660,11 +663,13 @@
 				Spinner:
 					id: typesel
 					text: "Wybierz typ"
-					values: ["Wybierz typ","sprzety zuzywalne", "sprzety niezuzywalne"]
+					values: parent.type
+					on_text: parent.UpdateSpinner2(typesel.text)
 				Spinner:
 					id: kindsel
 					text: "Wybierz rodzaj"	
 					values: parent.kind
+					
 				TextInput:
 					id: srch
 					multiline: False
@@ -714,9 +719,11 @@
 			Button:
 				id: delbtn
 				text: "Usun sprzet"
+				on_press: parent.GetToDelEqp()
 			Button:
 				id: modbtn
 				text: "Modyfikuj sprzet"
+				on_press: parent.GetToMod()
 			Button:
 				id: bckbtn
 				text: "Powrot"	
@@ -1231,3 +1238,179 @@
 				on_press: parent.GetBack()
 
 </UnavailUnUsEqpScreen>
+
+<ConfirmDeleteEqpScreen>
+	name: "potwierdz usuniecie sprzetu"
+	confbtn: confbtn 
+	bckbtn: bckbtn
+	eqpcont: eqpcont
+
+	id: parent
+
+	GridLayout:
+		cols: 2
+		rows: 2
+		Label:
+			text: "Usuwasz sprzet:"
+		Label:
+			id: eqpcont	
+			text: ""
+		Button:
+			id: confbtn
+			text: "Zatwierdz"
+			on_press: parent.SubmitDeletion()
+		Button:
+			id: bckbtn
+			text: "Anuluj"
+			on_press: parent.GetBack()
+		
+
+</ConfirmDeleteEqpScreen>
+
+<ModUsEqpScreen>
+	name: "modyfikuj sprzet zuzywalny"
+
+	namecont: namecont
+    kindcont: kindcont
+    numbercont: numbercont
+
+    namebtn: namebtn
+    kindbtn: kindbtn
+    numberbtn: numberbtn
+	
+    bckbtn: bckbtn
+    delbtn: delbtn
+
+	id: parent
+
+	FloatLayout:
+	
+		GridLayout:
+			cols: 3
+			size_hint: 1, 0.8
+			pos_hint: {"top": 1}
+			
+			Label:
+				size_hint: 0.25, 0.33
+				text: "Nazwa: "
+			Label:
+				id: namecont
+				size_hint: 0.5, 0.33
+				text: "None"
+			Button:
+				id: namebtn
+				size_hint: 0.25, 0.33
+				text: "Zmien nazwe"
+				
+			Label:
+				size_hint: 0.25, 0.33
+				text: "Rodzaj: "
+			Label:
+				id: kindcont
+				size_hint: 0.5, 0.33
+				text: ""
+			Button:
+				id: kindbtn
+				size_hint: 0.25, 0.33
+				text: "Zmien rodzaj"
+				
+			Label:
+				size_hint: 0.25, 0.33
+				text: "Liczba: "
+			Label:
+				id: numbercont
+				size_hint: 0.5, 0.33
+				text: "None"
+			Button:
+				id: numberbtn
+				size_hint: 0.25, 0.33
+				text: "Zmien liczbe"
+		
+		Button:
+			id: delbtn
+			size_hint: 0.5, 0.2
+			pos_hint: {"x": 0}
+			text: "Usun"
+			on_press: parent.SubmitDeletion()
+		
+		Button:
+			id: bckbtn
+			size_hint: 0.5, 0.2
+			pos_hint: {"x": 0.5}
+			text: "Powrot"
+			on_press: parent.GetBack()
+</ModUsEqpScreen>
+
+<ModUnUsEqpScreen>
+	name: "modyfikuj sprzet niezuzywalny"
+
+	namecont: namecont
+    kindcont: kindcont
+    statuscont: statuscont
+
+    namebtn: namebtn
+    kindbtn: kindbtn
+    statusbtn: statusbtn
+	
+    bckbtn: bckbtn
+    delbtn: delbtn
+
+	id: parent
+
+	FloatLayout:
+	
+		GridLayout:
+			cols: 3
+			size_hint: 1, 0.8
+			pos_hint: {"top": 1}
+			
+			Label:
+				size_hint: 0.25, 0.33
+				text: "Nazwa: "
+			Label:
+				id: namecont
+				size_hint: 0.5, 0.33
+				text: "None"
+			Button:
+				id: namebtn
+				size_hint: 0.25, 0.33
+				text: "Zmien nazwe"
+				
+			Label:
+				size_hint: 0.25, 0.33
+				text: "Rodzaj: "
+			Label:
+				id: kindcont
+				size_hint: 0.5, 0.33
+				text: ""
+			Button:
+				id: kindbtn
+				size_hint: 0.25, 0.33
+				text: "Zmien rodzaj"
+				
+			Label:
+				size_hint: 0.25, 0.33
+				text: "Status: "
+			Label:
+				id: statuscont
+				size_hint: 0.5, 0.33
+				text: "None"
+			Button:
+				id: statusbtn
+				size_hint: 0.25, 0.33
+				text: "Zmien status"
+		
+		Button:
+			id: delbtn
+			size_hint: 0.5, 0.2
+			pos_hint: {"x": 0}
+			text: "Usun"
+			on_press: parent.SubmitDeletion()
+		
+		Button:
+			id: bckbtn
+			size_hint: 0.5, 0.2
+			pos_hint: {"x": 0.5}
+			text: "Powrot"
+			on_press: parent.GetBack()
+</ModUnUsEqpScreen>

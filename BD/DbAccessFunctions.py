@@ -381,3 +381,102 @@ def CurrentMaxBorrow(nazwa_rodzaju):
     cur.close()
     cnx.close()
     return result
+
+def IfUsable(nazwa_sprzetu):
+    query = """ SELECT EXISTS (SELECT * from sprzet_zuzywalny WHERE sprzet_zuzywalny.nazwa = %s) """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    cur.execute(query, (nazwa_sprzetu,))
+    result = cur.fetchone()
+    cur.close()
+    cnx.close()
+
+    response = result[0]
+
+    if response == 1:
+        return True
+    else:
+        return False
+
+def IfBorrowed(nazwa_sprzetu):
+    query = """ SELECT EXISTS (SELECT * from uzytkownicy_wypozyczajacy WHERE uzytkownicy_wypozyczajacy.sprzet_wypozyczony = %s) """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    cur.execute(query, (nazwa_sprzetu,))
+    result = cur.fetchone()
+    cur.close()
+    cnx.close()
+
+    response = result[0]
+
+    if response == 1:
+        return 
+    else:
+        return False
+
+def BorrowData(nazwa_sprzetu):
+    query = """ SELECT * from uzytkownicy_wypozyczajacy WHERE uzytkownicy_wypozyczajacy.sprzet_wypozyczony = %s """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    cur.execute(query, (nazwa_sprzetu,))
+    result = cur.fetchone()
+
+    response = [result[0], result[1], result[4]]
+
+    cur.close()
+    cnx.close()
+    return response
+
+def DeleteEqp(who, eqpname):
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+    
+    args = [who, eqpname]
+    usable = IfUsable(eqpname)
+
+
+    if usable == True:
+        cur.callproc('usun_sprzet_z', args)
+    else:
+        cur.callproc('usun_sprzet_nz', args)
+
+    cnx.commit()
+    cur.close()
+    cnx.close()
+
+def UsEqpData(nazwa_sprzetu):
+    query = """ SELECT * from dostepny_sprzet_z WHERE dostepny_sprzet_z.nazwa = %s """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    cur.execute(query, (nazwa_sprzetu,))
+    eqp_data = cur.fetchone()
+    eqp = [eqp_data[1], eqp_data[0], str(eqp_data[2])]
+
+    cur.close()
+    cnx.close()
+    return eqp
+
+def UnUsEqpData(nazwa_sprzetu):
+    query = """ SELECT * from sprzet_nz WHERE sprzet_nz.nazwa = %s """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    cur.execute(query, (nazwa_sprzetu,))
+    eqp_data = cur.fetchone()
+
+    borrowed = IfBorrowed(nazwa_sprzetu)
+
+    if borrowed == True:
+        bordata = BorrowData(nazwa_sprzetu)
+        eqp = [eqp_data[1], eqp_data[0], f"Wypozyczony przez {bordata[0]} {bordata[1]} do {bordata[2]}"]
+    else: 
+        eqp = [eqp_data[1], eqp_data[0], "Niewypozyczony"]
+
+    print (eqp)
+    cur.close()
+    cnx.close()
+    return eqp
