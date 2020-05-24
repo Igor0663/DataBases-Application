@@ -448,12 +448,13 @@ def DeleteEqp(who, eqpname):
     cnx.close()
 
 def UsEqpData(nazwa_sprzetu):
-    query = """ SELECT * from dostepny_sprzet_z WHERE dostepny_sprzet_z.nazwa = %s """
+    query = """ SELECT * from sprzet_z WHERE sprzet_z.nazwa = %s """
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
     cur = cnx.cursor(buffered=True)
 
     cur.execute(query, (nazwa_sprzetu,))
     eqp_data = cur.fetchone()
+
     eqp = [eqp_data[1], eqp_data[0], str(eqp_data[2])]
 
     cur.close()

@@ -652,34 +652,42 @@
 		orientation: "horizontal"
 		spacing: 0
 		
-		BoxLayout:
-			orientation: "vertical"
-			spacing: 0
+		FloatLayout:
 					
 			GridLayout:
 				cols: 2
-				rows: 2
+				size_hint: 1, 0.2
+				pos_hint: {"top": 1}
 			
 				Spinner:
 					id: typesel
 					text: "Wybierz typ"
 					values: parent.type
 					on_text: parent.UpdateSpinner2(typesel.text)
+					size_hint: 0.5, 0.10
 				Spinner:
 					id: kindsel
 					text: "Wybierz rodzaj"	
 					values: parent.kind
+					size_hint: 0.5, 0.10
 					
 				TextInput:
 					id: srch
 					multiline: False
 					text: ""
+					size_hint: 0.5, 0.10
 				Button:
 					id: srchbtn
 					text: "Szukaj"
+					size_hint: 0.5, 0.10
 						
 			EqpList:
 				id: eqplst
+				size_hint: 1, 0.8
+				pos_hint: {"x": 0}
+				
+		
+				
 			
 		GridLayout:
 			cols: 1
@@ -1204,6 +1212,7 @@
 			Button:
 				id: modbtn
 				text: "Modyfikuj"
+				on_press: parent.GetToMod()
 			Button:
 				id: bckbtn
 				text: "Powrot"
@@ -1231,7 +1240,7 @@
 			Button:
 				id: modbtn
 				text: "Modyfikuj"
-				on_press: parent.SubmitChange()
+				on_press: parent.GetToMod()
 			Button:
 				id: bckbtn
 				text: "Powrot"

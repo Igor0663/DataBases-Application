@@ -540,6 +540,22 @@ class UnavailUsEqpScreen(Screen):
 	def __init__(self,**kwargs):
 		super(UnavailUsEqpScreen, self).__init__(**kwargs)
 
+	def GetToMod(self):
+		app = App.get_running_app()
+		if len(self.unavaileqplst.data) != 0:
+			eqp = self.unavaileqplst.data[self.unavaileqplst.ChosenElement.index]['Eqpname']
+			usable = IfUsable(eqp)
+			if usable == True:
+				screen = app.root.get_screen("modyfikuj sprzet zuzywalny")
+				screen.UpdateData(eqp)
+				Window.size = (600, 360)
+				app.root.current = "modyfikuj sprzet zuzywalny"
+			else:
+				screen = app.root.get_screen("modyfikuj sprzet niezuzywalny")
+				screen.UpdateData(eqp)
+				Window.size = (800, 360)
+				app.root.current = "modyfikuj sprzet niezuzywalny"
+
 	def UpdateData(self):
 		eqpdata = GetUnavailUsEqp()
 		self.unavaileqplst.data=[{'text':x[0],'Eqpname':x[1]} for x in eqpdata]
@@ -556,6 +572,23 @@ class UnavailUnUsEqpScreen(Screen):
 
 	def __init__(self,**kwargs):
 		super(UnavailUnUsEqpScreen, self).__init__(**kwargs)
+
+	def GetToMod(self):
+		app = App.get_running_app()
+		if len(self.unavaileqplst.data) != 0:
+			eqp = self.unavaileqplst.data[self.unavaileqplst.ChosenElement.index]['Eqpname']
+			usable = IfUsable(eqp)
+			if usable == True:
+				screen = app.root.get_screen("modyfikuj sprzet zuzywalny")
+				screen.UpdateData(eqp)
+				Window.size = (600, 360)
+				app.root.current = "modyfikuj sprzet zuzywalny"
+			else:
+				screen = app.root.get_screen("modyfikuj sprzet niezuzywalny")
+				screen.UpdateData(eqp)
+				Window.size = (800, 360)
+				app.root.current = "modyfikuj sprzet niezuzywalny"
+			self.ClearInput()
 
 	def UpdateData(self):
 		eqpdata = GetUnavailUnUsEqp()
