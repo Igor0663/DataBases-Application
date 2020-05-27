@@ -34,6 +34,10 @@ from DbAccessFunctions import ModUsEqpKind
 from DbAccessFunctions import ChangeEqpUsName
 from DbAccessFunctions import ChangeEqpUnUsName
 from DbAccessFunctions import ChangeEqpUsNr
+from DbAccessFunctions import IsUsNameUnique
+from DbAccessFunctions import IsUnUsNameUnique
+from DbAccessFunctions import IsUsKindUnique
+from DbAccessFunctions import IsUnUsKindUnique
 from ChooseUserScreen import SelectableLabel
 from ChooseUserScreen import SelectableRecycleBoxLayout
 
@@ -184,6 +188,7 @@ class ManageEquipScreen(Screen):
 		eqpdata = Equipment()
 		self.eqplst.data=[{'text':x[0]} for x in eqpdata]
 
+
 	def UpdateSpinner2(self, chosen1):
 		self.ids.kindsel.text = "Wybierz rodzaj"
 		if chosen1 == "sprzet zuzywalny":
@@ -215,13 +220,14 @@ class AddUsableEqpScreen(Screen):
 
 	def SubmitAdding(self):
 		app = App.get_running_app()
-		value = int(self.amount.text)
-		AddEqpUs(app.root.login, self.eqpname.text, value, self.kindsel.text)
-		screen = app.root.get_screen("zarzadzaj sprzetem")
-		screen.UpdateData()
-		Window.size = (900, 600)
-		app.root.current = "zarzadzaj sprzetem"
-		self.ClearInput()
+		if(IsUsNameUnique(self.eqpname.text) == True and self.eqpname.text != "" and self.amount.text != "" and self.kindsel.text != "Wybierz rodzaj"):
+			value = int(self.amount.text)
+			AddEqpUs(app.root.login, self.eqpname.text, value, self.kindsel.text)
+			screen = app.root.get_screen("zarzadzaj sprzetem")
+			screen.UpdateData()
+			Window.size = (900, 600)
+			app.root.current = "zarzadzaj sprzetem"
+			self.ClearInput()
 
 	def UpdateData(self):
 		self.kind = UsableEquipmentKind()
@@ -251,12 +257,13 @@ class AddUnUsableEqpScreen(Screen):
 
 	def SubmitAdding(self):
 		app = App.get_running_app()
-		AddEqpUnUs(app.root.login, self.eqpname.text, self.kindsel.text)
-		screen = app.root.get_screen("zarzadzaj sprzetem")
-		screen.UpdateData()
-		Window.size = (900, 600)
-		app.root.current = "zarzadzaj sprzetem"
-		self.ClearInput()
+		if(IsUnUsNameUnique(self.eqpname.text) == True and self.eqpname.text != "" and self.kindsel.text != "Wybierz rodzaj"):
+			AddEqpUnUs(app.root.login, self.eqpname.text, self.kindsel.text)
+			screen = app.root.get_screen("zarzadzaj sprzetem")
+			screen.UpdateData()
+			Window.size = (900, 600)
+			app.root.current = "zarzadzaj sprzetem"
+			self.ClearInput()
 
 	def GetBack(self):
 		app = App.get_running_app()
@@ -283,12 +290,13 @@ class AddUsableEqpKindScreen(Screen):
 
 	def SubmitAdding(self):
 		app = App.get_running_app()
-		AddEqpUsKind(app.root.login, self.kindname.text)
-		screen = app.root.get_screen("dodaj sprzet zuzywalny")
-		screen.UpdateData()
-		Window.size = (900, 600)
-		app.root.current = "zarzadzaj sprzetem"
-		self.ClearInput()
+		if(IsUsKindUnique(self.kindname.text) == True and self.kindname.text != ""):
+			AddEqpUsKind(app.root.login, self.kindname.text)
+			screen = app.root.get_screen("dodaj sprzet zuzywalny")
+			screen.UpdateData()
+			Window.size = (900, 600)
+			app.root.current = "zarzadzaj sprzetem"
+			self.ClearInput()
 
 	def GetBack(self):
 		app = App.get_running_app()
@@ -312,12 +320,13 @@ class AddUnUsableEqpKindScreen(Screen):
 
 	def SubmitAdding(self):
 		app = App.get_running_app()
-		AddEqpUnUsKind(app.root.login, self.kindname.text, int(self.maxbor.text))
-		screen = app.root.get_screen("dodaj sprzet niezuzywalny")
-		screen.UpdateData()
-		Window.size = (900, 600)
-		app.root.current = "zarzadzaj sprzetem"
-		self.ClearInput()
+		if(IsUnUsKindUnique(self.kindname.text) == True and self.kindname.text != "" and self.maxbor.text != ""):
+			AddEqpUnUsKind(app.root.login, self.kindname.text, int(self.maxbor.text))
+			screen = app.root.get_screen("dodaj sprzet niezuzywalny")
+			screen.UpdateData()
+			Window.size = (900, 600)
+			app.root.current = "zarzadzaj sprzetem"
+			self.ClearInput()
 
 	def GetBack(self):
 		app = App.get_running_app()

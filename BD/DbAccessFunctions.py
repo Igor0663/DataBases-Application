@@ -218,7 +218,7 @@ def UsableEquipmentKind():
 def AddEqpUs(who, eqpname, amount, kind):
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
     cur = cnx.cursor(buffered=True)
-    
+
     args = [who, eqpname, amount, kind]
     cur.callproc('dodaj_sprzet_z', args)
     
@@ -535,3 +535,71 @@ def ChangeEqpUsNr(who, eqpname, neweqpnr):
     cnx.commit()
     cur.close()
     cnx.close()
+
+def IsUsNameUnique(eqpname):
+    query = """ SELECT EXISTS (SELECT * from sprzet_zuzywalny WHERE sprzet_zuzywalny.nazwa = %s) """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    cur.execute(query, (eqpname,))
+    result = cur.fetchone()
+    cur.close()
+    cnx.close()
+
+    response = result[0]
+
+    if response == 1:
+        return False
+    else:
+        return True
+
+def IsUnUsNameUnique(eqpname):
+    query = """ SELECT EXISTS (SELECT * from sprzet_niezuzywalny WHERE sprzet_niezuzywalny.nazwa = %s) """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    cur.execute(query, (eqpname,))
+    result = cur.fetchone()
+    cur.close()
+    cnx.close()
+
+    response = result[0]
+
+    if response == 1:
+        return False
+    else:
+        return True
+
+def IsUsKindUnique(eqpname):
+    query = """ SELECT EXISTS (SELECT * from rodzaj_sprzetu_z WHERE rodzaj_sprzetu_z.rodzaj = %s) """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    cur.execute(query, (eqpname,))
+    result = cur.fetchone()
+    cur.close()
+    cnx.close()
+
+    response = result[0]
+
+    if response == 1:
+        return False
+    else:
+        return True
+
+def IsUnUsKindUnique(eqpname):
+    query = """ SELECT EXISTS (SELECT * from rodzaj_sprzetu_nz WHERE rodzaj_sprzetu_nz.rodzaj = %s) """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    cur.execute(query, (eqpname,))
+    result = cur.fetchone()
+    cur.close()
+    cnx.close()
+
+    response = result[0]
+
+    if response == 1:
+        return False
+    else:
+        return True
