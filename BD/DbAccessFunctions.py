@@ -369,12 +369,12 @@ def ChangeMaxBorrow(who, kind, days):
     cur.close()
     cnx.close()
 
-def CurrentMaxBorrow(nazwa_rodzaju):
+def CurrentMaxBorrow(kindname):
     query = """SELECT max_wypozyczenie FROM rodzaj_sprzetu_nz WHERE rodzaj_sprzetu_nz.rodzaj = %s """
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
     cur = cnx.cursor(buffered=True)
 
-    cur.execute(query, (nazwa_rodzaju,))
+    cur.execute(query, (kindname,))
     days = cur.fetchone()
     result = str(days[0])
 
@@ -382,12 +382,12 @@ def CurrentMaxBorrow(nazwa_rodzaju):
     cnx.close()
     return result
 
-def IfUsable(nazwa_sprzetu):
+def IfUsable(eqpname):
     query = """ SELECT EXISTS (SELECT * from sprzet_zuzywalny WHERE sprzet_zuzywalny.nazwa = %s) """
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
     cur = cnx.cursor(buffered=True)
 
-    cur.execute(query, (nazwa_sprzetu,))
+    cur.execute(query, (eqpname,))
     result = cur.fetchone()
     cur.close()
     cnx.close()
@@ -399,12 +399,12 @@ def IfUsable(nazwa_sprzetu):
     else:
         return False
 
-def IfBorrowed(nazwa_sprzetu):
+def IfBorrowed(eqpname):
     query = """ SELECT EXISTS (SELECT * from uzytkownicy_wypozyczajacy WHERE uzytkownicy_wypozyczajacy.sprzet_wypozyczony = %s) """
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
     cur = cnx.cursor(buffered=True)
 
-    cur.execute(query, (nazwa_sprzetu,))
+    cur.execute(query, (eqpname,))
     result = cur.fetchone()
     cur.close()
     cnx.close()
@@ -416,12 +416,12 @@ def IfBorrowed(nazwa_sprzetu):
     else:
         return False
 
-def BorrowData(nazwa_sprzetu):
+def BorrowData(eqpname):
     query = """ SELECT * from uzytkownicy_wypozyczajacy WHERE uzytkownicy_wypozyczajacy.sprzet_wypozyczony = %s """
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
     cur = cnx.cursor(buffered=True)
 
-    cur.execute(query, (nazwa_sprzetu,))
+    cur.execute(query, (eqpname,))
     result = cur.fetchone()
 
     response = [result[0], result[1], result[4]]
@@ -447,37 +447,91 @@ def DeleteEqp(who, eqpname):
     cur.close()
     cnx.close()
 
-def UsEqpData(nazwa_sprzetu):
+def UsEqpData(eqpname):
     query = """ SELECT * from sprzet_z WHERE sprzet_z.nazwa = %s """
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
     cur = cnx.cursor(buffered=True)
 
-    cur.execute(query, (nazwa_sprzetu,))
+    cur.execute(query, (eqpname,))
     eqp_data = cur.fetchone()
-
+   
     eqp = [eqp_data[1], eqp_data[0], str(eqp_data[2])]
 
     cur.close()
     cnx.close()
     return eqp
 
-def UnUsEqpData(nazwa_sprzetu):
+def UnUsEqpData(eqpname):
     query = """ SELECT * from sprzet_nz WHERE sprzet_nz.nazwa = %s """
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
     cur = cnx.cursor(buffered=True)
 
-    cur.execute(query, (nazwa_sprzetu,))
+    cur.execute(query, (eqpname,))
     eqp_data = cur.fetchone()
 
-    borrowed = IfBorrowed(nazwa_sprzetu)
+    borrowed = IfBorrowed(eqpname)
 
     if borrowed == True:
-        bordata = BorrowData(nazwa_sprzetu)
+        bordata = BorrowData(eqpname)
         eqp = [eqp_data[1], eqp_data[0], f"Wypozyczony przez {bordata[0]} {bordata[1]} do {bordata[2]}"]
     else: 
         eqp = [eqp_data[1], eqp_data[0], "Niewypozyczony"]
 
-    print (eqp)
     cur.close()
     cnx.close()
     return eqp
+
+def ModUsEqpKind(who, eqpname, kindname):
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+    
+    args = [who, eqpname, kindname]
+    cur.callproc('zmien_sprzet_z_rodzaj', args)
+    
+    cnx.commit()
+    cur.close()
+    cnx.close()
+
+def ModUnUsEqpKind(who, eqpname, kindname):
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+    
+    args = [who, eqpname, kindname]
+    cur.callproc('zmien_sprzet_nz_rodzaj', args)
+    
+    cnx.commit()
+    cur.close()
+    cnx.close()
+
+def ChangeEqpUsName(who, eqpname, neweqpname):
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+    
+    args = [who, eqpname, neweqpname]
+    cur.callproc('zmien_sprzet_z_nazwa', args)
+    
+    cnx.commit()
+    cur.close()
+    cnx.close()
+
+def ChangeEqpUnUsName(who, eqpname, neweqpname):
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+    
+    args = [who, eqpname, neweqpname]
+    cur.callproc('zmien_sprzet_nz_nazwa', args)
+    
+    cnx.commit()
+    cur.close()
+    cnx.close()
+
+def ChangeEqpUsNr(who, eqpname, neweqpnr):
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+    
+    args = [who, neweqpnr, eqpname]
+    cur.callproc('zmien_sprzet_z_liczba', args)
+    
+    cnx.commit()
+    cur.close()
+    cnx.close()

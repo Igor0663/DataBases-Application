@@ -29,6 +29,11 @@
 	ConfirmDeleteEqpScreen:
 	ModUsEqpScreen:
 	ModUnUsEqpScreen:
+	ModUsEqpKindScreen:
+	ModUnUsEqpKindScreen:
+	ModNameUsableEqpScreen:
+	ModNameUnUsableEqpScreen:
+	ModNrUsableEqpScreen:
 </MyScreenManager>
 
 <LoginScreen>
@@ -462,30 +467,34 @@
 	addbtn: addbtn
 	id: parent
 
-	BoxLayout:
-		orientation: 'vertical'
-		spacing:0
+	FloatLayout:
 		
 		UserList:
 			id: usrlst
+			size_hint: 1, 0.8
+			pos_hint: {"top": 1}
 		
 		GridLayout:
 			cols: 2
-			rows: 2
+			size_hint: 1, 0.2
 			Button:
 				id: delbtn
+				size_hint: 0.5, 0.1
 				text: "Usun uzytkownika"
 				on_press: parent.GetToDel()
 			Button:
 				id: modbtn
+				size_hint: 0.5, 0.1
 				text: "Modyfikuj dane"
 				on_press: parent.GetToMod()
 			Button:
 				id: addbtn
+				size_hint: 0.5, 0.1
 				text: "Dodaj uzytkownika"
 				on_press: parent.GetToAdd()
 			Button:
 				id: bckbtn
+				size_hint: 0.5, 0.1
 				text: "Powrot"
 				on_press: parent.GetBack()
 	
@@ -1000,24 +1009,26 @@
 
 	id: parent
 
-	BoxLayout:
-		orientation: "vertical"
-		spacing: 0
+	FloatLayout:
 		
 		UsKindList:
 			id: uskindlst
+			size_hint: 1, 0.9
+			pos_hint: {"top": 1}
 		
 		GridLayout:
 			cols: 2
-			rows: 1
+			size_hint: 1, 0.1
 		
 			Button:
 				id: delbtn
+				size_hint: 0.5, 0.1
 				text: "Usun"
 				on_press: parent.GetToDel()
 					
 			Button:
 				id: bckbtn
+				size_hint: 0.5, 0.1
 				text: "Powrot"
 				on_press: parent.GetBack()
 		
@@ -1032,24 +1043,26 @@
 
 	id: parent
 
-	BoxLayout:
-		orientation: "vertical"
-		spacing: 0
+	FloatLayout:
 		
 		UnUsKindList:
 			id: unuskindlst
+			pos_hint: {"top": 1}
+			size_hint: 1, 0.9
 		
 		GridLayout:
 			cols: 2
-			rows: 1
+			size_hint: 1, 0.1
 		
 			Button:
 				id: delbtn
+				size_hint: 0.5, 0.1
 				text: "Usun"
 				on_press: parent.GetToDel()
 					
 			Button:
 				id: bckbtn
+				size_hint: 0.5, 0.1
 				text: "Powrot"
 				on_press: parent.GetBack()
 		
@@ -1155,14 +1168,16 @@
 
 	id: parent
 
-	BoxLayout:
-		orientation: "vertical"
-		
+	FloatLayout:
+	
 		DebtUsersList:
 			id: debtusrlst
+			pos_hint: {"top": 1}
+			size_hint: 1, 0.9
 
 		Button:
 			id: bckbtn
+			size_hint: 1, 0.1
 			text: "Powrot"
 			on_press: parent.GetBack()
 
@@ -1200,21 +1215,25 @@
 
 	id: parent
 
-	BoxLayout:
-		orientation: "vertical"
+	FloatLayout:
 		
 		UnavailUsEqpList:
 			id: unavaileqplst
+			size_hint: 1, 0.9
+			pos_hint: {"top": 1}
 		
 		GridLayout:
 			cols: 2
-			rows: 1
+			size_hint: 1, 0.1
+			
 			Button:
 				id: modbtn
+				size_hint: 0.5, 0.1
 				text: "Modyfikuj"
 				on_press: parent.GetToMod()
 			Button:
 				id: bckbtn
+				size_hint: 0.5, 0.1
 				text: "Powrot"
 				on_press: parent.GetBack()
 
@@ -1228,21 +1247,25 @@
 
 	id: parent
 
-	BoxLayout:
-		orientation: "vertical"
+	FloatLayout:
 		
 		UnavailUnUsEqpList:
 			id: unavaileqplst
+			size_hint: 1, 0.9
+			pos_hint: {"top": 1}
 		
 		GridLayout:
 			cols: 2
-			rows: 1
+			size_hint: 1, 0.1
+			
 			Button:
 				id: modbtn
+				size_hint: 0.5, 0.1
 				text: "Modyfikuj"
 				on_press: parent.GetToMod()
 			Button:
 				id: bckbtn
+				size_hint: 0.5, 0.1
 				text: "Powrot"
 				on_press: parent.GetBack()
 
@@ -1310,6 +1333,7 @@
 				id: namebtn
 				size_hint: 0.25, 0.33
 				text: "Zmien nazwe"
+				on_press: parent.GetToModName()
 				
 			Label:
 				size_hint: 0.25, 0.33
@@ -1322,6 +1346,7 @@
 				id: kindbtn
 				size_hint: 0.25, 0.33
 				text: "Zmien rodzaj"
+				on_press: parent.GetToModKind()
 				
 			Label:
 				size_hint: 0.25, 0.33
@@ -1334,6 +1359,7 @@
 				id: numberbtn
 				size_hint: 0.25, 0.33
 				text: "Zmien liczbe"
+				on_press: parent.GetToModNr()
 		
 		Button:
 			id: delbtn
@@ -1384,6 +1410,7 @@
 				id: namebtn
 				size_hint: 0.25, 0.33
 				text: "Zmien nazwe"
+				on_press: parent.GetToModName()
 				
 			Label:
 				size_hint: 0.25, 0.33
@@ -1396,6 +1423,7 @@
 				id: kindbtn
 				size_hint: 0.25, 0.33
 				text: "Zmien rodzaj"
+				on_press: parent.GetToModKind()
 				
 			Label:
 				size_hint: 0.25, 0.33
@@ -1423,3 +1451,158 @@
 			text: "Powrot"
 			on_press: parent.GetBack()
 </ModUnUsEqpScreen>
+
+<ModUsEqpKindScreen>
+	name: "zmien rodzaj sprzetu zuzywalnego"
+	kindsel: kindsel
+	bckbtn: bckbtn
+	confbtn: confbtn
+	
+	id: parent
+	
+	GridLayout:
+		cols: 2
+		rows: 2
+		
+		Label: 
+			text: "Rodzaj"
+		Spinner:
+			id: kindsel
+			values: parent.kind
+			text: "Wybierz rodzaj"
+			
+		Button:
+			id: bckbtn
+			text: "Powrot"
+			on_press: parent.GetBack()
+		
+		Button:
+			id: confbtn
+			text: "Zatwierdz"
+			on_press: parent.SubmitChange()
+			
+</ModUsEqpKindScreen>	
+
+<ModUnUsEqpKindScreen>
+	name: "zmien rodzaj sprzetu niezuzywalnego"
+	kindsel: kindsel
+	bckbtn: bckbtn
+	confbtn: confbtn
+	
+	id: parent
+	
+	GridLayout:
+		cols: 2
+		rows: 2
+		
+		Label: 
+			text: "Rodzaj"
+		Spinner:
+			id: kindsel
+			values: parent.kind
+			text: "Wybierz rodzaj"
+			
+		Button:
+			id: bckbtn
+			text: "Powrot"
+			on_press: parent.GetBack()
+		
+		Button:
+			id: confbtn
+			text: "Zatwierdz"
+			on_press: parent.SubmitChange()
+			
+</ModUnUsEqpKindScreen>
+
+<ModNameUsableEqpScreen>
+	name: "zmien nazwe sprzetu zuzywalnego"
+	neweqpname: neweqpname
+	bckbtn: bckbtn
+	confbtn: confbtn
+	
+	id: parent
+	
+	GridLayout:
+		cols: 2
+		rows: 2
+		
+		Label:
+			text: "Nowa nazwa sprzetu:"
+		TextInput:
+			id: neweqpname
+			multiline: False
+			text: ""
+			
+		Button:
+			id: bckbtn
+			text: "Powrot"
+			on_press: parent.GetBack()
+		
+		Button:
+			id: confbtn
+			text: "Zatwierdz"
+			on_press: parent.SubmitChange()
+			
+</ModNameUsableEqpScreen>
+
+<ModNameUnUsableEqpScreen>
+	name: "zmien nazwe sprzetu niezuzywalnego"
+	neweqpname: neweqpname
+	bckbtn: bckbtn
+	confbtn: confbtn
+	
+	id: parent
+	
+	GridLayout:
+		cols: 2
+		rows: 2
+		
+		Label:
+			text: "Nowa nazwa sprzetu:"
+		TextInput:
+			id: neweqpname
+			multiline: False
+			text: ""
+			
+		Button:
+			id: bckbtn
+			text: "Powrot"
+			on_press: parent.GetBack()
+		
+		Button:
+			id: confbtn
+			text: "Zatwierdz"
+			on_press: parent.SubmitChange()
+			
+</ModNameUnUsableEqpScreen>
+
+<ModNrUsableEqpScreen>
+	name: "zmien liczbe sprzetu zuzywalnego"
+	neweqpnr: neweqpnr
+	bckbtn: bckbtn
+	confbtn: confbtn
+	
+	id: parent
+	
+	GridLayout:
+		cols: 2
+		rows: 2
+		
+		Label:
+			text: "Nowa liczba sprzetu:"
+		TextInput:
+			id: neweqpnr
+			multiline: False
+			text: ""
+			
+		Button:
+			id: bckbtn
+			text: "Powrot"
+			on_press: parent.GetBack()
+		
+		Button:
+			id: confbtn
+			text: "Zatwierdz"
+			on_press: parent.SubmitChange()
+			
+</ModNrUsableEqpScreen>

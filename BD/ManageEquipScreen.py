@@ -29,6 +29,11 @@ from DbAccessFunctions import DeleteEqp
 from DbAccessFunctions import UsEqpData
 from DbAccessFunctions import IfUsable
 from DbAccessFunctions import UnUsEqpData
+from DbAccessFunctions import ModUnUsEqpKind
+from DbAccessFunctions import ModUsEqpKind
+from DbAccessFunctions import ChangeEqpUsName
+from DbAccessFunctions import ChangeEqpUnUsName
+from DbAccessFunctions import ChangeEqpUsNr
 from ChooseUserScreen import SelectableLabel
 from ChooseUserScreen import SelectableRecycleBoxLayout
 
@@ -657,6 +662,27 @@ class ModUsEqpScreen(Screen):
 		Window.size = (600, 150)
 		app.root.current = "potwierdz usuniecie sprzetu"
 
+	def GetToModKind(self):
+		app = App.get_running_app()
+		screen = app.root.get_screen("zmien rodzaj sprzetu zuzywalnego")
+		screen.UpdateData(self.eqp)
+		Window.size = (600, 200)
+		app.root.current = "zmien rodzaj sprzetu zuzywalnego"
+
+	def GetToModName(self):
+		app = App.get_running_app()
+		screen = app.root.get_screen("zmien nazwe sprzetu zuzywalnego")
+		screen.UpdateData(self.eqp)
+		Window.size = (600, 100)
+		app.root.current = "zmien nazwe sprzetu zuzywalnego"
+
+	def GetToModNr(self):
+		app = App.get_running_app()
+		screen = app.root.get_screen("zmien liczbe sprzetu zuzywalnego")
+		screen.UpdateData(self.eqp)
+		Window.size = (600, 100)
+		app.root.current = "zmien liczbe sprzetu zuzywalnego"
+
 	def GetBack(self):
 		app = App.get_running_app()
 		screen = app.root.get_screen("zarzadzaj sprzetem")
@@ -686,6 +712,20 @@ class ModUnUsEqpScreen(Screen):
 		self.kindcont.text = data[1]
 		self.statuscont.text = data[2]
 
+	def GetToModKind(self):
+		app = App.get_running_app()
+		screen = app.root.get_screen("zmien rodzaj sprzetu niezuzywalnego")
+		screen.UpdateData(self.eqp)
+		Window.size = (600, 200)
+		app.root.current = "zmien rodzaj sprzetu niezuzywalnego"
+
+	def GetToModName(self):
+		app = App.get_running_app()
+		screen = app.root.get_screen("zmien nazwe sprzetu niezuzywalnego")
+		screen.UpdateData(self.eqp)
+		Window.size = (600, 100)
+		app.root.current = "zmien nazwe sprzetu niezuzywalnego"
+
 	def SubmitDeletion(self):
 		app = App.get_running_app()
 		screen = app.root.get_screen("potwierdz usuniecie sprzetu")
@@ -699,3 +739,172 @@ class ModUnUsEqpScreen(Screen):
 		screen.UpdateData()
 		Window.size = (900, 600)
 		app.root.current = "zarzadzaj sprzetem"
+
+class ModUsEqpKindScreen(Screen):
+	kind = ListProperty([])
+	eqpname = StringProperty("")
+	bckbtn = ObjectProperty(Button)
+	confbtn = ObjectProperty(Button)
+
+	def __init__(self,**kwargs):
+		super(ModUsEqpKindScreen, self).__init__(**kwargs)
+		self.UpdateData(self.eqpname)
+
+	def SubmitChange(self):
+		app = App.get_running_app()
+		if self.kindsel.text != "Wybierz rodzaj":
+			ModUsEqpKind(app.root.login, self.eqpname, self.kindsel.text)
+			screen = app.root.get_screen("modyfikuj sprzet zuzywalny")
+			screen.UpdateData(self.eqpname)
+			Window.size = (600, 360)
+			app.root.current = "modyfikuj sprzet zuzywalny"
+			self.ClearInput()
+
+	def UpdateData(self, equip):
+		self.kind = UsableEquipmentKind()
+		self.eqpname = equip
+
+	def GetBack(self):
+		app = App.get_running_app()
+		screen = app.root.get_screen("modyfikuj sprzet zuzywalny")
+		Window.size = (600, 360)
+		app.root.current = "modyfikuj sprzet zuzywalny"
+		self.ClearInput()
+
+	def ClearInput(self):
+		self.ids.kindsel.text = "Wybierz rodzaj"
+		self.eqpname = ""
+
+class ModUnUsEqpKindScreen(Screen):
+	kind = ListProperty([])
+	eqpname = StringProperty("")
+	bckbtn = ObjectProperty(Button)
+	confbtn = ObjectProperty(Button)
+
+	def __init__(self,**kwargs):
+		super(ModUnUsEqpKindScreen, self).__init__(**kwargs)
+		self.UpdateData(self.eqpname)
+
+	def SubmitChange(self):
+		app = App.get_running_app()
+		if self.kindsel.text != "Wybierz rodzaj":
+			ModUnUsEqpKind(app.root.login, self.eqpname, self.kindsel.text)
+			screen = app.root.get_screen("modyfikuj sprzet niezuzywalny")
+			screen.UpdateData(self.eqpname)
+			Window.size = (600, 360)
+			app.root.current = "modyfikuj sprzet niezuzywalny"
+			self.ClearInput()
+
+	def UpdateData(self, equip):
+		self.kind = UnUsableEquipmentKind()
+		self.eqpname = equip
+
+	def GetBack(self):
+		app = App.get_running_app()
+		screen = app.root.get_screen("modyfikuj sprzet niezuzywalny")
+		Window.size = (600, 360)
+		app.root.current = "modyfikuj sprzet niezuzywalny"
+		self.ClearInput()
+
+	def ClearInput(self):
+		self.ids.kindsel.text = "Wybierz rodzaj"
+		self.eqpname = ""
+
+class ModNameUsableEqpScreen(Screen):
+	neweqpname = ObjectProperty(TextInput)
+	eqpname = StringProperty('')
+	bckbtn = ObjectProperty(Button)
+	confbtn = ObjectProperty(Button)
+
+	def __init__(self,**kwargs):
+		super(ModNameUsableEqpScreen, self).__init__(**kwargs)
+
+	def SubmitChange(self):
+		app = App.get_running_app()
+		ChangeEqpUsName(app.root.login, self.eqpname, self.neweqpname.text)
+		self.eqpname = self.neweqpname.text
+		screen = app.root.get_screen("modyfikuj sprzet zuzywalny")
+		screen.UpdateData(self.eqpname)
+		Window.size = (600, 360)
+		app.root.current = "modyfikuj sprzet zuzywalny"
+		self.ClearInput()
+
+	def GetBack(self):
+		app = App.get_running_app()
+		screen = app.root.get_screen("modyfikuj sprzet zuzywalny")
+		screen.UpdateData(self.eqpname)
+		Window.size = (600, 360)
+		app.root.current = "modyfikuj sprzet zuzywalny"
+		self.ClearInput()
+
+	def ClearInput(self):
+		self.neweqpname.text = ""
+
+	def UpdateData(self, eqp):
+		self.eqpname = eqp
+
+class ModNameUnUsableEqpScreen(Screen):
+	neweqpname = ObjectProperty(TextInput)
+	eqpname = StringProperty('')
+	bckbtn = ObjectProperty(Button)
+	confbtn = ObjectProperty(Button)
+
+	def __init__(self,**kwargs):
+		super(ModNameUnUsableEqpScreen, self).__init__(**kwargs)
+
+	def SubmitChange(self):
+		app = App.get_running_app()
+		ChangeEqpUnUsName(app.root.login, self.eqpname, self.neweqpname.text)
+		self.eqpname = self.neweqpname.text
+		screen = app.root.get_screen("modyfikuj sprzet niezuzywalny")
+		screen.UpdateData(self.eqpname)
+		Window.size = (800, 360)
+		app.root.current = "modyfikuj sprzet niezuzywalny"
+		self.ClearInput()
+
+	def GetBack(self):
+		app = App.get_running_app()
+		screen = app.root.get_screen("modyfikuj sprzet niezuzywalny")
+		screen.UpdateData(self.eqpname)
+		Window.size = (800, 360)
+		app.root.current = "modyfikuj sprzet niezuzywalny"
+		self.ClearInput()
+
+	def ClearInput(self):
+		self.neweqpname.text = ""
+
+	def UpdateData(self, eqp):
+		self.eqpname = eqp
+
+class ModNrUsableEqpScreen(Screen):
+	neweqpnr = ObjectProperty(TextInput)
+	eqpname = StringProperty('')
+	bckbtn = ObjectProperty(Button)
+	confbtn = ObjectProperty(Button)
+
+	def __init__(self,**kwargs):
+		super(ModNrUsableEqpScreen, self).__init__(**kwargs)
+
+	def SubmitChange(self):
+		app = App.get_running_app()
+		ChangeEqpUsNr(app.root.login, self.eqpname, int(self.neweqpnr.text))
+		screen = app.root.get_screen("modyfikuj sprzet zuzywalny")
+		screen.UpdateData(self.eqpname)
+		Window.size = (600, 360)
+		app.root.current = "modyfikuj sprzet zuzywalny"
+		self.ClearInput()
+
+	def GetBack(self):
+		app = App.get_running_app()
+		screen = app.root.get_screen("modyfikuj sprzet zuzywalny")
+		screen.UpdateData(self.eqpname)
+		Window.size = (600, 360)
+		app.root.current = "modyfikuj sprzet zuzywalny"
+		self.ClearInput()
+
+	def ClearInput(self):
+		self.neweqpnr.text = ""
+
+	def UpdateData(self, eqp):
+		self.eqpname = eqp
+		
