@@ -42,3 +42,10 @@ class AdminScreen(Screen):
         app.root.current = "ekran logowania"
         app.root.login = ""
         app.root.rig = ""
+
+    def GetToBrowseEqp(self):
+        app = App.get_running_app()
+        screen = app.root.get_screen("przegladaj sprzet")
+        screen.UpdateData()
+        Window.size = (500, 600)
+        app.root.current = "przegladaj sprzet"

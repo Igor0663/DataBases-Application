@@ -13,6 +13,7 @@ from UserScreen import UserScreen
 from AdminScreen import AdminScreen 
 from ChooseUserScreen import ChooseUserScreen
 from ManageEquipScreen import ManageEquipScreen
+from BrowseEquipScreen import BrowseEquipScreen
 
 class MyScreenManager(ScreenManager):
     login = StringProperty('')

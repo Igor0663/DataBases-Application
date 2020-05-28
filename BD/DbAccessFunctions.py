@@ -753,3 +753,154 @@ def Search(type, kind, searching):
                 cur.close()
                 cnx.close()
                 return eqp
+
+def AvailEquipment():
+    query = """SELECT * FROM dostepny_sprzet_z """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    cur.execute(query)
+    eqp_data = cur.fetchall()
+    eqp = []
+    for x in eqp_data:
+        eqp.append([f"{x[1]} (na stanie: {x[2]})", x[1]])
+
+    query = """SELECT * FROM dostepny_sprzet_nz """
+    cur = cnx.cursor(buffered=True)
+    cur.execute(query)
+    eqp_data2 = cur.fetchall()
+    for x in eqp_data2:
+        eqp.append([f"{x[1]} (maks. wyp. : {x[2]})", x[1]])
+
+    cur.close()
+    cnx.close()
+    return eqp
+
+def SearchAvail(type, kind, searching):
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+    if type == "Wybierz typ":
+        query = """ SELECT * from dostepny_sprzet_z WHERE dostepny_sprzet_z.nazwa LIKE %s """
+        cur.execute(query, ('%'+searching+'%',))
+        eqp_data = cur.fetchall()
+        eqp = []
+        for x in eqp_data:
+            eqp.append([f"{x[1]} (na stanie: {x[2]})", x[1]])
+        query = """ SELECT * from dostepny_sprzet_nz WHERE dostepny_sprzet_nz.nazwa LIKE %s """
+        cur.execute(query, ('%'+searching+'%',))
+        eqp_data2 = cur.fetchall()
+        for x in eqp_data2:
+            eqp.append([f"{x[1]} (maks. wyp. : {x[2]})", x[1]])
+        cnx.commit()
+        cur.close()
+        cnx.close()
+        return eqp
+    else:
+        if type == "Sprzety zuzywalne":
+            if kind != "Wybierz rodzaj":
+                query = """ SELECT * from dostepny_sprzet_z WHERE dostepny_sprzet_z.rodzaj = %s AND dostepny_sprzet_z.nazwa LIKE %s """
+                cur.execute(query, (kind,'%'+searching+'%'))
+                eqp_data = cur.fetchall()
+                eqp = []
+                for x in eqp_data:
+                    eqp.append([f"{x[1]} (na stanie: {x[2]})", x[1]])
+                cnx.commit()
+                cur.close()
+                cnx.close()
+                return eqp
+            else:
+                query = """ SELECT * from dostepny_sprzet_z WHERE dostepny_sprzet_z.nazwa LIKE %s """
+                cur.execute(query, ('%'+searching+'%',))
+                eqp_data = cur.fetchall()
+                eqp = []
+                for x in eqp_data:
+                    eqp.append([f"{x[1]} (na stanie: {x[2]})", x[1]])
+                cnx.commit()
+                cur.close()
+                cnx.close()
+                return eqp
+        else:
+            if kind != "Wybierz rodzaj":
+                query = """ SELECT * from dostepny_sprzet_nz WHERE dostepny_sprzet_nz.rodzaj = %s AND dostepny_sprzet_nz.nazwa LIKE %s """
+                cur.execute(query, (kind,'%'+searching+'%'))
+                eqp_data = cur.fetchall()
+                eqp = []
+                for x in eqp_data:
+                    eqp.append([f"{x[1]} (maks. wyp. : {x[2]})", x[1]])
+                cnx.commit()
+                cur.close()
+                cnx.close()
+                return eqp
+            else:
+                query = """ SELECT * from dostepny_sprzet_nz WHERE dostepny_sprzet_nz.nazwa LIKE %s """
+                cur.execute(query, ('%'+searching+'%',))
+                eqp_data = cur.fetchall()
+                eqp = []
+                for x in eqp_data:
+                    eqp.append([f"{x[1]} (maks. wyp. : {x[2]})", x[1]])
+                cnx.commit()
+                cur.close()
+                cnx.close()
+                return eqp
+
+def AvailUsEquipment():
+    query = """SELECT * FROM dostepny_sprzet_z """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    cur.execute(query)
+    eqp_data = cur.fetchall()
+
+    eqp = []
+    for x in eqp_data:
+        eqp.append([f"{x[1]} (na stanie: {x[2]})", x[1]])
+
+    cur.close()
+    cnx.close()
+    return eqp
+
+def AvailUnUsEquipment():
+    query = """SELECT * FROM dostepny_sprzet_nz """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    cur.execute(query)
+    eqp_data = cur.fetchall()
+
+    eqp = []
+    for x in eqp_data:
+        eqp.append([f"{x[1]} (maks. wyp. : {x[2]})", x[1]])
+
+    cur.close()
+    cnx.close()
+    return eqp
+
+def AvailUsEquipByKind(eqpkind):
+    query = """ SELECT * from dostepny_sprzet_z WHERE dostepny_sprzet_z.rodzaj = %s """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    cur.execute(query, (eqpkind,))
+    eqp_data = cur.fetchall()
+    eqp = []
+    for x in eqp_data:
+        eqp.append([f"{x[1]} (na stanie: {x[2]})", x[1]])
+
+    cur.close()
+    cnx.close()
+    return eqp
+
+def AvailUnUsEquipByKind(eqpkind):
+    query = """ SELECT * from dostepny_sprzet_nz WHERE dostepny_sprzet_nz.rodzaj = %s """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    cur.execute(query, (eqpkind,))
+    eqp_data = cur.fetchall()
+    eqp = []
+    for x in eqp_data:
+        eqp.append([f"{x[1]} (maks. wyp. : {x[2]})", x[1]])
+
+    cur.close()
+    cnx.close()
+    return eqp

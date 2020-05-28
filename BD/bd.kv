@@ -34,6 +34,7 @@
 	ModNameUsableEqpScreen:
 	ModNameUnUsableEqpScreen:
 	ModNrUsableEqpScreen:
+	BrowseEquipScreen:
 </MyScreenManager>
 
 <LoginScreen>
@@ -99,10 +100,14 @@
 			Button:
 				id: searchbtn
 				text: "Przegladaj sprzet"
+				on_press: parent.GetToBrowseEqp()
 		Button:
 			text: "Wyloguj"
 			size_hint: (1, 0.33)	
 			on_press: parent.LogOut()
+			
+
+
 </UserScreen>
 
 <AdminScreen>
@@ -139,6 +144,7 @@
 			Button:
 				id: searchbtn
 				text: "Przegladaj sprzet"
+				on_press: parent.GetToBrowseEqp()
 			Button:
 				id: usermgbtn
 				text: "Zarzadzaj sprzetem"
@@ -1617,3 +1623,60 @@
 			on_press: parent.SubmitChange()
 			
 </ModNrUsableEqpScreen>
+
+
+<BrowseEquipScreen>
+	name: "przegladaj sprzet"
+	typesel: typesel
+	kindsel: kindsel
+	srch: srch
+	srchbtn: srchbtn
+	eqplst: eqplst
+	bckbtn: bckbtn
+	
+	id: parent
+
+	FloatLayout:
+					
+		GridLayout:
+			cols: 2
+			size_hint: 1, 0.2
+			pos_hint: {"top": 1}
+		
+			Spinner:
+				id: typesel
+				text: "Wybierz typ"
+				values: parent.type
+				on_text: parent.UpdateSpinner2(typesel.text)
+				size_hint: 0.5, 0.10
+			Spinner:
+				id: kindsel
+				text: "Wybierz rodzaj"	
+				values: parent.kind
+				on_text: parent.UpdateContentKind(kindsel.text)
+				size_hint: 0.5, 0.10
+				
+			TextInput:
+				id: srch
+				multiline: False
+				text: ""
+				size_hint: 0.5, 0.10
+			Button:
+				id: srchbtn
+				text: "Szukaj"
+				size_hint: 0.5, 0.10
+				on_press: parent.Search(typesel.text, kindsel.text, srch.text)
+						
+		EqpList:
+			id: eqplst
+			size_hint: 1, 0.7
+			pos_hint: {"x": 0}
+			
+		Button:
+			id: bckbtn
+			size_hint: 1, 0.1
+			text: "Powrot"	
+			on_press: parent.GetBack()
+	
+
+</BrowseEquipScreen>

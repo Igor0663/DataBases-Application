@@ -42,6 +42,9 @@
     <Compile Include="ManageEquipScreen.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BrowseEquipScreen.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="UserScreen.py">
       <SubType>Code</SubType>
     </Compile>
