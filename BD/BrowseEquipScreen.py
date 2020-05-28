@@ -86,8 +86,12 @@ class BrowseEquipScreen(Screen):
 
 	def GetBack(self):
 		app = App.get_running_app()
-		Window.size = (400, 360)
-		app.root.current = "opcje administratora"
+		if app.root.rig == "czlonek_kola":
+			Window.size = (400, 160)
+			app.root.current = "opcje czlonka kola"
+		elif app.root.rig == "administrator":
+			Window.size = (400, 360)
+			app.root.current = "opcje administratora"
 		self.ClearInput()
 	
 	def ClearInput(self):
