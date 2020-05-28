@@ -40,6 +40,9 @@ from DbAccessFunctions import IsUsKindUnique
 from DbAccessFunctions import IsUnUsKindUnique
 from DbAccessFunctions import UsEquipment
 from DbAccessFunctions import UnUsEquipment
+from DbAccessFunctions import IfUsableKind
+from DbAccessFunctions import UsEquipByKind
+from DbAccessFunctions import UnUsEquipByKind
 from ChooseUserScreen import SelectableLabel
 from ChooseUserScreen import SelectableRecycleBoxLayout
 
@@ -214,7 +217,22 @@ class ManageEquipScreen(Screen):
 				self.eqplst.refresh_from_data()
 				
 			else:
+				self.ids.kindsel.values = ["Wybierz rodzaj"]
 				self.UpdateData()
+
+	def UpdateContentKind(self, chosen):
+		isusable = IfUsableKind(chosen)
+		if self.ids.typesel.text != "Wybierz typ":
+			if isusable == True:
+				eqpdata = UsEquipByKind(chosen)
+				self.eqplst.data=[{'text':x} for x in eqpdata]
+				self.eqplst.refresh_from_data()
+
+			else:
+				eqpdata = UnUsEquipByKind(chosen)
+				self.eqplst.data=[{'text':x} for x in eqpdata]
+				self.eqplst.refresh_from_data()
+
 
 	def GetBack(self):
 		app = App.get_running_app()

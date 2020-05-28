@@ -423,6 +423,23 @@ def IfUsable(eqpname):
     else:
         return False
 
+def IfUsableKind(eqpname):
+    query = """ SELECT EXISTS (SELECT * from rodzaj_sprzetu_z WHERE rodzaj_sprzetu_z.rodzaj = %s) """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    cur.execute(query, (eqpname,))
+    result = cur.fetchone()
+    cur.close()
+    cnx.close()
+
+    response = result[0]
+
+    if response == 1:
+        return True
+    else:
+        return False
+
 def IfBorrowed(eqpname):
     query = """ SELECT EXISTS (SELECT * from uzytkownicy_wypozyczajacy WHERE uzytkownicy_wypozyczajacy.sprzet_wypozyczony = %s) """
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
@@ -627,3 +644,33 @@ def IsUnUsKindUnique(eqpname):
         return False
     else:
         return True
+
+def UsEquipByKind(eqpkind):
+    query = """ SELECT * from sprzet_z WHERE sprzet_z.rodzaj = %s """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    cur.execute(query, (eqpkind,))
+    eqp_data = cur.fetchall()
+    eqp = []
+    for x in eqp_data:
+        eqp.append(x[1])
+
+    cur.close()
+    cnx.close()
+    return eqp
+
+def UnUsEquipByKind(eqpkind):
+    query = """ SELECT * from sprzet_nz WHERE sprzet_nz.rodzaj = %s """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    cur.execute(query, (eqpkind,))
+    eqp_data = cur.fetchall()
+    eqp = []
+    for x in eqp_data:
+        eqp.append(x[1])
+
+    cur.close()
+    cnx.close()
+    return eqp

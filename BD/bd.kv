@@ -687,6 +687,7 @@
 					id: kindsel
 					text: "Wybierz rodzaj"	
 					values: parent.kind
+					on_text: parent.UpdateContentKind(kindsel.text)
 					size_hint: 0.5, 0.10
 					
 				TextInput:
