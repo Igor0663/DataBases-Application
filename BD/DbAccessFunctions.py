@@ -645,6 +645,23 @@ def IsUnUsKindUnique(eqpname):
     else:
         return True
 
+def IsLoginUnique(login):
+    query = """ SELECT EXISTS (SELECT * from uzytkownik WHERE uzytkownik.login = %s) """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    cur.execute(query, (login,))
+    result = cur.fetchone()
+    cur.close()
+    cnx.close()
+
+    response = result[0]
+
+    if response == 1:
+        return False
+    else:
+        return True
+
 def UsEquipByKind(eqpkind):
     query = """ SELECT * from sprzet_z WHERE sprzet_z.rodzaj = %s """
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')

@@ -18,6 +18,7 @@ from DbAccessFunctions import GetDepartments
 from DbAccessFunctions import ChangeDep
 from DbAccessFunctions import GetRights
 from DbAccessFunctions import ChangeRig
+from DbAccessFunctions import IsLoginUnique
 
 class AccountSettingsScreen(Screen):
     logcont = ObjectProperty(Label)
@@ -136,7 +137,7 @@ class ChangeLoginScreen(Screen):
         self.ClearInput()
 
     def SubmitNewLogin(self):
-        if(self.newlog.text == self.newlog2.text and len(self.newlog.text) >= 6):
+        if(self.newlog.text == self.newlog2.text and len(self.newlog.text) >= 6 and IsLoginUnique(self.newlog.text) == True):
             app = App.get_running_app()
             ChangeLogin(self.login, self.newlog.text)
             if self.login == app.root.login:

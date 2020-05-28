@@ -17,6 +17,7 @@ from DbAccessFunctions import UserBasicData
 from DbAccessFunctions import GetDepartments
 from DbAccessFunctions import GetRights
 from DbAccessFunctions import AddNewUser
+from DbAccessFunctions import IsLoginUnique
 
 from kivy.uix.recycleview.views import RecycleDataViewBehavior
 from kivy.properties import BooleanProperty
@@ -152,14 +153,15 @@ class AddUserScreen(Screen):
     
     def SubmitNewUsr(self):
         app = App.get_running_app()
-        if(self.newpwd.text == self.newpwd2.text and self.newname.text!='' and self.newsname.text != '' and self.newlogin.text != '' and self.depsel.text != "wybierz dzial" and self.rigsel.text != "wybierz uprawnienia"):
-            AddNewUser(app.root.login, self.newname.text, self.newsname.text, self.newlogin.text, self.newpwd.text, self.depsel.text, self.rigsel.text)
-            screen = app.root.get_screen("wybierz uzytkownika")
-            screen.UpdateData()
-            Window.size = (400, 360)
-            app.root.current = "wybierz uzytkownika"
-            self.ClearInput()
-            self.UpdateData()
+        if(self.newpwd.text == self.newpwd2.text and len(self.newlogin.text) >= 6 and len(self.newpwd.text) >= 6 and len(self.newname.text) >= 3 and IsLoginUnique(self.newlogin.text) == True and len(self.newname.text) >= 3):
+            if(self.newname.text!='' and self.newsname.text != '' and self.newlogin.text != '' and self.depsel.text != "wybierz dzial" and self.rigsel.text != "wybierz uprawnienia"):
+                AddNewUser(app.root.login, self.newname.text, self.newsname.text, self.newlogin.text, self.newpwd.text, self.depsel.text, self.rigsel.text)
+                screen = app.root.get_screen("wybierz uzytkownika")
+                screen.UpdateData()
+                Window.size = (400, 360)
+                app.root.current = "wybierz uzytkownika"
+                self.ClearInput()
+                self.UpdateData()
 
     def ClearInput(self):
         self.newname.text = ""
