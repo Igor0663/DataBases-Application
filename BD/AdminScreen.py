@@ -33,3 +33,12 @@ class AdminScreen(Screen):
         screen.UpdateData()
         Window.size = (900, 600)
         app.root.current = "zarzadzaj sprzetem"
+
+    def LogOut(self):
+        app = App.get_running_app()
+        screen = app.root.get_screen("ekran logowania")
+        screen.ClearInput()
+        Window.size = (300, 160)
+        app.root.current = "ekran logowania"
+        app.root.login = ""
+        app.root.rig = ""

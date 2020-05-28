@@ -200,6 +200,30 @@ def Equipment():
     cnx.close()
     return eqp
 
+def UsEquipment():
+    query = """SELECT nazwa FROM sprzet_zuzywalny """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    cur.execute(query)
+    eqp = cur.fetchall()
+
+    cur.close()
+    cnx.close()
+    return eqp
+
+def UnUsEquipment():
+    query = """SELECT nazwa FROM sprzet_niezuzywalny """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    cur.execute(query)
+    eqp = cur.fetchall()
+
+    cur.close()
+    cnx.close()
+    return eqp
+
 def UsableEquipmentKind():
     query = """SELECT rodzaj FROM rodzaj_sprzetu_z """
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')

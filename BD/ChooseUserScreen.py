@@ -69,6 +69,7 @@ class ChooseUserScreen(Screen):
     def UpdateData(self):
         usrdata = GetUsersNamesLogins()
         self.usrlst.data=[{'text':x[0],'UserLogin':x[1]} for x in usrdata]
+        self.usrlst.refresh_from_data()
     
     def GetToMod(self):
         app = App.get_running_app()
@@ -77,7 +78,6 @@ class ChooseUserScreen(Screen):
         screen.UpdateData(login)
         Window.size = (400, 360)
         app.root.current = "ustawienia konta"
-        self.ClearInput()
 
  #       ChosenLogin = self.usrlst.data[self.usrlst.ChosenElement.index]['UserLogin']
 
@@ -99,11 +99,7 @@ class ChooseUserScreen(Screen):
         screen.UpdateData(login)
         Window.size = (600, 120)
         app.root.current = "usun uzytkownika"
-        self.ClearInput()
 
-
-    def ClearInput(self):
-        pass
 
 class DeleteUserScreen(Screen):
     nobtn = ObjectProperty(Button)

@@ -38,6 +38,8 @@ from DbAccessFunctions import IsUsNameUnique
 from DbAccessFunctions import IsUnUsNameUnique
 from DbAccessFunctions import IsUsKindUnique
 from DbAccessFunctions import IsUnUsKindUnique
+from DbAccessFunctions import UsEquipment
+from DbAccessFunctions import UnUsEquipment
 from ChooseUserScreen import SelectableLabel
 from ChooseUserScreen import SelectableRecycleBoxLayout
 
@@ -103,9 +105,11 @@ class ManageEquipScreen(Screen):
 
 	def __init__(self,**kwargs):
 		super(ManageEquipScreen, self).__init__(**kwargs)
-		self.type = ["Wybierz typ","sprzety zuzywalne", "sprzety niezuzywalne"]
+		self.type = ["Wybierz typ","Sprzety zuzywalne", "Sprzety niezuzywalne"]
 		self.kind = ["Wybierz rodzaj"]
-		self.UpdateData()
+		eqpdata = Equipment()
+		self.eqplst.data = [{'text':x[0]} for x in eqpdata]
+
 
 	def GetToAddUs(self):
 		app = App.get_running_app()
@@ -187,14 +191,30 @@ class ManageEquipScreen(Screen):
 	def UpdateData(self):
 		eqpdata = Equipment()
 		self.eqplst.data=[{'text':x[0]} for x in eqpdata]
+		self.eqplst.refresh_from_data()
+
+
+#	def Search(self):
+
 
 
 	def UpdateSpinner2(self, chosen1):
 		self.ids.kindsel.text = "Wybierz rodzaj"
-		if chosen1 == "sprzet zuzywalny":
-			self.kind = UsableEquipmentKind()
-		elif chosen1 == "sprzet niezuzywalny":
-			self.kind = UnUsableEquipmentKind()
+		if chosen1 == "Sprzety zuzywalne":
+			self.ids.kindsel.values = UsableEquipmentKind()
+			eqpdata = UsEquipment()
+			self.eqplst.data=[{'text':x[0]} for x in eqpdata]
+			self.eqplst.refresh_from_data()
+
+		else:
+			if chosen1 == "Sprzety niezuzywalne":
+				self.ids.kindsel.values = UnUsableEquipmentKind()
+				eqpdata = UnUsEquipment()
+				self.eqplst.data=[{'text':x[0]} for x in eqpdata]
+				self.eqplst.refresh_from_data()
+				
+			else:
+				self.UpdateData()
 
 	def GetBack(self):
 		app = App.get_running_app()
@@ -352,6 +372,7 @@ class DeleteUsKindScreen(Screen):
 	def UpdateData(self):
 		kinddata = UsableEquipmentKind()
 		self.uskindlst.data=[{'text':x} for x in kinddata]
+		self.uskindlst.refresh_from_data()
 
 	def GetToDel(self):
 		app = App.get_running_app()
@@ -409,6 +430,7 @@ class DeleteUnUsKindScreen(Screen):
 	def UpdateData(self):
 		kinddata = UnUsableEquipmentKind()
 		self.unuskindlst.data=[{'text':x} for x in kinddata]
+		self.unuskindlst.refresh_from_data()
 
 	def GetToDel(self):
 		app = App.get_running_app()
@@ -540,6 +562,7 @@ class DebtUsersScreen(Screen):
 	def UpdateData(self):
 		usrdata = GetDebtUsers()
 		self.debtusrlst.data=[{'text':x} for x in usrdata]
+		self.debtusrlst.refresh_from_data()
 
 	def GetBack(self):
 		app = App.get_running_app()
@@ -573,6 +596,7 @@ class UnavailUsEqpScreen(Screen):
 	def UpdateData(self):
 		eqpdata = GetUnavailUsEqp()
 		self.unavaileqplst.data=[{'text':x[0],'Eqpname':x[1]} for x in eqpdata]
+		self.unavaileqplst.refresh_from_data()
 
 	def GetBack(self):
 		app = App.get_running_app()
@@ -607,6 +631,7 @@ class UnavailUnUsEqpScreen(Screen):
 	def UpdateData(self):
 		eqpdata = GetUnavailUnUsEqp()
 		self.unavaileqplst.data=[{'text':x[0],'Eqpname':x[1]} for x in eqpdata]
+		self.unavaileqplst.refresh_from_data()
 
 	def GetBack(self):
 		app = App.get_running_app()

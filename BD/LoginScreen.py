@@ -24,3 +24,7 @@ class LoginScreen(Screen):
         elif rights == 'administrator':
             Window.size = (400, 360)
             app.root.current = 'opcje administratora'
+
+    def ClearInput(self):
+        self.log.text = ""
+        self.pwd.text = ""

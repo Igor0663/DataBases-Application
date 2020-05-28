@@ -79,26 +79,30 @@
 	searchbtn: searchbtn
 
 	id: parent
+	BoxLayout:
+		orientation: "vertical"
+		spacing: 0
+		GridLayout:
+			cols: 2
+			rows: 2 
 
-	GridLayout:
-		cols: 2
-		rows: 2 
-		row_force_default: False
-		row_default_height: 80
-
+			Button:
+				id: lendtakebtn
+				text: "Wypozycz/pobierz sprzet"
+			Button:
+				id: settingbtn
+				text: "Ustawienia konta"
+				on_press: parent.GetToSettings()
+			Button:
+				id: givebackbtn
+				text: "Oddaj sprzet"
+			Button:
+				id: searchbtn
+				text: "Przegladaj sprzet"
 		Button:
-			id: lendtakebtn
-			text: "Wypozycz/pobierz sprzet"
-		Button:
-			id: settingbtn
-			text: "Ustawienia konta"
-			on_press: parent.GetToSettings()
-		Button:
-			id: givebackbtn
-			text: "Oddaj sprzet"
-		Button:
-			id: searchbtn
-			text: "Przegladaj sprzet"
+			text: "Wyloguj"
+			size_hint: (1, 0.33)	
+			on_press: parent.LogOut()
 </UserScreen>
 
 <AdminScreen>
@@ -119,7 +123,7 @@
 
 		GridLayout:
 			cols: 2
-			rows: 3
+			rows: 4
 			row_force_default: False
 			row_default_height: 60
 			Button:
@@ -144,9 +148,14 @@
 				text: "Zarzadzaj uzytkownikami"
 				on_press: parent.GetToMgUsers()
 		
-		Button:
-			text: "Przegladaj zamowienia"
-			size_hint: (1, 0.25)
+			Button:
+				text: "Przegladaj zamowienia"
+
+			Button:
+				text: "Wyloguj"
+				on_press: parent.LogOut()
+
+			
 </AdminScreen>
 	
 <AccountSettingsScreen>
