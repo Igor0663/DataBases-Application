@@ -674,3 +674,65 @@ def UnUsEquipByKind(eqpkind):
     cur.close()
     cnx.close()
     return eqp
+
+def Search(type, kind, searching):
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+    if type == "Wybierz typ":
+        query = """ SELECT * from sprzet WHERE sprzet.nazwa LIKE %s """
+        cur.execute(query, ('%'+searching+'%',))
+        eqp_data = cur.fetchall()
+        eqp = []
+        for x in eqp_data:
+            eqp.append(x[0])
+        cnx.commit()
+        cur.close()
+        cnx.close()
+        return eqp
+    else:
+        if type == "Sprzety zuzywalne":
+            if kind != "Wybierz rodzaj":
+                query = """ SELECT * from sprzet_z WHERE sprzet_z.rodzaj = %s AND sprzet_z.nazwa LIKE %s """
+                cur.execute(query, (kind,'%'+searching+'%'))
+                eqp_data = cur.fetchall()
+                eqp = []
+                for x in eqp_data:
+                    eqp.append(x[1])
+                cnx.commit()
+                cur.close()
+                cnx.close()
+                return eqp
+            else:
+                query = """ SELECT * from sprzet_z WHERE sprzet_z.nazwa LIKE %s """
+                cur.execute(query, ('%'+searching+'%',))
+                eqp_data = cur.fetchall()
+                eqp = []
+                for x in eqp_data:
+                    eqp.append(x[1])
+                cnx.commit()
+                cur.close()
+                cnx.close()
+                return eqp
+        else:
+            if kind != "Wybierz rodzaj":
+                query = """ SELECT * from sprzet_nz WHERE sprzet_nz.rodzaj = %s AND sprzet_nz.nazwa LIKE %s """
+                cur.execute(query, (kind,'%'+searching+'%'))
+                eqp_data = cur.fetchall()
+                eqp = []
+                for x in eqp_data:
+                    eqp.append(x[1])
+                cnx.commit()
+                cur.close()
+                cnx.close()
+                return eqp
+            else:
+                query = """ SELECT * from sprzet_nz WHERE sprzet_nz.nazwa LIKE %s """
+                cur.execute(query, ('%'+searching+'%',))
+                eqp_data = cur.fetchall()
+                eqp = []
+                for x in eqp_data:
+                    eqp.append(x[1])
+                cnx.commit()
+                cur.close()
+                cnx.close()
+                return eqp
