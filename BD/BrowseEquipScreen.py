@@ -44,12 +44,10 @@ class BrowseEquipScreen(Screen):
 		self.eqplst.data=[{'text':x[0]} for x in eqpdata]
 		self.eqplst.refresh_from_data()
 
-
 	def Search(self, type, kind, content):
 		eqpdata = SearchAvail(type, kind, content)
 		self.eqplst.data=[{'text':x[0]} for x in eqpdata]
 		self.eqplst.refresh_from_data()
-
 
 	def UpdateSpinner2(self, chosen1):
 		self.ids.kindsel.text = "Wybierz rodzaj"
@@ -82,7 +80,6 @@ class BrowseEquipScreen(Screen):
 				eqpdata = AvailUnUsEquipByKind(chosen)
 				self.eqplst.data=[{'text':x[0]} for x in eqpdata]
 				self.eqplst.refresh_from_data()
-
 
 	def GetBack(self):
 		app = App.get_running_app()

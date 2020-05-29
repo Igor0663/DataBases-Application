@@ -14,6 +14,7 @@ from AdminScreen import AdminScreen
 from ChooseUserScreen import ChooseUserScreen
 from ManageEquipScreen import ManageEquipScreen
 from BrowseEquipScreen import BrowseEquipScreen
+from BrowseOrdersScreen import ChooseTypeOrderBrowseScreen
 
 class MyScreenManager(ScreenManager):
     login = StringProperty('')

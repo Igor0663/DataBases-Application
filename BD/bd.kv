@@ -35,6 +35,9 @@
 	ModNameUnUsableEqpScreen:
 	ModNrUsableEqpScreen:
 	BrowseEquipScreen:
+	ChooseTypeOrderBrowseScreen:
+	BrowseUsOrdersScreen:
+	BrowseUnUsOrdersScreen:
 </MyScreenManager>
 
 <LoginScreen>
@@ -156,6 +159,7 @@
 		
 			Button:
 				text: "Przegladaj zamowienia"
+				on_press: parent.GetToBrowseOrders()
 
 			Button:
 				text: "Wyloguj"
@@ -1624,7 +1628,6 @@
 			
 </ModNrUsableEqpScreen>
 
-
 <BrowseEquipScreen>
 	name: "przegladaj sprzet"
 	typesel: typesel
@@ -1680,3 +1683,115 @@
 	
 
 </BrowseEquipScreen>
+
+<ChooseTypeOrderBrowseScreen>
+	name: "wybor typu zamowienia przegladanie"
+	usordbtn: usordbtn
+	unusordbtn: unusordbtn
+	bckbtn: bckbtn
+
+	id: parent
+
+	GridLayout:
+		cols: 1
+		rows: 3
+					
+		Button:
+			id: usordbtn
+			text: "Przegladaj zamowienia zuzywalne"
+			on_press: parent.GetToUsOrd()
+		
+		Button:
+			id: unusordbtn
+			text: "Przegladaj zamowienia niezuzywalne"
+			on_press: parent.GetToUnUsOrd()
+
+		Button:
+			id: bckbtn
+			text: "Powrot"
+			on_press: parent.GetBack()
+
+</ChooseTypeOrderBrowseScreen>
+
+<UsOrdersList>
+	viewclass:'SelectableLabel'
+	SelectableRecycleBoxLayout:
+		default_size: None, dp(56)
+		default_size_hint: 1, None
+		size_hint_y: None
+		height: self.minimum_height
+		orientation: 'vertical'
+		multiselect: False
+		touch_multiselect: False
+</UsOrdersList>
+
+<UnUsOrdersList>
+	viewclass:'SelectableLabel'
+	SelectableRecycleBoxLayout:
+		default_size: None, dp(56)
+		default_size_hint: 1, None
+		size_hint_y: None
+		height: self.minimum_height
+		orientation: 'vertical'
+		multiselect: False
+		touch_multiselect: False
+</UnUsOrdersList>
+
+<BrowseUsOrdersScreen>
+	name: "przegladaj zamowienia zuzywalne"
+	ordlst: ordlst
+	bckbtn: bckbtn
+	detailbtn: detailbtn
+	
+	id: parent
+
+	FloatLayout:
+					
+		UsOrdersList:
+			id: ordlst
+			size_hint: 1, 0.9
+			pos_hint: {"top": 1}
+			
+			
+		Button:
+			id: bckbtn
+			size_hint: 0.5, 0.1
+			text: "Powrot"	
+			on_press: parent.GetBack()
+			pos_hint: {"x": 0, "y": 0}
+			
+		Button:
+			id: detailbtn
+			size_hint: 0.5, 0.1
+			text: "Szczegoly"	
+			pos_hint: {"x": 0.5, "y": 0}
+</BrowseUsOrdersScreen>
+
+<BrowseUnUsOrdersScreen>
+	name: "przegladaj zamowienia niezuzywalne"
+	ordlst: ordlst
+	bckbtn: bckbtn
+	detailbtn: detailbtn
+	
+	id: parent
+
+	FloatLayout:
+					
+		UsOrdersList:
+			id: ordlst
+			size_hint: 1, 0.9
+			pos_hint: {"top": 1}	
+			
+		Button:
+			id: bckbtn
+			size_hint: 0.5, 0.1
+			text: "Powrot"	
+			on_press: parent.GetBack()
+			pos_hint: {"x": 0, "y": 0}
+			
+		Button:
+			id: detailbtn
+			size_hint: 0.5, 0.1
+			text: "Szczegoly"	
+			pos_hint: {"x": 0.5, "y": 0}
+</BrowseUnUsOrdersScreen>

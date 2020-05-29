@@ -904,3 +904,43 @@ def AvailUnUsEquipByKind(eqpkind):
     cur.close()
     cnx.close()
     return eqp
+
+def UsOrders():
+    query = """SELECT * FROM zamowienia_z """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    cur.execute(query)
+    ord_data = cur.fetchall()
+    ord = []
+    dict = {}
+    for x in ord_data:
+        if dict.get(str(x[2])) == None:
+            ord.append([f"{x[0]} {x[1]} - zam. nr {x[2]} z dnia {x[6]}", x[2]])
+            dict[str(x[2])] = 1
+            print(dict)
+
+    cur.close()
+    cnx.close()
+    return ord
+
+
+def UnUsOrders():
+    query = """SELECT * FROM zamowienia_nz_wszystkie """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    cur.execute(query)
+    ord_data = cur.fetchall()
+    ord = []
+    dict = {}
+    for x in ord_data:
+        if dict.get(str(x[2])) == None:
+            ord.append([f"{x[0]} {x[1]} - zam. nr {x[2]} z dnia {x[5]}", x[2]])
+            dict[str(x[2])] = 1
+            print(dict)
+
+    cur.close()
+    cnx.close()
+    return ord
+

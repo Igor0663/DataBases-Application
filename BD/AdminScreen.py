@@ -49,3 +49,8 @@ class AdminScreen(Screen):
         screen.UpdateData()
         Window.size = (500, 600)
         app.root.current = "przegladaj sprzet"
+
+    def GetToBrowseOrders(self):
+        app = App.get_running_app()
+        Window.size = (400, 150)
+        app.root.current = "wybor typu zamowienia przegladanie"
