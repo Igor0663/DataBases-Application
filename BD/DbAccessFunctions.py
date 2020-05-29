@@ -961,3 +961,26 @@ def UsOrderContent(nr):
     cnx.close()
     return ord
 
+def UnUsOrderContent(nr):
+    query = """ SELECT * from zamowienia_nz_wszystkie WHERE zamowienia_nz_wszystkie.numer_zamowienia = %s """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    cur.execute(query, (nr,))
+    ord_data = cur.fetchall()
+    ord = []
+    equip = []
+    for x in ord_data:
+        if x[7] == None:
+            equip.append(f"{x[4]} ({x[3]}) do {x[6]}")
+        else:
+            equip.append(f"{x[4]} ({x[3]}) - zwrocono {x[7]}")
+
+    ord.append(f"{ord_data[0][0]} {ord_data[0][1]}")
+    ord.append(str(ord_data[0][6]))
+    ord.append(equip)
+    print(ord)
+    cur.close()
+    cnx.close()
+    return ord
+

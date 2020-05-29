@@ -39,6 +39,7 @@
 	BrowseUsOrdersScreen:
 	BrowseUnUsOrdersScreen:
 	DetailsUsOrdersScreen:
+	DetailsUnUsOrdersScreen:
 </MyScreenManager>
 
 <LoginScreen>
@@ -1796,6 +1797,7 @@
 			size_hint: 0.5, 0.1
 			text: "Szczegoly"	
 			pos_hint: {"x": 0.5, "y": 0}
+			on_press: parent.GetToDetails()
 </BrowseUnUsOrdersScreen>
 
 <UsOrderContList>
@@ -1809,6 +1811,18 @@
 		multiselect: False
 		touch_multiselect: False
 </UsOrderContList>
+
+<UnUsOrderContList>
+	viewclass:'SelectableLabel'
+	SelectableRecycleBoxLayout:
+		default_size: None, dp(56)
+		default_size_hint: 1, None
+		size_hint_y: None
+		height: self.minimum_height
+		orientation: 'vertical'
+		multiselect: False
+		touch_multiselect: False
+</UnUsOrderContList>
 
 <DetailsUsOrdersScreen>
 	name: "szczegoly zamowienia zuzywalnego"
@@ -1849,3 +1863,43 @@
 			pos_hint: {"x": 0.5}			
 
 </DetailsUsOrdersScreen>
+
+<DetailsUnUsOrdersScreen>
+	name: "szczegoly zamowienia niezuzywalnego"
+	ordlst: ordlst
+	who: who
+	when: when
+	ordernr: ordernr
+	bckbtn: bckbtn
+	
+	id: parent
+
+	BoxLayout:
+		orientation: "horizontal"
+		spacing: 0
+		
+		GridLayout:
+			cols: 1
+			rows: 4
+	
+			Label:
+				id: who
+				text: ""
+			Label:
+				id: when
+				text: ""
+			Label:
+				id: ordernr
+				text: ""
+
+			Button:
+				id: bckbtn
+				text: "Powrot"	
+				on_press: parent.GetBack()
+		
+		UnUsOrderContList:
+			id: ordlst
+			size_hint: 1, 1 
+			pos_hint: {"x": 0.5}			
+
+</DetailsUnUsOrdersScreen>
