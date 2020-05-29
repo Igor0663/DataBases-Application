@@ -453,7 +453,7 @@ def IfBorrowed(eqpname):
     response = result[0]
 
     if response == 1:
-        return 
+        return True
     else:
         return False
 
@@ -999,3 +999,15 @@ def UnUsOrderEqp(who):
     cur.close()
     cnx.close()
     return ord
+
+def ReturnEqp(eqpname):
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+    
+    args = [eqpname]
+    cur.callproc('zwrot_sprzetu_nz', args)
+    
+    cnx.commit()
+    cur.close()
+    cnx.close()
+

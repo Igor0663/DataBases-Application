@@ -41,6 +41,7 @@
 	DetailsUsOrdersScreen:
 	DetailsUnUsOrdersScreen:
 	GiveBackEquipScreen:
+	ConfirmReturningEqpScreen:
 </MyScreenManager>
 
 <LoginScreen>
@@ -1462,6 +1463,7 @@
 				id: statusbtn
 				size_hint: 0.25, 0.33
 				text: "Zmien status"
+				on_press: parent.GetToReturn()
 		
 		Button:
 			id: delbtn
@@ -1940,6 +1942,7 @@
 				id: returnbtn
 				size_hint: 0.5, 0.1
 				text: "Oddaj sprzet"
+				on_press: parent.GetToReturn()
 
 			Button:
 				id: bckbtn
@@ -1948,3 +1951,35 @@
 				on_press: parent.GetBack()
 	
 </GiveBackEquipScreen>
+
+<ConfirmReturningEqpScreen>
+	name: "potwierdz oddanie sprzetu"
+	confbtn: confbtn 
+	bckbtn: bckbtn
+	eqpcont: eqpcont
+
+	id: parent
+
+	GridLayout:
+		cols: 2
+		rows: 2
+		Label:
+			text: "Oddajesz sprzet:"
+			size_hint: 0.1, 0.5
+		Label:
+			id: eqpcont	
+			size_hint: 0.9, 0.5
+			text: ""
+		Button:
+			id: confbtn
+			size_hint: 0.5, 0.5
+			text: "Zatwierdz"
+			on_press: parent.SubmitReturning()
+		Button:
+			id: bckbtn
+			size_hint: 0.5, 0.5
+			text: "Anuluj"
+			on_press: parent.GetBack()
+		
+
+</ConfirmReturningEqpScreen>

@@ -114,7 +114,6 @@ class ManageEquipScreen(Screen):
 		eqpdata = Equipment()
 		self.eqplst.data = [{'text':x[0]} for x in eqpdata]
 
-
 	def GetToAddUs(self):
 		app = App.get_running_app()
 		Window.size = (400, 200)
@@ -197,13 +196,10 @@ class ManageEquipScreen(Screen):
 		self.eqplst.data=[{'text':x[0]} for x in eqpdata]
 		self.eqplst.refresh_from_data()
 
-
 	def Search(self, type, kind, content):
 		eqpdata = Search(type, kind, content)
 		self.eqplst.data=[{'text':x} for x in eqpdata]
 		self.eqplst.refresh_from_data()
-
-
 
 	def UpdateSpinner2(self, chosen1):
 		self.ids.kindsel.text = "Wybierz rodzaj"
@@ -236,7 +232,6 @@ class ManageEquipScreen(Screen):
 				eqpdata = UnUsEquipByKind(chosen)
 				self.eqplst.data=[{'text':x} for x in eqpdata]
 				self.eqplst.refresh_from_data()
-
 
 	def GetBack(self):
 		app = App.get_running_app()
@@ -648,7 +643,6 @@ class UnavailUnUsEqpScreen(Screen):
 				screen.UpdateData(eqp)
 				Window.size = (800, 360)
 				app.root.current = "modyfikuj sprzet niezuzywalny"
-			self.ClearInput()
 
 	def UpdateData(self):
 		eqpdata = GetUnavailUnUsEqp()
@@ -788,6 +782,13 @@ class ModUnUsEqpScreen(Screen):
 		screen.UpdateData(self.eqp)
 		Window.size = (600, 150)
 		app.root.current = "potwierdz usuniecie sprzetu"
+
+	def GetToReturn(self):
+		app = App.get_running_app()
+		Window.size = (900, 100)
+		screen = app.root.get_screen("potwierdz oddanie sprzetu")
+		screen.UpdateData(self.eqp)
+		app.root.current = "potwierdz oddanie sprzetu"
 
 	def GetBack(self):
 		app = App.get_running_app()
