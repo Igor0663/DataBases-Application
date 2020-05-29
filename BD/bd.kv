@@ -38,6 +38,7 @@
 	ChooseTypeOrderBrowseScreen:
 	BrowseUsOrdersScreen:
 	BrowseUnUsOrdersScreen:
+	DetailsUsOrdersScreen:
 </MyScreenManager>
 
 <LoginScreen>
@@ -1764,6 +1765,7 @@
 			id: detailbtn
 			size_hint: 0.5, 0.1
 			text: "Szczegoly"	
+			on_press: parent.GetToDetails()
 			pos_hint: {"x": 0.5, "y": 0}
 </BrowseUsOrdersScreen>
 
@@ -1795,3 +1797,55 @@
 			text: "Szczegoly"	
 			pos_hint: {"x": 0.5, "y": 0}
 </BrowseUnUsOrdersScreen>
+
+<UsOrderContList>
+	viewclass:'SelectableLabel'
+	SelectableRecycleBoxLayout:
+		default_size: None, dp(56)
+		default_size_hint: 1, None
+		size_hint_y: None
+		height: self.minimum_height
+		orientation: 'vertical'
+		multiselect: False
+		touch_multiselect: False
+</UsOrderContList>
+
+<DetailsUsOrdersScreen>
+	name: "szczegoly zamowienia zuzywalnego"
+	ordlst: ordlst
+	who: who
+	when: when
+	ordernr: ordernr
+	bckbtn: bckbtn
+	
+	id: parent
+
+	BoxLayout:
+		orientation: "horizontal"
+		spacing: 0
+		
+		GridLayout:
+			cols: 1
+			rows: 4
+	
+			Label:
+				id: who
+				text: ""
+			Label:
+				id: when
+				text: ""
+			Label:
+				id: ordernr
+				text: ""
+
+			Button:
+				id: bckbtn
+				text: "Powrot"	
+				on_press: parent.GetBack()
+		
+		UsOrderContList:
+			id: ordlst
+			size_hint: 1, 1 
+			pos_hint: {"x": 0.5}			
+
+</DetailsUsOrdersScreen>

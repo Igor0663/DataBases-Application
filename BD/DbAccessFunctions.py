@@ -918,12 +918,10 @@ def UsOrders():
         if dict.get(str(x[2])) == None:
             ord.append([f"{x[0]} {x[1]} - zam. nr {x[2]} z dnia {x[6]}", x[2]])
             dict[str(x[2])] = 1
-            print(dict)
 
     cur.close()
     cnx.close()
     return ord
-
 
 def UnUsOrders():
     query = """SELECT * FROM zamowienia_nz_wszystkie """
@@ -938,8 +936,27 @@ def UnUsOrders():
         if dict.get(str(x[2])) == None:
             ord.append([f"{x[0]} {x[1]} - zam. nr {x[2]} z dnia {x[5]}", x[2]])
             dict[str(x[2])] = 1
-            print(dict)
 
+    cur.close()
+    cnx.close()
+    return ord
+
+def UsOrderContent(nr):
+    query = """ SELECT * from zamowienia_z WHERE zamowienia_z.numer_zamowienia = %s """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    cur.execute(query, (nr,))
+    ord_data = cur.fetchall()
+    ord = []
+    equip = []
+    for x in ord_data:
+        equip.append(f"{x[4]} ({x[3]}) - {x[5]} szt. ")
+
+    ord.append(f"{ord_data[0][0]} {ord_data[0][1]}")
+    ord.append(str(ord_data[0][6]))
+    ord.append(equip)
+    print(ord)
     cur.close()
     cnx.close()
     return ord
