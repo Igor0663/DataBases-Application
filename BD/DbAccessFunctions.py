@@ -984,3 +984,18 @@ def UnUsOrderContent(nr):
     cnx.close()
     return ord
 
+def UnUsOrderEqp(who):
+    query = """SELECT * FROM zamowienia_nz_niezwrocone_loginy WHERE zamowienia_nz_niezwrocone_loginy.login = %s """
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    cur.execute(query, (who,))
+    ord_data = cur.fetchall()
+    ord = []
+
+    for x in ord_data:
+        ord.append([f"{x[3]} ({x[2]}) do {x[5]}", x[3]])
+
+    cur.close()
+    cnx.close()
+    return ord

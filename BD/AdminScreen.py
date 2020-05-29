@@ -54,3 +54,10 @@ class AdminScreen(Screen):
         app = App.get_running_app()
         Window.size = (400, 150)
         app.root.current = "wybor typu zamowienia przegladanie"
+
+    def GetToReturnEqp(self):
+        app = App.get_running_app()
+        screen = app.root.get_screen("oddaj sprzet")
+        screen.UpdateData()
+        Window.size = (500, 600)
+        app.root.current = "oddaj sprzet"

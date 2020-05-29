@@ -40,6 +40,7 @@
 	BrowseUnUsOrdersScreen:
 	DetailsUsOrdersScreen:
 	DetailsUnUsOrdersScreen:
+	GiveBackEquipScreen:
 </MyScreenManager>
 
 <LoginScreen>
@@ -102,6 +103,7 @@
 			Button:
 				id: givebackbtn
 				text: "Oddaj sprzet"
+				on_press: parent.GetToReturnEqp()
 			Button:
 				id: searchbtn
 				text: "Przegladaj sprzet"
@@ -146,6 +148,7 @@
 			Button:
 				id: givebackbtn
 				text: "Oddaj sprzet"
+				on_press: parent.GetToReturnEqp()
 			Button:
 				id: searchbtn
 				text: "Przegladaj sprzet"
@@ -1903,3 +1906,45 @@
 			pos_hint: {"x": 0.5}			
 
 </DetailsUnUsOrdersScreen>
+
+<ReturnEqpList>
+	viewclass:'SelectableLabel'
+	SelectableRecycleBoxLayout:
+		default_size: None, dp(56)
+		default_size_hint: 1, None
+		size_hint_y: None
+		height: self.minimum_height
+		orientation: 'vertical'
+		multiselect: False
+		touch_multiselect: False
+</ReturnEqpList>
+
+<GiveBackEquipScreen>
+	name: "oddaj sprzet"
+	ordlst: ordlst
+	bckbtn: bckbtn
+	returnbtn: returnbtn
+	id: parent
+
+	FloatLayout:
+		
+		ReturnEqpList:
+			id: ordlst
+			size_hint: 1, 0.8
+			pos_hint: {"top": 1}
+		
+		GridLayout:
+			cols: 2
+			size_hint: 1, 0.1
+			Button:
+				id: returnbtn
+				size_hint: 0.5, 0.1
+				text: "Oddaj sprzet"
+
+			Button:
+				id: bckbtn
+				size_hint: 0.5, 0.1
+				text: "Powrot"
+				on_press: parent.GetBack()
+	
+</GiveBackEquipScreen>

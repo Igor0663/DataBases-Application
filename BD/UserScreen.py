@@ -34,3 +34,10 @@ class UserScreen(Screen):
         Window.size = (500, 600)
         app.root.current = "przegladaj sprzet"
 
+    def GetToReturnEqp(self):
+        app = App.get_running_app()
+        screen = app.root.get_screen("oddaj sprzet")
+        screen.UpdateData()
+        Window.size = (500, 600)
+        app.root.current = "oddaj sprzet"
+

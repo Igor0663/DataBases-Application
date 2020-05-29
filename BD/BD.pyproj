@@ -48,6 +48,9 @@
     <Compile Include="BrowseOrdersScreen.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GiveBackEquipScreen.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="UserScreen.py">
       <SubType>Code</SubType>
     </Compile>
