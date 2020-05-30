@@ -41,3 +41,8 @@ class UserScreen(Screen):
         Window.size = (500, 600)
         app.root.current = "oddaj sprzet"
 
+    def GetToMakeOrder(self):
+        app = App.get_running_app()
+        Window.size = (400, 150)
+        app.root.current = "wybor typu zamowienia"
+

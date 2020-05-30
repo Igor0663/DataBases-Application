@@ -3,6 +3,7 @@ import mysql.connector
 def Login(login, password):
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
     cur = cnx.cursor(buffered=True)
+#   password = hash(password + "bfbfjqbr")
     args = [login, password, '']
     result_args = cur.callproc('logowanie', args)
     cur.close()
@@ -26,7 +27,7 @@ def GetUserData(login):
 def ChangeLogin(old, new):
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
     cur = cnx.cursor(buffered=True)
-    
+
     args = [old, new]
     cur.callproc('zmien_login', args)
     
@@ -37,7 +38,9 @@ def ChangeLogin(old, new):
 def ChangePwd(login, old, new):
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
     cur = cnx.cursor(buffered=True)
-    
+#   old = hash(old + "bfbfjqbr")
+#   new = hash(new + "bfbfjqbr") 
+
     args = [login, old, new]
     cur.callproc('zmien_haslo', args)
     
@@ -156,7 +159,7 @@ def GetUsersNamesLogins():
 def AddNewUser(who, newname, newsname, newlogin, newpwd, department, rights):
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
     cur = cnx.cursor(buffered=True)
-    
+#   newpwd = hash(newpwd + "bfbfjqbr")     
     args = [who, newname, newsname, newlogin, newpwd, department, rights]
     cur.callproc('dodaj_uzytkownika', args)
     

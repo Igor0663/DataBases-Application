@@ -51,6 +51,9 @@
     <Compile Include="GiveBackEquipScreen.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MakeOrderScreen.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="UserScreen.py">
       <SubType>Code</SubType>
     </Compile>

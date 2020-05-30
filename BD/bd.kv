@@ -42,6 +42,9 @@
 	DetailsUnUsOrdersScreen:
 	GiveBackEquipScreen:
 	ConfirmReturningEqpScreen:
+	ChooseTypeOrderScreen:
+	MakeUsOrderScreen:
+	MakeUnUsOrderScreen
 </MyScreenManager>
 
 <LoginScreen>
@@ -97,6 +100,7 @@
 			Button:
 				id: lendtakebtn
 				text: "Wypozycz/pobierz sprzet"
+				on_press: parent.GetToMakeOrder()
 			Button:
 				id: settingbtn
 				text: "Ustawienia konta"
@@ -142,6 +146,7 @@
 			Button:
 				id: lendtakebtn
 				text: "Wypozycz/pobierz sprzet"
+				on_press: parent.GetToMakeOrder()
 			Button:
 				id: settingbtn
 				text: "Ustawienia konta"
@@ -1983,3 +1988,276 @@
 		
 
 </ConfirmReturningEqpScreen>
+
+<ChooseTypeOrderScreen>
+	name: "wybor typu zamowienia"
+	usordbtn: usordbtn
+	unusordbtn: unusordbtn
+	bckbtn: bckbtn
+
+	id: parent
+
+	GridLayout:
+		cols: 1
+		rows: 3
+					
+		Button:
+			id: usordbtn
+			text: "Zloz zamowienie zuzywalne"
+			on_press: parent.GetToUsOrd()
+		
+		Button:
+			id: unusordbtn
+			text: "Zloz zamowienie niezuzywalne"
+			on_press: parent.GetToUnUsOrd()
+
+		Button:
+			id: bckbtn
+			text: "Powrot"
+			on_press: parent.GetBack()
+
+</ChooseTypeOrderScreen>
+
+<UsEqpList>
+	viewclass:'SelectableLabel'
+	SelectableRecycleBoxLayout:
+		default_size: None, dp(56)
+		default_size_hint: 1, None
+		size_hint_y: None
+		height: self.minimum_height
+		orientation: 'vertical'
+		multiselect: False
+		touch_multiselect: False
+</UsEqpList>
+
+<UnUsEqpList>
+	viewclass:'SelectableLabel'
+	SelectableRecycleBoxLayout:
+		default_size: None, dp(56)
+		default_size_hint: 1, None
+		size_hint_y: None
+		height: self.minimum_height
+		orientation: 'vertical'
+		multiselect: False
+		touch_multiselect: False
+</UnUsEqpList>
+
+<ChosenList>
+	viewclass:'SelectableLabel'
+	SelectableRecycleBoxLayout:
+		default_size: None, dp(56)
+		default_size_hint: 1, None
+		size_hint_y: None
+		height: self.minimum_height
+		orientation: 'vertical'
+		multiselect: False
+		touch_multiselect: False
+</ChosenList>
+
+<MakeUsOrderScreen>
+	name: "zloz zamowienie zuzywalne"
+	kindsel: kindsel
+	srch: srch
+	srchbtn: srchbtn
+	eqplst: eqplst
+	chosenlst: chosenlst
+	num: num
+	chosen: chosen
+	bckbtn: bckbtn
+	confbtn: confbtn
+	delbtn: delbtn
+	addbtn: addbtn
+	
+	id: parent
+
+	FloatLayout:
+		Label:
+			text: "Wybierz sprzet z ponizszej listy"
+			size_hint: 0.25, 0.1
+			pos_hint: {"x": 0, "y": 0.9}
+					
+		Spinner:
+			id: kindsel
+			text: "Wybierz rodzaj"	
+			values: parent.kind
+			on_text: parent.UpdateContentKind(kindsel.text)
+			size_hint: 0.25, 0.1
+			pos_hint: {"x": 0.25, "y": 0.9}
+					
+		TextInput:
+			id: srch
+			multiline: False
+			text: ""
+			size_hint: 0.25, 0.1
+			pos_hint: {"x": 0, "y": 0.8}
+		Button:
+			id: srchbtn
+			text: "Szukaj"
+			size_hint: 0.25, 0.1
+			on_press: parent.Search(kindsel.text, srch.text)
+			pos_hint: {"x": 0.25, "y": 0.8}
+					
+		UsEqpList:
+			id: eqplst
+			size_hint: 0.5, 0.6
+			pos_hint: {"x": 0, "y": 0.2}
+				
+		Label:
+			text: "Wybrane:"
+			size_hint: 0.1, 0.066
+			pos_hint: {"x": 0, "y": 0.132}
+		Label:
+			id: chosen
+			text: ""
+			size_hint: 0.4, 0.066
+			pos_hint: {"x": 0.1, "y": 0.132}
+		Label:
+			text: "Liczba: "
+			size_hint: 0.1, 0.066
+			pos_hint: {"x": 0, "y": 0.066}
+		TextInput:
+			id: num
+			size_hint: 0.4, 0.066
+			pos_hint: {"x": 0.1, "y": 0.066}
+		Button:
+			id: addbtn
+			text: "Dodaj element do zamowienia"
+			size_hint: 0.5, 0.066	
+			pos_hint: {"x": 0, "y": 0}
+				
+		Label:
+			pos_hint: {"x": 0.5, "y": 0.9}
+			size_hint: 0.5, 0.1
+			text: "Wybrane sprzety"
+			
+		ChosenList:
+			id: chosenlst
+			size_hint: 0.5, 0.7
+			pos_hint: {"x": 0.5, "y": 0.2}
+
+		Button:
+			text: "Usun z wybranych"
+			id: delbtn
+			size_hint: 0.25, 0.1
+			pos_hint: {"x": 0.5, "y": 0.1}
+			
+		Button:
+			text: "Zloz zamowienie"
+			id: confbtn
+			size_hint: 0.25, 0.1
+			pos_hint: {"x": 0.75, "y": 0.1}
+			
+		Button:
+			text: "Powrot"
+			id: bckbtn
+			size_hint: 0.5, 0.1
+			pos_hint: {"x": 0.5, "y": 0}
+			on_press: parent.GetBack()
+	
+</MakeUsOrderScreen>
+
+<MakeUnUsOrderScreen>
+	name: "zloz zamowienie niezuzywalne"
+	kindsel: kindsel
+	srch: srch
+	srchbtn: srchbtn
+	eqplst: eqplst
+	chosenlst: chosenlst
+	days: days
+	chosen: chosen
+	bckbtn: bckbtn
+	confbtn: confbtn
+	delbtn: delbtn
+	addbtn: addbtn
+	
+	id: parent
+
+	FloatLayout:
+		Label:
+			text: "Wybierz sprzet z ponizszej listy"
+			size_hint: 0.25, 0.1
+			pos_hint: {"x": 0, "y": 0.9}
+					
+		Spinner:
+			id: kindsel
+			text: "Wybierz rodzaj"	
+			values: parent.kind
+			on_text: parent.UpdateContentKind(kindsel.text)
+			size_hint: 0.25, 0.1
+			pos_hint: {"x": 0.25, "y": 0.9}
+					
+		TextInput:
+			id: srch
+			multiline: False
+			text: ""
+			size_hint: 0.25, 0.1
+			pos_hint: {"x": 0, "y": 0.8}
+		Button:
+			id: srchbtn
+			text: "Szukaj"
+			size_hint: 0.25, 0.1
+			on_press: parent.Search(kindsel.text, srch.text)
+			pos_hint: {"x": 0.25, "y": 0.8}
+					
+		UsEqpList:
+			id: eqplst
+			size_hint: 0.5, 0.6
+			pos_hint: {"x": 0, "y": 0.2}
+				
+		Label:
+			text: "Wybrane:"
+			size_hint: 0.2, 0.066
+			pos_hint: {"x": 0, "y": 0.132}
+		
+		Label:
+			id: chosen
+			text: ""
+			size_hint: 0.3, 0.066
+			pos_hint: {"x": 0.2, "y": 0.132}
+		
+		Label:
+			text: "Na ile dni: "
+			size_hint: 0.2, 0.066
+			pos_hint: {"x": 0, "y": 0.066}
+		
+		TextInput:
+			id: days
+			size_hint: 0.3, 0.066
+			pos_hint: {"x": 0.2, "y": 0.066}
+		
+		Button:
+			id: addbtn
+			text: "Dodaj element do zamowienia"
+			size_hint: 0.5, 0.066	
+			pos_hint: {"x": 0, "y": 0}
+				
+		Label:
+			pos_hint: {"x": 0.5, "y": 0.9}
+			size_hint: 0.5, 0.1
+			text: "Wybrane sprzety"
+			
+		ChosenList:
+			id: chosenlst
+			size_hint: 0.5, 0.7
+			pos_hint: {"x": 0.5, "y": 0.2}
+
+		Button:
+			text: "Usun z wybranych"
+			id: delbtn
+			size_hint: 0.25, 0.1
+			pos_hint: {"x": 0.5, "y": 0.1}
+			
+		Button:
+			text: "Zloz zamowienie"
+			id: confbtn
+			size_hint: 0.25, 0.1
+			pos_hint: {"x": 0.75, "y": 0.1}
+			
+		Button:
+			text: "Powrot"
+			id: bckbtn
+			size_hint: 0.5, 0.1
+			pos_hint: {"x": 0.5, "y": 0}
+			on_press: parent.GetBack()
+	
+</MakeUnUsOrderScreen>
