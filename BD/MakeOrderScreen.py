@@ -19,6 +19,7 @@ from DbAccessFunctions import AvailUnUsEquipment
 from DbAccessFunctions import AvailUsEquipment
 from DbAccessFunctions import UsableEquipmentKind
 from DbAccessFunctions import UnUsableEquipmentKind
+from DbAccessFunctions import MakeUsOrder
 
 class UsEqpList(RecycleView):
     ChosenElement = ObjectProperty(SelectableLabel)
@@ -38,7 +39,6 @@ class ChosenList(RecycleView):
     ChosenElement = ObjectProperty(SelectableLabel)
     def __init__(self, **kwargs):
         super(ChosenList, self).__init__(**kwargs)
-        self.data=[{}]
 
 
 class ChooseTypeOrderScreen(Screen):
@@ -57,7 +57,6 @@ class ChooseTypeOrderScreen(Screen):
 		app.root.current = "zloz zamowienie zuzywalne"
 
 	def GetToUnUsOrd(self):
-		pass
 		app = App.get_running_app()
 		Window.size = (900, 600)
 		screen = app.root.get_screen("zloz zamowienie niezuzywalne")
@@ -91,26 +90,58 @@ class MakeUsOrderScreen(Screen):
 	def __init__(self,**kwargs):
 		super(MakeUsOrderScreen, self).__init__(**kwargs)
 		eqpdata = AvailUsEquipment()
-		self.eqplst.data = [{'text':x[0], 'nazwa': x[1]} for x in eqpdata]
+		self.eqplst.data = [{'text': x[0], 'nazwa': x[1], 'ilosc': x[2] } for x in eqpdata]
 		self.kind = []
 
 	def UpdateData(self):
 		eqpdata = AvailUsEquipment()
 		self.ids.kindsel.values = UsableEquipmentKind()
-		self.eqplst.data=[{'text':x[0]} for x in eqpdata]
+		self.eqplst.data =   [{'text': x[0], 'nazwa': x[1], 'ilosc': x[2] } for x in eqpdata]
 		self.eqplst.refresh_from_data()
+		self.chosenlst.refresh_from_data()
 
 	def Search(self, kind, content):
 		type = "Sprzety zuzywalne"
 		eqpdata = SearchAvail(type, kind, content)
-		self.eqplst.data=[{'text':x[0], 'nazwa':x[1]} for x in eqpdata]
+		self.eqplst.data = [{'text': x[0], 'nazwa': x[1], 'ilosc': x[2]  } for x in eqpdata]
 		self.eqplst.refresh_from_data()
 
 	def UpdateContentKind(self, chosen):
 		eqpdata = AvailUsEquipByKind(chosen)
-		self.eqplst.data=[{'text':x[0], 'nazwa': x[1]} for x in eqpdata]
+		self.eqplst.data =  [{'text': x[0], 'nazwa': x[1], 'ilosc': x[2] } for x in eqpdata]
 		self.eqplst.refresh_from_data()
 
+	def AddtoCart(self):
+		element = self.eqplst.ChosenElement
+		cur_num = 0
+		ind = -1
+		for i in range(len(self.chosenlst.data)):
+			label = self.chosenlst.data[i]
+			if label['nazwa'] == element.nazwa:
+				cur_num = label['ilosc']
+				ind = i
+		if self.num.text.isdigit() and int(self.num.text) in range(1, element.ilosc + 1 - cur_num):
+			updated_num = cur_num + int(self.num.text)
+			if ind == -1:
+				self.chosenlst.data.append({'text': element.nazwa + " ilosc: " + str(updated_num), 'nazwa': element.nazwa , 'ilosc': updated_num})
+			else:
+				self.chosenlst.data[ind] = {'text': element.nazwa + "ilosc " + str(updated_num), 'nazwa': element.nazwa , 'ilosc': updated_num}
+			self.UpdateData()
+			self.num.text = ""
+	def PopFromCart(self):
+		element = self.chosenlst.ChosenElement
+		for i in self.chosenlst.data:
+			if i['nazwa'] == element.nazwa:
+				self.chosenlst.data.remove(i)
+		self.UpdateData()
+
+	def SubmitUsOrder(self):
+		app = App.get_running_app()
+		login = app.root.login
+		MakeUsOrder(login, self.chosenlst.data)
+		self.chosenlst.data = []
+		self.GetBack()
+	
 	def GetBack(self):
 		app = App.get_running_app()
 		Window.size = (400, 150)
@@ -120,6 +151,8 @@ class MakeUsOrderScreen(Screen):
 	def ClearInput(self):
 		self.ids.kindsel.text = "Wybierz rodzaj"
 		self.srch.text = ""
+
+
 
 
 class MakeUnUsOrderScreen(Screen):

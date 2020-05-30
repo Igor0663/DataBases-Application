@@ -856,7 +856,7 @@ def AvailUsEquipment():
 
     eqp = []
     for x in eqp_data:
-        eqp.append([f"{x[1]} (na stanie: {x[2]})", x[1]])
+        eqp.append([f"{x[1]} (na stanie: {x[2]})", x[1], x[2]])
 
     cur.close()
     cnx.close()
@@ -872,7 +872,7 @@ def AvailUnUsEquipment():
 
     eqp = []
     for x in eqp_data:
-        eqp.append([f"{x[1]} (maks. wyp. : {x[2]})", x[1]])
+        eqp.append([f"{x[1]} (maks. wyp. : {x[2]})", x[1], x[2]])
 
     cur.close()
     cnx.close()
@@ -887,7 +887,7 @@ def AvailUsEquipByKind(eqpkind):
     eqp_data = cur.fetchall()
     eqp = []
     for x in eqp_data:
-        eqp.append([f"{x[1]} (na stanie: {x[2]})", x[1]])
+        eqp.append([f"{x[1]} (na stanie: {x[2]})", x[1], x[2]])
 
     cur.close()
     cnx.close()
@@ -902,7 +902,7 @@ def AvailUnUsEquipByKind(eqpkind):
     eqp_data = cur.fetchall()
     eqp = []
     for x in eqp_data:
-        eqp.append([f"{x[1]} (maks. wyp. : {x[2]})", x[1]])
+        eqp.append([f"{x[1]} (maks. wyp. : {x[2]})", x[1], x[2]])
 
     cur.close()
     cnx.close()
@@ -959,7 +959,6 @@ def UsOrderContent(nr):
     ord.append(f"{ord_data[0][0]} {ord_data[0][1]}")
     ord.append(str(ord_data[0][6]))
     ord.append(equip)
-    print(ord)
     cur.close()
     cnx.close()
     return ord
@@ -982,7 +981,6 @@ def UnUsOrderContent(nr):
     ord.append(f"{ord_data[0][0]} {ord_data[0][1]}")
     ord.append(str(ord_data[0][6]))
     ord.append(equip)
-    print(ord)
     cur.close()
     cnx.close()
     return ord
@@ -1014,3 +1012,20 @@ def ReturnEqp(eqpname):
     cur.close()
     cnx.close()
 
+def MakeUsOrder(who, cart):
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    args = [who, '']
+
+    args = cur.callproc('zlozenie_zamowienia_z', args)
+
+    order_number = args[1]
+
+    for i in cart:
+        args = [ order_number, i['nazwa'], i['ilosc'] ]
+        cur.callproc('dodanie_elementu_zamowienia_z', args)
+
+    cnx.commit()
+    cur.close()
+    cnx.close()

@@ -41,7 +41,7 @@ class SelectableLabel(RecycleDataViewBehavior, Label):
 
     def on_touch_down(self, touch):
         if super(SelectableLabel, self).on_touch_down(touch):
-            return True
+          return True
         if self.collide_point(*touch.pos) and self.selectable:
             return self.parent.select_with_touch(self.index, touch)
 
