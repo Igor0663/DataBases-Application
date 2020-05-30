@@ -3,6 +3,7 @@ from kivy.core.window import Window
 from kivy.uix.screenmanager import Screen
 from kivy.properties import ObjectProperty
 from kivy.properties import StringProperty
+from kivy.properties import ListProperty
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.spinner import Spinner
@@ -17,6 +18,7 @@ from DbAccessFunctions import GetDepartments
 from DbAccessFunctions import ChangeDep
 from DbAccessFunctions import GetRights
 from DbAccessFunctions import ChangeRig
+from DbAccessFunctions import IsLoginUnique
 
 class AccountSettingsScreen(Screen):
     logcont = ObjectProperty(Label)
@@ -38,6 +40,11 @@ class AccountSettingsScreen(Screen):
     login = StringProperty('')
 
     def UpdateData(self, login):
+        self.logbtn.disabled = False
+        self.namebtn.disabled = False
+        self.snamebtn.disabled = False
+        self.depbtn.disabled = False
+        self.rigbtn.disabled = False
         self.login = login
         app = App.get_running_app()
         user_data = GetUserData(self.login)
@@ -57,12 +64,18 @@ class AccountSettingsScreen(Screen):
 
     def GetBack(self):
         app = App.get_running_app()
-        if app.root.rig == "czlonek_kola":
-            Window.size = (400, 160)
-            app.root.current = "opcje czlonka kola"
-        elif app.root.rig == "administrator":
+        if app.root.login == self.login:
+            if app.root.rig == "czlonek_kola":
+                Window.size = (400, 160)
+                app.root.current = "opcje czlonka kola"
+            elif app.root.rig == "administrator":
+                Window.size = (400, 360)
+                app.root.current = "opcje administratora"
+        else: 
+            screen = app.root.get_screen("wybierz uzytkownika")
+            screen.UpdateData()
             Window.size = (400, 360)
-            app.root.current = "opcje administratora"
+            app.root.current = "wybierz uzytkownika"
     
     def ChangeLogin(self):
         app = App.get_running_app()
@@ -98,6 +111,7 @@ class AccountSettingsScreen(Screen):
         screen.UpdateData(self.login)
         Window.size = (400, 160)
         app.root.current = "zmiana dzialu"
+
     def ChangeRig(self):
         app = App.get_running_app()
         screen = app.root.get_screen("zmiana uprawnien")
@@ -123,7 +137,7 @@ class ChangeLoginScreen(Screen):
         self.ClearInput()
 
     def SubmitNewLogin(self):
-        if(self.newlog.text == self.newlog2.text and len(self.newlog.text) >= 6):
+        if(self.newlog.text == self.newlog2.text and len(self.newlog.text) >= 6 and IsLoginUnique(self.newlog.text) == True):
             app = App.get_running_app()
             ChangeLogin(self.login, self.newlog.text)
             if self.login == app.root.login:
@@ -237,16 +251,17 @@ class ChangeSnameScreen(Screen):
 class ChangeDepScreen(Screen):
     accbtn = ObjectProperty(Button)
     bckbtn = ObjectProperty(Button)
-    depsel = ObjectProperty(Spinner)
     login  = StringProperty('')
+    departments = ListProperty([])
 
     def __init__(self,**kwargs):
         super(ChangeDepScreen, self).__init__(**kwargs)
-        self.depsel.values = GetDepartments()
+        self.departments = GetDepartments()
 
     def UpdateData(self, login):
         self.login = login
-    
+        self.departments = GetDepartments()
+        
     def GetBack(self):
         app = App.get_running_app()
         Window.size = (400, 360)
@@ -255,29 +270,32 @@ class ChangeDepScreen(Screen):
     
     def SubmitNewDep(self):
         app = App.get_running_app()
-        ChangeDep(app.root.login, self.login, self.depsel.text)
-        screen = app.root.get_screen("ustawienia konta")
-        screen.UpdateData(self.login)
-        Window.size = (400, 360)
-        app.root.current = "ustawienia konta"
-        self.ClearInput()
+        if self.ids.depsel.text != "Wybierz dzial":
+            ChangeDep(app.root.login, self.login, self.depsel.text)
+            screen = app.root.get_screen("ustawienia konta")
+            screen.UpdateData(self.login)
+            Window.size = (400, 360)
+            app.root.current = "ustawienia konta"
+            self.ClearInput()
 
     def ClearInput(self):
-        self.depsel.text = "Wybierz dzial"
+        self.ids.depsel.text = "Wybierz dzial"
 
 class ChangeRigScreen(Screen):
     accbtn = ObjectProperty(Button)
     bckbtn = ObjectProperty(Button)
-    rigsel = ObjectProperty(Spinner)
+    rights = ListProperty([])
     login = StringProperty('')
+
 
     def __init__(self,**kwargs):
         super(ChangeRigScreen, self).__init__(**kwargs)
-        self.rigsel.values = GetRights()
+        self.rights = GetRights()
 
     def UpdateData(self, login):
         self.login = login
-    
+        self.rights = GetRights()
+        
     def GetBack(self):
         app = App.get_running_app()
         Window.size = (400, 360)
@@ -286,14 +304,15 @@ class ChangeRigScreen(Screen):
     
     def SubmitNewRig(self):
         app = App.get_running_app()
-        ChangeRig(app.root.login, self.login, self.rigsel.text)
-        if(app.root.login == self.login):
-            app.root.rig = self.rigsel.text
-        screen = app.root.get_screen("ustawienia konta")
-        screen.UpdateData(self.login)
-        Window.size = (400, 360)
-        app.root.current = "ustawienia konta"
-        self.ClearInput()
+        if self.ids.rigsel.text != "Wybierz uprawnienia":
+            ChangeRig(app.root.login, self.login, self.rigsel.text)
+            if(app.root.login == self.login):
+                app.root.rig = self.rigsel.text
+            screen = app.root.get_screen("ustawienia konta")
+            screen.UpdateData(self.login)
+            Window.size = (400, 360)
+            app.root.current = "ustawienia konta"
+            self.ClearInput()
 
     def ClearInput(self):
-        self.rigsel.text = "Wybierz uprawnienia"
+        self.ids.rigsel.text = "Wybierz uprawnienia"

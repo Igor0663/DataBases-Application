@@ -17,4 +17,32 @@ class UserScreen(Screen):
         screen.UpdateData(app.root.login)
         Window.size = (400, 360)
         app.root.current = "ustawienia konta"
+    
+    def LogOut(self):
+        app = App.get_running_app()
+        screen = app.root.get_screen("ekran logowania")
+        screen.ClearInput()
+        Window.size = (300, 160)
+        app.root.current = "ekran logowania"
+        app.root.login = ""
+        app.root.rig = ""
+    
+    def GetToBrowseEqp(self):
+        app = App.get_running_app()
+        screen = app.root.get_screen("przegladaj sprzet")
+        screen.UpdateData()
+        Window.size = (500, 600)
+        app.root.current = "przegladaj sprzet"
+
+    def GetToReturnEqp(self):
+        app = App.get_running_app()
+        screen = app.root.get_screen("oddaj sprzet")
+        screen.UpdateData()
+        Window.size = (500, 600)
+        app.root.current = "oddaj sprzet"
+
+    def GetToMakeOrder(self):
+        app = App.get_running_app()
+        Window.size = (400, 150)
+        app.root.current = "wybor typu zamowienia"
 

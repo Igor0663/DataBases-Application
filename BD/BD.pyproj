@@ -36,7 +36,22 @@
     <Compile Include="AccountSettingsScreen.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="module1.py">
+    <Compile Include="ChooseUserScreen.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ManageEquipScreen.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BrowseEquipScreen.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BrowseOrdersScreen.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GiveBackEquipScreen.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MakeOrderScreen.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="UserScreen.py">
