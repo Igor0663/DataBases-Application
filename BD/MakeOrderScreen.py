@@ -73,7 +73,6 @@ class ChooseTypeOrderScreen(Screen):
 			Window.size = (400, 360)
 			app.root.current = "opcje administratora"
 
-
 class MakeUsOrderScreen(Screen):
 
 	kind = ListProperty([])
@@ -87,6 +86,7 @@ class MakeUsOrderScreen(Screen):
 	bckbtn = ObjectProperty(Button)
 	num = ObjectProperty(TextInput)
 
+ #       ChosenLogin = self.usrlst.data[self.usrlst.ChosenElement.index]['nazwa']
 
 	def __init__(self,**kwargs):
 		super(MakeUsOrderScreen, self).__init__(**kwargs)

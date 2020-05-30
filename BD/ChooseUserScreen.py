@@ -101,7 +101,6 @@ class ChooseUserScreen(Screen):
         Window.size = (600, 120)
         app.root.current = "usun uzytkownika"
 
-
 class DeleteUserScreen(Screen):
     nobtn = ObjectProperty(Button)
     yesbtn = ObjectProperty(Button)
