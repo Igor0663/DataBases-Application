@@ -1029,3 +1029,21 @@ def MakeUsOrder(who, cart):
     cnx.commit()
     cur.close()
     cnx.close()
+
+def MakeUnUsOrder(who, cart):
+    cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
+    cur = cnx.cursor(buffered=True)
+
+    args = [who, '']
+
+    args = cur.callproc('zlozenie_zamowienia_nz', args)
+
+    order_number = args[1]
+
+    for i in cart:
+        args = [ order_number, i['nazwa'], i['ilosc'] ]
+        cur.callproc('dodanie_elementu_zamowienia_nz', args)
+
+    cnx.commit()
+    cur.close()
+    cnx.close()
