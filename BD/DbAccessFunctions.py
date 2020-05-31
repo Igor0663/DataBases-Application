@@ -3,7 +3,7 @@ import mysql.connector
 def Login(login, password):
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
     cur = cnx.cursor(buffered=True)
-#   password = hash(password + "bfbfjqbr")
+#    password = hash(password + "bfbfjqbr")
     args = [login, password, '']
     result_args = cur.callproc('logowanie', args)
     cur.close()
@@ -788,12 +788,12 @@ def SearchAvail(type, kind, searching):
         eqp_data = cur.fetchall()
         eqp = []
         for x in eqp_data:
-            eqp.append([f"{x[1]} (na stanie: {x[2]})", x[1]])
+            eqp.append([f"{x[1]} (na stanie: {x[2]})", x[1], x[2]])
         query = """ SELECT * from dostepny_sprzet_nz WHERE dostepny_sprzet_nz.nazwa LIKE %s """
         cur.execute(query, ('%'+searching+'%',))
         eqp_data2 = cur.fetchall()
         for x in eqp_data2:
-            eqp.append([f"{x[1]} (maks. wyp. : {x[2]})", x[1]])
+            eqp.append([f"{x[1]} (maks. wyp. : {x[2]})", x[1], x[2]])
         cnx.commit()
         cur.close()
         cnx.close()
@@ -806,7 +806,7 @@ def SearchAvail(type, kind, searching):
                 eqp_data = cur.fetchall()
                 eqp = []
                 for x in eqp_data:
-                    eqp.append([f"{x[1]} (na stanie: {x[2]})", x[1]])
+                    eqp.append([f"{x[1]} (na stanie: {x[2]})", x[1], x[2]])
                 cnx.commit()
                 cur.close()
                 cnx.close()
@@ -817,7 +817,7 @@ def SearchAvail(type, kind, searching):
                 eqp_data = cur.fetchall()
                 eqp = []
                 for x in eqp_data:
-                    eqp.append([f"{x[1]} (na stanie: {x[2]})", x[1]])
+                    eqp.append([f"{x[1]} (na stanie: {x[2]})", x[1], x[2]])
                 cnx.commit()
                 cur.close()
                 cnx.close()
@@ -829,7 +829,7 @@ def SearchAvail(type, kind, searching):
                 eqp_data = cur.fetchall()
                 eqp = []
                 for x in eqp_data:
-                    eqp.append([f"{x[1]} (maks. wyp. : {x[2]})", x[1]])
+                    eqp.append([f"{x[1]} (maks. wyp. : {x[2]})", x[1], x[2]])
                 cnx.commit()
                 cur.close()
                 cnx.close()
@@ -840,7 +840,7 @@ def SearchAvail(type, kind, searching):
                 eqp_data = cur.fetchall()
                 eqp = []
                 for x in eqp_data:
-                    eqp.append([f"{x[1]} (maks. wyp. : {x[2]})", x[1]])
+                    eqp.append([f"{x[1]} (maks. wyp. : {x[2]})", x[1], x[2]])
                 cnx.commit()
                 cur.close()
                 cnx.close()
