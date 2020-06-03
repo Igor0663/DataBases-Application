@@ -1,9 +1,13 @@
 import mysql.connector
+from hashlib import blake2b
 
 def Login(login, password):
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
     cur = cnx.cursor(buffered=True)
-#    password = hash(password + "bfbfjqbr")
+    hashed = blake2b(key=b'secret', digest_size=10)
+    password = password + "bfbfjqbr"
+    hashed.update(password.encode())
+    password = hashed.hexdigest()
     args = [login, password, '']
     result_args = cur.callproc('logowanie', args)
     cur.close()
@@ -38,9 +42,15 @@ def ChangeLogin(old, new):
 def ChangePwd(login, old, new):
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
     cur = cnx.cursor(buffered=True)
-#   old = hash(old + "bfbfjqbr")
-#   new = hash(new + "bfbfjqbr") 
+    hashedold = blake2b(key=b'secret', digest_size=10)
+    old = old + "bfbfjqbr"
+    hashedold.update(old.encode())
+    old = hashedold.hexdigest()
 
+    hashednew = blake2b(key=b'secret', digest_size=10)
+    new = new + "bfbfjqbr"
+    hashednew.update(new.encode())
+    new = hashednew.hexdigest()
     args = [login, old, new]
     cur.callproc('zmien_haslo', args)
     
@@ -159,7 +169,11 @@ def GetUsersNamesLogins():
 def AddNewUser(who, newname, newsname, newlogin, newpwd, department, rights):
     cnx = mysql.connector.connect(user='sudo', password='xbxbpun', database='bd_projekt')
     cur = cnx.cursor(buffered=True)
-#   newpwd = hash(newpwd + "bfbfjqbr")     
+    hashed = blake2b(key=b'secret', digest_size=10)
+    newpwd = newpwd + "bfbfjqbr"
+    hashed.update(newpwd.encode())
+    newpwd = hashed.hexdigest()
+   
     args = [who, newname, newsname, newlogin, newpwd, department, rights]
     cur.callproc('dodaj_uzytkownika', args)
     
