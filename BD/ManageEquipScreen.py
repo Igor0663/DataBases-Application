@@ -506,7 +506,7 @@ class AdvancedEqpScreen(Screen):
 		app = App.get_running_app()
 		screen = app.root.get_screen("zadluzeni uzytkownicy")
 		screen.UpdateData()
-		Window.size = (400, 300)
+		Window.size = (600, 300)
 		app.root.current = "zadluzeni uzytkownicy"
 
 	def GetToUnavailUsEqp(self):

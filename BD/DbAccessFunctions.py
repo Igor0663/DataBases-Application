@@ -324,7 +324,7 @@ def GetDebtUsers():
     usr_data = cur.fetchall()
     users = []
     for usr in usr_data:
-        users.append(f"{usr[0]} {usr[1]} ({usr[2]}) : usr[3] : usr[4]")
+        users.append(f"{usr[0]} {usr[1]} ({usr[2]}) : {usr[3]} : {usr[4]}")
 
     cur.close()
     cnx.close()
